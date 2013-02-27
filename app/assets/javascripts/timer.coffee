@@ -6,4 +6,4 @@ $ ->
     window.location.href = url
   
   if $('#container').data('assignment-id') != 'ASSIGNMENT_ID_NOT_AVAILABLE'
-    window.setTimeout(nextPage, 1500)
+    window.setTimeout(nextPage, 3000)
