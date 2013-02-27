@@ -7,5 +7,5 @@ $ ->
 
   if $('#container').data('assignment-id') == 'ASSIGNMENT_ID_NOT_AVAILABLE'
     $('button').hide()
-  else if $(location).attr('pathname') != 'keep_instructions'
+  else if $(location).attr('pathname') != '/keep_instructions'
     window.setTimeout(nextPage, 2000)
