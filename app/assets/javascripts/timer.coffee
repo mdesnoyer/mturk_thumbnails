@@ -5,5 +5,7 @@ $ ->
     url = $(location).attr('origin') + '/choose/none?' + param_str
     window.location.href = url
 
-  if $('#container').data('assignment-id') != 'ASSIGNMENT_ID_NOT_AVAILABLE'
-    window.setTimeout(nextPage, 2000)
+  if $('#container').data('assignment-id') == 'ASSIGNMENT_ID_NOT_AVAILABLE'
+      window.setTimeout(nextPage, 2000)
+    else
+      $('button').hide()
