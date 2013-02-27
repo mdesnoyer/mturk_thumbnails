@@ -1,5 +1,6 @@
 TRIALS_PATH  = "#{PADRINO_ROOT}/config/trials.txt"
 STIMULI_PATH = "#{PADRINO_ROOT}/config/stimuli.txt"
+STIMULI_FOLDER_NAME = 'stimuli'
 
 def load_stimuli
   stimuli_str      = File.read(STIMULI_PATH)
@@ -33,8 +34,8 @@ end
 def images_for_trial(trial_number)
   trial_number = trial_number.to_i
   @compiled_trials ||= compile_trials
-  key = trial_number > 144 ? (trial_number - 144) : trial_number
-  @compiled_trials[key].map { |filename| "stimuli/#{filename}" }
+  key = trial_number > total_choices ? (trial_number - total_choices) : trial_number
+  @compiled_trials[key].map { |filename| add_folder(filename) }
 end
 
 def total_choices
@@ -43,30 +44,40 @@ def total_choices
 end
 
 def total_trials
-  @total_choices*2
+  total_choices * 2
 end
 
-def set_variables
+def read_params
   @assignment_id = params[:assignmentId] || params[:assignment_id]
   @hit_id = params[:hitId] || params[:hit_id]
   @worker_id = params[:workerId] || params[:worker_id]
   @current_choice_number = (params[:n] || 1).to_i
-  @next_choice_number = @current_choice_number + 1
+end
+
+def set_variables
   @first, @second, @third = images_for_trial(@current_choice_number)
   @total_choices = total_choices
   @total_trials = total_trials
 end
 
-MturkThumbnails.controllers  do
+def clean_filename(path)
+  path.sub(/^#{STIMULI_FOLDER_NAME}\//, '').sub(/\.\d+(?=\.jpg)/, '')
+end
+
+def add_folder(filename)
+  "#{STIMULI_FOLDER_NAME}/#{filename}"
+end
+
+MturkThumbnails.controllers do
   get :keep_instructions do
     compiled_trials = compile_trials
-    @all_images = compile_trials.values.flatten.uniq.map { |filename| "stimuli/#{filename}" }
+    @all_images = compile_trials.values.flatten.uniq.map { |filename| add_folder(filename) }
 
     haml :keep_instructions
   end
 
   get :choose, with: :choice do
-    set_variables
+    read_params
 
     choice = params[:choice] == 'none' ? nil : params[:choice]
 
@@ -86,9 +97,22 @@ MturkThumbnails.controllers  do
           trial: @current_choice_number
     )
 
+    # image_choice = {
+    #   assignment_id: @assignment_id,
+    #   image_one: clean_filename(params[:image_one]),
+    #   image_two: clean_filename(params[:image_two]),
+    #   image_three: clean_filename(params[:image_three]),
+    #   chosen_image: clean_filename(choice),
+    #   condition: condition,
+    #   trial: @current_choice_number
+    # }
+
+    @current_choice_number += 1
+
     if @current_choice_number == 145
       haml :return_instructions
     elsif @current_choice_number <= total_trials
+      set_variables
       haml :index
     else
       redirect "https://workersandbox.mturk.com/mturk/externalSubmit?assignmentId=#{@assignment_id}&hitId=#{@hit_id}&workerId=#{@worker_id}"
@@ -96,6 +120,7 @@ MturkThumbnails.controllers  do
   end
 
   get :index do
+    read_params
     set_variables
     haml :index
   end

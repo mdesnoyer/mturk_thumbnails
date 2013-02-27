@@ -11,7 +11,7 @@
     %p.instructions Imagine you are about to watch a video. At any one time, you will be presented with three different video thumbnails to choose from. Please click on the one you most want to watch if you could only watch one of the three.
 
     = image_tag "instructions/sample_trial.png", :class => "instructions"
-    
+
     %p.instructions Please note that you will not actually be watching the videos; you are simply clicking on the video that you would most want to watch.
 
     %p.instructions
@@ -26,7 +26,7 @@
     %p.instructions When you are ready to begin, click the button below to start the task.
     / = button_to("Begin Experiment", :index)
     %button
-      = link_to("Begin Experiment", url(:index))
+      = link_to("Begin Experiment", url(:index), query: { assignment_id: @assignment_id.to_s, hit_id: @hit_id, worker_id: @worker_id })
 
     - @all_images.each do |image|
       = image_tag(image, class: :hidden)

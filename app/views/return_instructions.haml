@@ -9,25 +9,25 @@
       %h1 Instructions - Part 2
 
     %p.instructions Imagine you are about to watch a video. At any one time, you will be presented with three different video thumbnails to choose from. 
-     %bYou only have time to watch one video. Please click to remove the video that you do not want to watch.
-    
+     %b You only have time to watch one video. Please click to remove the video that you do not want to watch.
+
     =image_tag "instructions/sample_trial.png", :class => "instructions"
-    
+
     %p.instructions Please note that you will not actually be watching the videos; you are simply clicking on the video that you would most want to watch.
-    
-    %p.instructions 
-      The video thumbnails will be presented 
-      %b**VERY FAST**. 
+
+    %p.instructions
+      The video thumbnails will be presented
+      %b**VERY FAST**.
       Please make your response as quickly and as accurately as possible.
-    
+
     %p.instructions Once you have selected a video thumbnail, three more will appear on the next screen. Please continue selecting the video you would most like to watch.
 
     %p.instructions There are two parts to this experiment. You will be notified when the first part is over and given instructions for the second part.
-    
+
     %p.instructions When you are ready to begin, click the button below to start the task.
 
     %button
-      =link_to("Begin Part 2", url(:index), query: { n: @current_choice_number})
-
+      =link_to("Begin Part 2", url(:index), query: { assignment_id: @assignment_id.to_s, hit_id: @hit_id, worker_id: @worker_id, n: @current_choice_number})
+    
     - @all_images.each do |image|
       = image_tag(image, class: :hidden)
