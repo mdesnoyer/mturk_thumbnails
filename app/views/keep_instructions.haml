@@ -6,28 +6,29 @@
     = javascript_include_tag :application
 
   %body
-    #header
-      %h1 Pick a Video: Instructions
+    #container{ data: { assignment_id: @assignment_id.to_s, image_one: @first, image_two: @second, image_three: @third, n: @current_choice_number, hit_id: @hit_id, worker_id: @worker_id } }
+      #header
+        %h1 Pick a Video: Instructions
 
-    %p.instructions Imagine you are about to watch a video. At any one time, you will be presented with three different video thumbnails to choose from. Please click on the one you most want to watch if you could only watch one of the three.
+      %p.instructions Imagine you are about to watch a video. At any one time, you will be presented with three different video thumbnails to choose from. Please click on the one you most want to watch if you could only watch one of the three.
 
-    = image_tag "instructions/sample_trial.png", :class => "instructions"
+      = image_tag "instructions/sample_trial.png", :class => "instructions"
 
-    %p.instructions Please note that you will not actually be watching the videos; you are simply clicking on the video that you would most want to watch.
+      %p.instructions Please note that you will not actually be watching the videos; you are simply clicking on the video that you would most want to watch.
 
-    %p.instructions
-      The video thumbnails will be presented
-      %b**VERY FAST**.
-      Please make your response as quickly and as accurately as possible.
+      %p.instructions
+        The video thumbnails will be presented
+        %b**VERY FAST**.
+        Please make your response as quickly and as accurately as possible.
 
-    %p.instructions Once you have selected a video thumbnail, three more will appear on the next screen. Please continue selecting the video you would most like to watch.
+      %p.instructions Once you have selected a video thumbnail, three more will appear on the next screen. Please continue selecting the video you would most like to watch.
 
-    %p.instructions There are two parts to this experiment. You will be notified when the first part is over and given instructions for the second part.
+      %p.instructions There are two parts to this experiment. You will be notified when the first part is over and given instructions for the second part.
 
-    %p.instructions When you are ready to begin, click the button below to start the task.
-    / = button_to("Begin Experiment", :index)
-    %button
-      = link_to("Begin Experiment", url(:index), query: { assignment_id: @assignment_id.to_s, hit_id: @hit_id, worker_id: @worker_id })
+      %p.instructions When you are ready to begin, click the button below to start the task.
+      / = button_to("Begin Experiment", :index)
+      %button
+        = link_to("Begin Experiment", url(:index), query: { assignment_id: @assignment_id.to_s, hit_id: @hit_id, worker_id: @worker_id })
     
-    - @all_images.each do |image|
-      = image_tag(image, class: :hidden)
+      - @all_images.each do |image|
+        = image_tag(image, class: :hidden)
