@@ -7,5 +7,5 @@ $ ->
 
   if $('#container').data('assignment-id') == 'ASSIGNMENT_ID_NOT_AVAILABLE'
       window.setTimeout(nextPage, 2000)
-    else
-      $('button').hide()
+  else
+    $('button').hide()
