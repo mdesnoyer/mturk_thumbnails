@@ -31,8 +31,10 @@ def compile_trials
 end
 
 def images_for_trial(trial_number)
+  trial_number = trial_number.to_i
   @compiled_trials ||= compile_trials
-  @compiled_trials[trial_number.to_i].map { |filename| "stimuli/#{filename}" }
+  key = trial_number > 144 ? (trial_number - 144) : trial_number
+  @compiled_trials[key].map { |filename| "stimuli/#{filename}" }
 end
 
 def total_choices
@@ -68,21 +70,21 @@ MturkThumbnails.controllers  do
 
     choice = params[:choice] == 'none' ? nil : params[:choice]
 
-    if @current_choice_number <= 3
+    if @current_choice_number <= 144
       condition = "KEEP"
     else
       condition = "RETURN"
     end
 
-    # ImageChoice.create(
-    #   assignment_id: @assignment_id,
-    #       image_one: params[:image_one],
-    #       image_two: params[:image_two],
-    #     image_three: params[:image_three],
-    #    chosen_image: choice,
-    #       condition: condition,
-    #       trial: @current_choice_number
-    # )
+    ImageChoice.create(
+      assignment_id: @assignment_id,
+          image_one: params[:image_one],
+          image_two: params[:image_two],
+        image_three: params[:image_three],
+       chosen_image: choice,
+          condition: condition,
+          trial: @current_choice_number
+    )
 
     if @current_choice_number == 145
       haml :return_instructions
@@ -91,12 +93,10 @@ MturkThumbnails.controllers  do
     else
       redirect "https://workersandbox.mturk.com/mturk/externalSubmit?assignmentId=#{@assignment_id}&hitId=#{@hit_id}&workerId=#{@worker_id}"
     end
-
   end
 
   get :index do
     set_variables
-    p @current_choice_number
     haml :index
   end
 end
