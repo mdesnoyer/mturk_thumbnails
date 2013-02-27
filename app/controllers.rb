@@ -40,7 +40,7 @@ def total_choices
   @compiled_trials.count
 end
 
-def total_trials 
+def total_trials
   @total_choices*2
 end
 
@@ -57,30 +57,33 @@ end
 
 MturkThumbnails.controllers  do
   get :keep_instructions do
+    compiled_trials = compile_trials
+    @all_images = compile_trials.values.flatten.uniq.map { |filename| "stimuli/#{filename}" }
+
     haml :keep_instructions
   end
 
   get :choose, with: :choice do
     set_variables
-    
+
     choice = params[:choice] == 'none' ? nil : params[:choice]
-    
+
     if @current_choice_number <= 3
       condition = "KEEP"
     else
       condition = "RETURN"
     end
-    
-    ImageChoice.create(
-      assignment_id: @assignment_id,
-          image_one: params[:image_one],
-          image_two: params[:image_two],
-        image_three: params[:image_three],
-       chosen_image: choice,
-          condition: condition,
-          trial: @current_choice_number
-    )
-    
+
+    # ImageChoice.create(
+    #   assignment_id: @assignment_id,
+    #       image_one: params[:image_one],
+    #       image_two: params[:image_two],
+    #     image_three: params[:image_three],
+    #    chosen_image: choice,
+    #       condition: condition,
+    #       trial: @current_choice_number
+    # )
+
     if @current_choice_number == 145
       haml :return_instructions
     elsif @current_choice_number <= total_trials
