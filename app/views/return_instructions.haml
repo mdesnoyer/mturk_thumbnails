@@ -27,3 +27,6 @@
 
     %button
       =link_to("Begin Part 2", url(:index), query: { n: @current_choice_number})
+
+    - @all_images.each do |image|
+      = image_tag(image, class: :hidden)
