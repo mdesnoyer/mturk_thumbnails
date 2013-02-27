@@ -97,7 +97,8 @@ MturkThumbnails.controllers do
         image_three: params[:image_three],
        chosen_image: choice,
           condition: condition,
-          trial: @current_choice_number
+          trial: @current_choice_number,
+          worker_id: @worker_id
     )
 
     # image_choice = {

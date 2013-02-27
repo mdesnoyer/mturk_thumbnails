@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 3) do
+ActiveRecord::Schema.define(:version => 4) do
 
   create_table "image_choices", :force => true do |t|
     t.string   "assignment_id"
@@ -23,6 +23,7 @@ ActiveRecord::Schema.define(:version => 3) do
     t.datetime "updated_at",    :null => false
     t.string   "condition"
     t.string   "trial"
+    t.string   "worker_id"
   end
 
 end
