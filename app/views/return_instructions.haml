@@ -8,8 +8,9 @@
     #header
       %h1 Instructions - Part 2
 
-    %p.instructions Imagine you are about to watch a video. At any one time, you will be presented with three different video thumbnails to choose from. 
-     %b You only have time to watch one video. Please click to remove the video that you do not want to watch.
+    %p.instructions
+      Imagine you are about to watch a video. At any one time, you will be presented with three different video thumbnails to choose from.
+      %b You only have time to watch one video. Please click to remove the video that you do not want to watch.
 
     =image_tag "instructions/sample_trial.png", :class => "instructions"
 
@@ -28,6 +29,6 @@
 
     %button
       =link_to("Begin Part 2", url(:index), query: { assignment_id: @assignment_id.to_s, hit_id: @hit_id, worker_id: @worker_id, n: @current_choice_number})
-    
+
     - @all_images.each do |image|
       = image_tag(image, class: :hidden)

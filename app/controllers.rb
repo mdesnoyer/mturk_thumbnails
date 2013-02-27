@@ -68,11 +68,14 @@ def add_folder(filename)
   "#{STIMULI_FOLDER_NAME}/#{filename}"
 end
 
+def fetch_all_images
+  compiled_trials = compile_trials
+  compiled_trials.values.flatten.uniq.map { |filename| add_folder(filename) }
+end
+
 MturkThumbnails.controllers do
   get :keep_instructions do
-    compiled_trials = compile_trials
-    @all_images = compile_trials.values.flatten.uniq.map { |filename| add_folder(filename) }
-
+    @all_images = fetch_all_images
     haml :keep_instructions
   end
 
@@ -110,6 +113,7 @@ MturkThumbnails.controllers do
     @current_choice_number += 1
 
     if @current_choice_number == 145
+      @all_images = fetch_all_images
       haml :return_instructions
     elsif @current_choice_number <= total_trials
       set_variables
