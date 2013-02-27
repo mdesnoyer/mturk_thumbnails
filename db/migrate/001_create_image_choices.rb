@@ -6,7 +6,6 @@ class CreateImageChoices < ActiveRecord::Migration
       t.string :image_two
       t.string :image_three
       t.string :chosen_image
-
       t.timestamps
     end
   end

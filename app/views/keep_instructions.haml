@@ -1,0 +1,29 @@
+!!! 5
+%html
+  %head
+    %title Instructions
+    = stylesheet_link_tag :application
+
+  %body
+    #header
+      %h1 Pick a Video: Instructions
+
+    %p.instructions Imagine you are about to watch a video. At any one time, you will be presented with three different video thumbnails to choose from. Please click on the one you most want to watch if you could only watch one of the three.
+    
+    =image_tag "instructions/sample_trial.png", :class => "instructions"
+    
+    %p.instructions Please note that you will not actually be watching the videos; you are simply clicking on the video that you would most want to watch.
+    
+    %p.instructions 
+      The video thumbnails will be presented 
+      %b**VERY FAST**. 
+      Please make your response as quickly and as accurately as possible.
+    
+    %p.instructions Once you have selected a video thumbnail, three more will appear on the next screen. Please continue selecting the video you would most like to watch.
+
+    %p.instructions There are two parts to this experiment. You will be notified when the first part is over and given instructions for the second part.
+    
+    %p.instructions When you are ready to begin, click the button below to start the task.
+    / =button_to("Begin Experiment", :index)
+    %button
+      =link_to("Begin Experiment", url(:index))
