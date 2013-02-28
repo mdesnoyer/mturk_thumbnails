@@ -1,3 +1,4 @@
+p RUBY_VERSION
 source :rubygems
 
 gem 'thin'
@@ -23,7 +24,7 @@ end
 # Test requirements
 
 # Padrino Stable Gem
-gem 'padrino', git: 'git://github.com/padrino/padrino-framework.git'
+gem 'padrino'
 
 # Or Padrino Edge
 # gem 'padrino', :git => 'git://github.com/padrino/padrino-framework.git'
