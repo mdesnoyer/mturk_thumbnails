@@ -73,66 +73,77 @@ def fetch_all_images
   compiled_trials.values.flatten.uniq.map { |filename| add_folder(filename) }
 end
 
+def post_to_amazon
+  if @assignment_id.empty? || @assignment_id == 'ASSIGNMENT_ID_NOT_AVAILABLE'
+    redirect "https://workersandbox.mturk.com/mturk/externalSubmit?assignmentId=#{@assignment_id}&hitId=#{@hit_id}&workerId=#{@worker_id}"
+  else
+    redirect "https://www.mturk.com/mturk/externalSubmit?assignmentId=#{@assignment_id}&hitId=#{@hit_id}&workerId=#{@worker_id}"
+  end
+end
+
+def set_choice
+  @choice = params[:choice] == 'none' ? nil : params[:choice]
+end
+
+def set_condition
+  if @current_choice_number <= 144
+    @condition = "KEEP"
+  else
+    @condition = "RETURN"
+  end
+end
+
+def write_to_db
+  image_choice = {
+    assignment_id: @assignment_id,
+    image_one: clean_filename(params[:image_one]),
+    image_two: clean_filename(params[:image_two]),
+    image_three: clean_filename(params[:image_three]),
+    chosen_image: clean_filename(@choice),
+    condition: @condition,
+    trial: @current_choice_number,
+    worker_id: @worker_id
+  }
+
+  p image_choice
+
+  ImageChoice.create(image_choice)
+end
+
 MturkThumbnails.controllers do
-  get :keep_instructions do
+  before do
     read_params
+  end
+
+  get :keep_instructions do
     @all_images = fetch_all_images
     haml :keep_instructions
   end
 
   get :choose, with: :choice do
-    read_params
-
-    choice = params[:choice] == 'none' ? nil : params[:choice]
-
-    if @current_choice_number <= 144
-      condition = "KEEP"
+    if @current_choice_number == 1 && ImageChoice.where(worker_id: @worker_id).any?
+      ImageChoice.where(worker_id: @worker_id).delete_all
+      post_to_amazon
     else
-      condition = "RETURN"
-    end
+      set_choice
+      set_condition
+      write_to_db
 
-    ImageChoice.create(
-      assignment_id: @assignment_id,
-          image_one: clean_filename(params[:image_one]),
-          image_two: clean_filename(params[:image_two]),
-        image_three: clean_filename(params[:image_three]),
-       chosen_image: clean_filename(choice),
-          condition: condition,
-              trial: @current_choice_number,
-          worker_id: @worker_id
-    )
+      @current_choice_number += 1
 
-    image_choice = {
-      assignment_id: @assignment_id,
-      image_one: clean_filename(params[:image_one]),
-      image_two: clean_filename(params[:image_two]),
-      image_three: clean_filename(params[:image_three]),
-      chosen_image: clean_filename(choice),
-      condition: condition,
-      trial: @current_choice_number,
-      worker_id: @worker_id
-    }
-    p image_choice
-
-    @current_choice_number += 1
-
-    if @current_choice_number == 145
-      @all_images = fetch_all_images
-      haml :return_instructions
-    elsif @current_choice_number <= total_trials
-      set_variables
-      haml :index
-    else
-      if @assignment_id.empty? || @assignment_id == 'ASSIGNMENT_ID_NOT_AVAILABLE'
-        redirect "https://workersandbox.mturk.com/mturk/externalSubmit?assignmentId=#{@assignment_id}&hitId=#{@hit_id}&workerId=#{@worker_id}"
+      if @current_choice_number == 145
+        @all_images = fetch_all_images
+        haml :return_instructions
+      elsif @current_choice_number <= total_trials
+        set_variables
+        haml :index
       else
-        redirect "https://www.mturk.com/mturk/externalSubmit?assignmentId=#{@assignment_id}&hitId=#{@hit_id}&workerId=#{@worker_id}"
+        post_to_amazon
       end
     end
   end
 
   get :index do
-    read_params
     set_variables
     haml :index
   end
