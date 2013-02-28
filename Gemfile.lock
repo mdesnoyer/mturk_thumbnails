@@ -1,3 +1,36 @@
+GIT
+  remote: git://github.com/padrino/padrino-framework.git
+  revision: bce293540f1201445c2415bf27cf7352603a93e6
+  specs:
+    padrino (0.10.7)
+      padrino-admin (= 0.10.7)
+      padrino-cache (= 0.10.7)
+      padrino-core (= 0.10.7)
+      padrino-gen (= 0.10.7)
+      padrino-helpers (= 0.10.7)
+      padrino-mailer (= 0.10.7)
+    padrino-admin (0.10.7)
+      padrino-core (= 0.10.7)
+      padrino-helpers (= 0.10.7)
+    padrino-cache (0.10.7)
+      padrino-core (= 0.10.7)
+      padrino-helpers (= 0.10.7)
+    padrino-core (0.10.7)
+      activesupport (>= 3.1.0)
+      http_router (~> 0.10.2)
+      sinatra (~> 1.3.1)
+      thor (~> 0.16.0)
+      tilt (~> 1.3.0)
+    padrino-gen (0.10.7)
+      bundler (~> 1.0)
+      padrino-core (= 0.10.7)
+    padrino-helpers (0.10.7)
+      i18n (~> 0.6)
+      padrino-core (= 0.10.7)
+    padrino-mailer (0.10.7)
+      mail (~> 2.5.3)
+      padrino-core (= 0.10.7)
+
 GEM
   remote: http://rubygems.org/
   specs:
@@ -17,9 +50,9 @@ GEM
     coffee-script (2.2.0)
       coffee-script-source
       execjs
-    coffee-script-source (1.4.0)
+    coffee-script-source (1.5.0)
     daemons (1.1.9)
-    eventmachine (1.0.0)
+    eventmachine (1.0.1)
     execjs (1.4.0)
       multi_json (~> 1.0)
     haml (4.0.0)
@@ -31,9 +64,9 @@ GEM
     httparty (0.10.2)
       multi_json (~> 1.0)
       multi_xml (>= 0.5.2)
-    i18n (0.6.1)
+    i18n (0.6.4)
     libv8 (3.11.8.13)
-    mail (2.3.3)
+    mail (2.5.3)
       i18n (>= 0.4.0)
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
@@ -41,37 +74,10 @@ GEM
     multi_json (1.6.1)
     multi_xml (0.5.3)
     newrelic_rpm (3.5.7.59)
-    padrino (0.10.7)
-      padrino-admin (= 0.10.7)
-      padrino-cache (= 0.10.7)
-      padrino-core (= 0.10.7)
-      padrino-gen (= 0.10.7)
-      padrino-helpers (= 0.10.7)
-      padrino-mailer (= 0.10.7)
-    padrino-admin (0.10.7)
-      padrino-core (= 0.10.7)
-      padrino-helpers (= 0.10.7)
     padrino-assets (0.3.1)
       padrino-core
       padrino-helpers
       sprockets (~> 2.4.0)
-    padrino-cache (0.10.7)
-      padrino-core (= 0.10.7)
-    padrino-core (0.10.7)
-      activesupport (~> 3.2.0)
-      http_router (~> 0.10.2)
-      sinatra (~> 1.3.1)
-      thor (~> 0.15.2)
-      tilt (~> 1.3.0)
-    padrino-gen (0.10.7)
-      bundler (~> 1.0)
-      padrino-core (= 0.10.7)
-    padrino-helpers (0.10.7)
-      i18n (~> 0.6)
-      padrino-core (= 0.10.7)
-    padrino-mailer (0.10.7)
-      mail (~> 2.3.0)
-      padrino-core (= 0.10.7)
     pg (0.14.1)
     polyamorous (0.5.0)
       activerecord (~> 3.0)
@@ -81,8 +87,8 @@ GEM
       rack
     rake (10.0.3)
     ref (1.0.2)
-    sass (3.2.5)
-    sinatra (1.3.4)
+    sass (3.2.6)
+    sinatra (1.3.5)
       rack (~> 1.4)
       rack-protection (~> 1.3)
       tilt (~> 1.3, >= 1.3.3)
@@ -97,15 +103,15 @@ GEM
       activerecord (~> 3.0)
       activesupport (~> 3.0)
       polyamorous (~> 0.5.0)
-    therubyracer (0.11.3)
+    therubyracer (0.11.4)
       libv8 (~> 3.11.8.12)
       ref
     thin (1.5.0)
       daemons (>= 1.0.9)
       eventmachine (>= 0.12.6)
       rack (>= 1.0.0)
-    thor (0.15.4)
-    tilt (1.3.3)
+    thor (0.16.0)
+    tilt (1.3.4)
     treetop (1.4.12)
       polyglot
       polyglot (>= 0.3.1)
@@ -122,7 +128,7 @@ DEPENDENCIES
   haml
   httparty
   newrelic_rpm
-  padrino (= 0.10.7)
+  padrino!
   padrino-assets
   pg
   rake
