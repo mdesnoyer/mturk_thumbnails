@@ -75,8 +75,8 @@ end
 
 MturkThumbnails.controllers do
   get :keep_instructions do
+    read_params
     @all_images = fetch_all_images
-    @assignment_id = params[:assignmentId] || params[:assignment_id]
     haml :keep_instructions
   end
 

@@ -6,10 +6,10 @@
     = javascript_include_tag :application
 
   %body
-    #container{ data: { assignment_id: @assignment_id.to_s, image_one: @first, image_two: @second, image_three: @third, n: @current_choice_number, hit_id: @hit_id, worker_id: @worker_id } }
+    #container{ data: { assignment_id: @assignment_id.to_s } }
       #header
         %h1 Pick a Video: Instructions
-        
+
         %h2 **THIS HIT REQUIRES EITHER SAFARI OR CHROME. THE HIT WILL NOT RUN IN FIREFOX**
 
       %p.instructions Imagine you are about to watch a video. At any one time, you will be presented with three different video thumbnails to choose from. Please click on the one you most want to watch if you could only watch one of the three.
@@ -31,6 +31,6 @@
       / = button_to("Begin Experiment", :index)
       %button
         = link_to("Begin Experiment", url(:index), query: { assignment_id: @assignment_id.to_s, hit_id: @hit_id, worker_id: @worker_id })
-    
+
       - @all_images.each do |image|
         = image_tag(image, class: :hidden)
