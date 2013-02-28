@@ -93,24 +93,26 @@ MturkThumbnails.controllers do
 
     ImageChoice.create(
       assignment_id: @assignment_id,
-          image_one: params[:image_one],
-          image_two: params[:image_two],
-        image_three: params[:image_three],
-       chosen_image: choice,
+          image_one: clean_filename(params[:image_one]),
+          image_two: clean_filename(params[:image_two]),
+        image_three: clean_filename(params[:image_three]),
+       chosen_image: clean_filename(choice),
           condition: condition,
               trial: @current_choice_number,
           worker_id: @worker_id
     )
 
-    # image_choice = {
-    #   assignment_id: @assignment_id,
-    #   image_one: clean_filename(params[:image_one]),
-    #   image_two: clean_filename(params[:image_two]),
-    #   image_three: clean_filename(params[:image_three]),
-    #   chosen_image: clean_filename(choice),
-    #   condition: condition,
-    #   trial: @current_choice_number
-    # }
+    image_choice = {
+      assignment_id: @assignment_id,
+      image_one: clean_filename(params[:image_one]),
+      image_two: clean_filename(params[:image_two]),
+      image_three: clean_filename(params[:image_three]),
+      chosen_image: clean_filename(choice),
+      condition: condition,
+      trial: @current_choice_number,
+      worker_id: @worker_id
+    }
+    p image_choice
 
     @current_choice_number += 1
 
@@ -121,7 +123,11 @@ MturkThumbnails.controllers do
       set_variables
       haml :index
     else
-      redirect "https://workersandbox.mturk.com/mturk/externalSubmit?assignmentId=#{@assignment_id}&hitId=#{@hit_id}&workerId=#{@worker_id}"
+      if @assignment_id.empty? || @assignment_id == 'ASSIGNMENT_ID_NOT_AVAILABLE'
+        redirect "https://workersandbox.mturk.com/mturk/externalSubmit?assignmentId=#{@assignment_id}&hitId=#{@hit_id}&workerId=#{@worker_id}"
+      else
+        redirect "https://www.mturk.com/mturk/externalSubmit?assignmentId=#{@assignment_id}&hitId=#{@hit_id}&workerId=#{@worker_id}"
+      end
     end
   end
 
