@@ -47,3 +47,11 @@
 [02/28/13 14:14:47 -0500 110amac1.cnbc.cmu.edu (52861)] INFO : Installing Net instrumentation
 [02/28/13 14:14:47 -0500 110amac1.cnbc.cmu.edu (52861)] INFO : Installing Sinatra instrumentation
 [02/28/13 14:14:47 -0500 110amac1.cnbc.cmu.edu (52861)] INFO : Finished instrumentation
+[02/28/13 14:47:21 -0500 110amac1.cnbc.cmu.edu (54130)] INFO : Environment: development
+[02/28/13 14:47:21 -0500 110amac1.cnbc.cmu.edu (54130)] INFO : Dispatcher: thin
+[02/28/13 14:47:21 -0500 110amac1.cnbc.cmu.edu (54130)] ERROR : Unable to determine application name. Please set the application name in your newrelic.yml or in a NEW_RELIC_APP_NAME environment variable.
+[02/28/13 14:47:21 -0500 110amac1.cnbc.cmu.edu (54130)] WARN : Agent configured not to send data in this environment.
+[02/28/13 14:47:21 -0500 110amac1.cnbc.cmu.edu (54130)] INFO : Installing ActiveRecord instrumentation
+[02/28/13 14:47:21 -0500 110amac1.cnbc.cmu.edu (54130)] INFO : Installing Net instrumentation
+[02/28/13 14:47:21 -0500 110amac1.cnbc.cmu.edu (54130)] INFO : Installing Sinatra instrumentation
+[02/28/13 14:47:21 -0500 110amac1.cnbc.cmu.edu (54130)] INFO : Finished instrumentation
