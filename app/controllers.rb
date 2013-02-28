@@ -1,6 +1,7 @@
 TRIALS_PATH  = "#{PADRINO_ROOT}/config/trials.txt"
 STIMULI_PATH = "#{PADRINO_ROOT}/config/stimuli.txt"
 STIMULI_FOLDER_NAME = 'stimuli'
+SANDBOX = false
 
 def load_stimuli
   stimuli_str      = File.read(STIMULI_PATH)
@@ -74,7 +75,7 @@ def fetch_all_images
 end
 
 def post_to_amazon
-  if @assignment_id.empty? || @assignment_id == 'ASSIGNMENT_ID_NOT_AVAILABLE'
+  if SANDBOX
     redirect "https://workersandbox.mturk.com/mturk/externalSubmit?assignmentId=#{@assignment_id}&hitId=#{@hit_id}&workerId=#{@worker_id}"
   else
     redirect "https://www.mturk.com/mturk/externalSubmit?assignmentId=#{@assignment_id}&hitId=#{@hit_id}&workerId=#{@worker_id}"
@@ -116,12 +117,18 @@ MturkThumbnails.controllers do
   end
 
   get :keep_instructions do
-    @all_images = fetch_all_images
+    @all_images = fetch_all_images unless @assignment_id == 'ASSIGNMENT_ID_NOT_AVAILABLE'
     haml :keep_instructions
   end
 
   get :choose, with: :choice do
+    p "current_choice_number: #{@current_choice_number}"
+    p "worker_id: #{@worker_id}"
+
     if @current_choice_number == 1 && ImageChoice.where(worker_id: @worker_id).any?
+      previous_count = ImageChoice.where(worker_id: @worker_id).count
+      p "worker #{worker_id} restarted after #{previous_count} trials"
+
       ImageChoice.where(worker_id: @worker_id).delete_all
       post_to_amazon
     else
