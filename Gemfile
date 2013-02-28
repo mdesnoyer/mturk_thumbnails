@@ -1,5 +1,5 @@
-p RUBY_VERSION
 source :rubygems
+ruby '1.9.3'
 
 gem 'thin'
 gem 'squeel'
