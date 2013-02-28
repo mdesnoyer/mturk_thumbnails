@@ -61,7 +61,7 @@ def set_variables
 end
 
 def clean_filename(path)
-  path.sub(/^#{STIMULI_FOLDER_NAME}\//, '').sub(/\.\d+(?=\.jpg)/, '')
+  path.to_s.sub(/^#{STIMULI_FOLDER_NAME}\//, '').sub(/\.\d+(?=\.jpg)/, '')
 end
 
 def add_folder(filename)
