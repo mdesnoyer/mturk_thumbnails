@@ -40,6 +40,7 @@ GEM
     mime-types (1.21)
     multi_json (1.6.1)
     multi_xml (0.5.3)
+    newrelic_rpm (3.5.7.59)
     padrino (0.10.7)
       padrino-admin (= 0.10.7)
       padrino-cache (= 0.10.7)
@@ -114,6 +115,7 @@ DEPENDENCIES
   coffee-script
   haml
   httparty
+  newrelic_rpm
   padrino (= 0.10.7)
   padrino-assets
   pg

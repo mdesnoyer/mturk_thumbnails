@@ -75,6 +75,8 @@ def fetch_all_images
 end
 
 def post_to_amazon
+  p 'posting to amazon'
+
   if SANDBOX
     redirect "https://workersandbox.mturk.com/mturk/externalSubmit?assignmentId=#{@assignment_id}&hitId=#{@hit_id}&workerId=#{@worker_id}"
   else
@@ -101,14 +103,10 @@ def write_to_db
     image_two: clean_filename(params[:image_two]),
     image_three: clean_filename(params[:image_three]),
     chosen_image: clean_filename(@choice),
-    condition: @condition,
-    trial: @current_choice_number,
-    worker_id: @worker_id
+    condition: @condition
   }
 
-  p image_choice
-
-  ImageChoice.create(image_choice)
+  p ImageChoice.where(trial: @current_choice_number.to_i, worker_id: @worker_id).first_or_create(image_choice)
 end
 
 MturkThumbnails.controllers do
@@ -141,12 +139,14 @@ MturkThumbnails.controllers do
       set_condition
       write_to_db
 
-      @current_choice_number += 1
+      @current_choice_number = ImageChoice.where(worker_id: @worker_id).maximum(:trial).to_i + 1
 
       if @current_choice_number == 145
+        p 'showing return instructions'
         @all_images = fetch_all_images
         haml :return_instructions
       elsif @current_choice_number <= total_trials
+        p 'showing next set of images'
         set_variables
         haml :index
       else

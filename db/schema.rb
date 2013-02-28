@@ -22,7 +22,7 @@ ActiveRecord::Schema.define(:version => 4) do
     t.datetime "created_at",    :null => false
     t.datetime "updated_at",    :null => false
     t.string   "condition"
-    t.string   "trial"
+    t.integer  "trial"
     t.string   "worker_id"
   end
 
