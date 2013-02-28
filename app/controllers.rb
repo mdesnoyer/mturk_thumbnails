@@ -117,7 +117,12 @@ MturkThumbnails.controllers do
   end
 
   get :keep_instructions do
-    @all_images = fetch_all_images unless @assignment_id == 'ASSIGNMENT_ID_NOT_AVAILABLE'
+    if @assignment_id == 'ASSIGNMENT_ID_NOT_AVAILABLE'
+      @all_images = []
+    else
+      @all_images = fetch_all_images
+    end
+
     haml :keep_instructions
   end
 
