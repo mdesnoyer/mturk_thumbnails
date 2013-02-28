@@ -15,7 +15,6 @@ gem 'activerecord', require: 'active_record'
 gem 'pg'
 gem 'padrino-assets'
 gem 'httparty'
-gem 'newrelic_rpm'
 
 group :development do
   gem 'therubyracer'
