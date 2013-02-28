@@ -1,6 +1,7 @@
 source :rubygems
 
 gem 'thin'
+gem 'squeel'
 
 # Project requirements
 gem 'rake'
