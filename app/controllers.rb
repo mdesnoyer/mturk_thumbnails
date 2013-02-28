@@ -121,26 +121,28 @@ MturkThumbnails.controllers do
   end
 
   get :choose, with: :choice do
-    if @current_choice_number == 1 && ImageChoice.where(worker_id: @worker_id).any?
-      ImageChoice.where(worker_id: @worker_id).delete_all
-      post_to_amazon
-    else
-      set_choice
-      set_condition
-      write_to_db
+    post_to_amazon
 
-      @current_choice_number += 1
+    # if @current_choice_number == 1 && ImageChoice.where(worker_id: @worker_id).any?
+    #   ImageChoice.where(worker_id: @worker_id).delete_all
+    #   post_to_amazon
+    # else
+    #   set_choice
+    #   set_condition
+    #   write_to_db
 
-      if @current_choice_number == 145
-        @all_images = fetch_all_images
-        haml :return_instructions
-      elsif @current_choice_number <= total_trials
-        set_variables
-        haml :index
-      else
-        post_to_amazon
-      end
-    end
+    #   @current_choice_number += 1
+
+    #   if @current_choice_number == 145
+    #     @all_images = fetch_all_images
+    #     haml :return_instructions
+    #   elsif @current_choice_number <= total_trials
+    #     set_variables
+    #     haml :index
+    #   else
+    #     post_to_amazon
+    #   end
+    # end
   end
 
   get :index do
