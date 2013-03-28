@@ -4,7 +4,7 @@ ActiveRecord::Base.configurations[:development] = {
   :adapter => 'postgresql',
   :encoding  => 'utf8',
   :database  => 'mturk_thumbnails-dev',
-  :username  => 'Deb',
+  :username  => 'deborahjohnson',
   :password  => '',
   :host      => 'localhost'
 }

@@ -5,7 +5,7 @@ SANDBOX = false
 
 def load_stimuli
   stimuli_str      = File.read(STIMULI_PATH)
-  stimuli_lines    = stimuli_str.split("\n")
+  stimuli_lines    = stimuli_str.split("\r")
   stimuli_mappings = stimuli_lines.map { |line| line.split("\t") }
 
   stimuli_mappings.each_with_object({}) do |stimuli_mapping, hash|
@@ -28,7 +28,7 @@ def compile_trials
     n = i + 1
     compiled_trials[n] = trial.map { |t| stimuli[t] }
   end
-
+  
   compiled_trials
 end
 
@@ -130,7 +130,7 @@ MturkThumbnails.controllers do
 
     if @current_choice_number == 1 && ImageChoice.where(worker_id: @worker_id).any?
       previous_count = ImageChoice.where(worker_id: @worker_id).count
-      p "worker #{worker_id} restarted after #{previous_count} trials"
+      # p "worker #{worker_id} restarted after #{previous_count} trials"
 
       ImageChoice.where(worker_id: @worker_id).delete_all
       post_to_amazon
