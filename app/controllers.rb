@@ -1,6 +1,15 @@
+prng = Random.new
+x = prng.rand(100)
+
+if x > 50
+  STIMULI_PATH = "#{PADRINO_ROOT}/config/stimuli1.txt"
+  STIMULI_FOLDER_NAME = 'stimuli1'
+else
+  STIMULI_PATH = "#{PADRINO_ROOT}/config/stimuli2.txt"
+  STIMULI_FOLDER_NAME = 'stimuli2'
+end
+
 TRIALS_PATH  = "#{PADRINO_ROOT}/config/trials.txt"
-STIMULI_PATH = "#{PADRINO_ROOT}/config/stimuli.txt"
-STIMULI_FOLDER_NAME = 'stimuli'
 SANDBOX = false
 
 def load_stimuli
@@ -46,6 +55,14 @@ end
 
 def total_trials
   total_choices * 2
+end
+
+def set_stimset_id
+  if STIMULI_FOLDER_NAME == "stimuli1"
+    @stimset_id = "stimset_1"
+  else
+    @stimset_id = "stimset_2"
+  end
 end
 
 def read_params
@@ -103,7 +120,8 @@ def write_to_db
     image_two: clean_filename(params[:image_two]),
     image_three: clean_filename(params[:image_three]),
     chosen_image: clean_filename(@choice),
-    condition: @condition
+    condition: @condition,
+    stimset_id: @stimset_id
   }
 
   p ImageChoice.where(trial: @current_choice_number.to_i, worker_id: @worker_id).first_or_create(image_choice)
@@ -137,6 +155,7 @@ MturkThumbnails.controllers do
     else
       set_choice
       set_condition
+      set_stimset_id
       write_to_db
 
       @current_choice_number = ImageChoice.where(worker_id: @worker_id).maximum(:trial).to_i + 1
