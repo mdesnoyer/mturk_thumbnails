@@ -1,19 +1,36 @@
 prng = Random.new
-x = prng.rand(100)
+# x = prng.rand(100)
 
-if x > 50
-  STIMULI_PATH = "#{PADRINO_ROOT}/config/stimuli1.txt"
-  STIMULI_FOLDER_NAME = 'stimuli1'
-else
-  STIMULI_PATH = "#{PADRINO_ROOT}/config/stimuli2.txt"
-  STIMULI_FOLDER_NAME = 'stimuli2'
+def set_stimpath
+  unique_workers = ImageChoice.select(:worker_id.uniq)
+  if unique_workers.size < 60
+    stimuli_path = "#{PADRINO_ROOT}/config/stimuli6.txt"
+  elsif unique_workers.size < 120
+    stimuli_path = "#{PADRINO_ROOT}/config/stimuli7.txt"
+  else
+    stimuli_path = "#{PADRINO_ROOT}/config/stimuli8.txt"
+  end
+  stimuli_path
+end
+
+def set_stimfolder
+  unique_workers = ImageChoice.select(:worker_id.uniq)
+  if unique_workers.size < 60
+    stimuli_folder_name = 'stimuli6'
+  elsif unique_workers.size < 120
+    stimuli_folder_name = 'stimuli7'
+  else
+    stimuli_folder_name = 'stimuli8'
+  end
+  stimuli_folder_name
 end
 
 TRIALS_PATH  = "#{PADRINO_ROOT}/config/trials.txt"
 SANDBOX = false
 
 def load_stimuli
-  stimuli_str      = File.read(STIMULI_PATH)
+  stimuli_path = set_stimpath
+  stimuli_str      = File.read(stimuli_path)
   stimuli_lines    = stimuli_str.split("\r")
   stimuli_mappings = stimuli_lines.map { |line| line.split("\t") }
 
@@ -58,10 +75,13 @@ def total_trials
 end
 
 def set_stimset_id
-  if STIMULI_FOLDER_NAME == "stimuli1"
-    @stimset_id = "stimset_1"
+  stimuli_folder_name = set_stimfolder
+  if stimuli_folder_name == "stimuli6"
+    @stimset_id = "stimset6"
+  elsif stimuli_folder_name == "stimset7"
+    @stimset_id = "stimset7"
   else
-    @stimset_id = "stimset_2"
+    @stimset_id = "stimset8"
   end
 end
 
@@ -79,11 +99,13 @@ def set_variables
 end
 
 def clean_filename(path)
-  path.to_s.sub(/^#{STIMULI_FOLDER_NAME}\//, '')
+  stimuli_folder_name = set_stimfolder
+  path.to_s.sub(/^#{stimuli_folder_name}\//, '')
 end
 
 def add_folder(filename)
-  "#{STIMULI_FOLDER_NAME}/#{filename}"
+  stimuli_folder_name = set_stimfolder
+  "#{stimuli_folder_name}/#{filename}"
 end
 
 def fetch_all_images
