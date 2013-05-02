@@ -1,11 +1,17 @@
 prng = Random.new
 # x = prng.rand(100)
 
+# def count_workers
+#   unique_workers = ImageChoice.select(:worker_id.uniq)
+#   unique_workers
+# end
+
 def set_stimpath
-  unique_workers = ImageChoice.select(:worker_id.uniq)
-  if unique_workers.size < 60
+  # unique_workers = ImageChoice.select(:worker_id.uniq)
+  unique_workers = 80
+  if unique_workers.to_i < 60
     stimuli_path = "#{PADRINO_ROOT}/config/stimuli6.txt"
-  elsif unique_workers.size < 120
+  elsif (unique_workers.to_i > 60 and unique_workers.to_i < 120)
     stimuli_path = "#{PADRINO_ROOT}/config/stimuli7.txt"
   else
     stimuli_path = "#{PADRINO_ROOT}/config/stimuli8.txt"
@@ -14,10 +20,11 @@ def set_stimpath
 end
 
 def set_stimfolder
-  unique_workers = ImageChoice.select(:worker_id.uniq)
-  if unique_workers.size < 60
+  # unique_workers = ImageChoice.select(:worker_id.uniq)
+  unique_workers = 80
+  if unique_workers.to_i < 60
     stimuli_folder_name = 'stimuli6'
-  elsif unique_workers.size < 120
+  elsif (unique_workers.to_i > 60 and unique_workers.to_i < 120)
     stimuli_folder_name = 'stimuli7'
   else
     stimuli_folder_name = 'stimuli8'
@@ -78,7 +85,7 @@ def set_stimset_id
   stimuli_folder_name = set_stimfolder
   if stimuli_folder_name == "stimuli6"
     @stimset_id = "stimset6"
-  elsif stimuli_folder_name == "stimset7"
+  elsif stimuli_folder_name == "stimuli7"
     @stimset_id = "stimset7"
   else
     @stimset_id = "stimset8"
