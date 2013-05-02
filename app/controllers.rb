@@ -1,8 +1,5 @@
-prng = Random.new
-# x = prng.rand(100)
-
 def count_workers
-  unique_worker_ids = ImageChoice.select(:image_one).uniq
+  unique_worker_ids = ImageChoice.select(:worker_id).uniq
   unique_workers = unique_worker_ids.size
   unique_workers
 end
@@ -21,7 +18,6 @@ end
 
 def set_stimfolder
   unique_workers = count_workers
-  unique_workers = 80
   if unique_workers.to_i < 60
     stimuli_folder_name = 'stimuli6'
   elsif (unique_workers.to_i > 60 and unique_workers.to_i < 120)
