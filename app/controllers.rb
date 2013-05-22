@@ -1,30 +1,40 @@
-def count_workers
-  unique_worker_ids = ImageChoice.select(:worker_id).uniq
-  unique_workers = unique_worker_ids.size
-  unique_workers
-end
+# def count_workers
+#   unique_worker_ids = ImageChoice.select(:worker_id).uniq
+#   unique_workers = unique_worker_ids.size
+#   unique_workers
+# end
 
-def set_stimpath
-  unique_workers = count_workers
-  if unique_workers.to_i < 60
-    stimuli_path = "#{PADRINO_ROOT}/config/stimuli6.txt"
-  elsif (unique_workers.to_i > 60 and unique_workers.to_i < 120)
-    stimuli_path = "#{PADRINO_ROOT}/config/stimuli7.txt"
-  else
-    stimuli_path = "#{PADRINO_ROOT}/config/stimuli8.txt"
-  end
-  stimuli_path
+# def image_set
+#   unique_workers = count_workers
+#   if unique_workers.to_i < 60
+#     image_set = "#{PADRINO_ROOT}/config/stimuli6.txt"
+#   elsif (unique_workers.to_i > 60 and unique_workers.to_i < 120)
+#     image_set = "#{PADRINO_ROOT}/config/stimuli7.txt"
+#   else
+#     image_set = "#{PADRINO_ROOT}/config/stimuli8.txt"
+#   end
+#   image_set
+#
+# end
+
+# def set_stimfolder
+#   unique_workers = count_workers
+#   if unique_workers.to_i < 60
+#     stimuli_folder_name = 'stimuli6'
+#   elsif (unique_workers.to_i > 60 and unique_workers.to_i < 120)
+#     stimuli_folder_name = 'stimuli7'
+#   else
+#     stimuli_folder_name = 'stimuli8'
+#   end
+#   stimuli_folder_name
+# end
+
+def image_set_path
+  "#{PADRINO_ROOT}/config/#{@image_set}/stimuli.txt"
 end
 
 def set_stimfolder
-  unique_workers = count_workers
-  if unique_workers.to_i < 60
-    stimuli_folder_name = 'stimuli6'
-  elsif (unique_workers.to_i > 60 and unique_workers.to_i < 120)
-    stimuli_folder_name = 'stimuli7'
-  else
-    stimuli_folder_name = 'stimuli8'
-  end
+  stimuli_folder_name = "stimuli#{@image_set}"
   stimuli_folder_name
 end
 
@@ -32,8 +42,7 @@ TRIALS_PATH  = "#{PADRINO_ROOT}/config/trials.txt"
 SANDBOX = false
 
 def load_stimuli
-  stimuli_path = set_stimpath
-  stimuli_str      = File.read(stimuli_path)
+  stimuli_str      = File.read(image_set_path)
   stimuli_lines    = stimuli_str.split("\r")
   stimuli_mappings = stimuli_lines.map { |line| line.split("\t") }
 
@@ -57,7 +66,7 @@ def compile_trials
     n = i + 1
     compiled_trials[n] = trial.map { |t| stimuli[t] }
   end
-  
+
   compiled_trials
 end
 
@@ -78,17 +87,12 @@ def total_trials
 end
 
 def set_stimset_id
-  stimuli_folder_name = set_stimfolder
-  if stimuli_folder_name == "stimuli6"
-    @stimset_id = "stimset6"
-  elsif stimuli_folder_name == "stimuli7"
-    @stimset_id = "stimset7"
-  else
-    @stimset_id = "stimset8"
-  end
+  "stimuli#{@image_set}"
 end
 
 def read_params
+  @image_set = params[:image_set]
+  p params
   @assignment_id = params[:assignmentId] || params[:assignment_id]
   @hit_id = params[:hitId] || params[:hit_id]
   @worker_id = params[:workerId] || params[:worker_id]
@@ -146,7 +150,7 @@ def write_to_db
     image_three: clean_filename(params[:image_three]),
     chosen_image: clean_filename(@choice),
     condition: @condition,
-    stimset_id: @stimset_id
+    stimset_id: @image_set
   }
 
   p ImageChoice.where(trial: @current_choice_number.to_i, worker_id: @worker_id).first_or_create(image_choice)
@@ -157,10 +161,11 @@ MturkThumbnails.controllers do
     read_params
   end
 
-  get :keep_instructions do
+  get 'keep_instructions/:image_set' do
     if @assignment_id == 'ASSIGNMENT_ID_NOT_AVAILABLE'
       @all_images = []
     else
+      @image_set = params[:image_set]
       @all_images = fetch_all_images
     end
 
@@ -173,7 +178,7 @@ MturkThumbnails.controllers do
 
     if @current_choice_number == 1 && ImageChoice.where(worker_id: @worker_id).any?
       previous_count = ImageChoice.where(worker_id: @worker_id).count
-      # p "worker #{worker_id} restarted after #{previous_count} trials"
+      p "worker #{worker_id} restarted after #{previous_count} trials"
 
       ImageChoice.where(worker_id: @worker_id).delete_all
       post_to_amazon
