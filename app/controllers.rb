@@ -165,7 +165,7 @@ MturkThumbnails.controllers do
     if @assignment_id == 'ASSIGNMENT_ID_NOT_AVAILABLE'
       @all_images = []
     else
-      @image_set = params[:image_set]
+      @image_set  = params[:image_set]
       @all_images = fetch_all_images
     end
 
@@ -178,7 +178,7 @@ MturkThumbnails.controllers do
 
     if @current_choice_number == 1 && ImageChoice.where(worker_id: @worker_id).any?
       previous_count = ImageChoice.where(worker_id: @worker_id).count
-      p "worker #{worker_id} restarted after #{previous_count} trials"
+      p "worker #{@worker_id} restarted after #{previous_count} trials"
 
       ImageChoice.where(worker_id: @worker_id).delete_all
       post_to_amazon

@@ -3,6 +3,7 @@
   %head
     %title Instructions
     = stylesheet_link_tag :application
+    = javascript_include_tag :application
 
   %body
     #header
@@ -28,7 +29,7 @@
     %p.instructions When you are ready to begin, click the button below to start the task.
 
     %button
-      =link_to("Begin Part 2", url(:index), query: { assignment_id: @assignment_id.to_s, hit_id: @hit_id, worker_id: @worker_id, n: @current_choice_number})
+      =link_to("Begin Part 2", url(:index), query: { assignment_id: @assignment_id.to_s, hit_id: @hit_id, worker_id: @worker_id, n: @current_choice_number, image_set: @image_set})
 
     - @all_images.each do |image|
       = image_tag(image, class: :hidden)
