@@ -1,5 +1,5 @@
 # Defines our constants
-PADRINO_ENV  = ENV['PADRINO_ENV'] ||= ENV['RACK_ENV'] ||= 'development'  unless defined?(PADRINO_ENV)
+PADRINO_ENV  = ENV['PADRINO_ENV'] ||= ENV['RACK_ENV'] ||= 'development' unless defined?(PADRINO_ENV)
 PADRINO_ROOT = File.expand_path('../..', __FILE__) unless defined?(PADRINO_ROOT)
 
 # Load our dependencies
@@ -8,6 +8,8 @@ require 'active_support/deprecation'
 require 'active_record'
 require 'arel'
 require 'bundler/setup'
+require 'newrelic_rpm'
+# require 'new_relic/rack/developer_mode'
 Bundler.require(:default, PADRINO_ENV)
 
 ##
@@ -61,6 +63,7 @@ end
 # Add your after (RE)load hooks here
 #
 Padrino.after_load do
+  # Padrino.use NewRelic::Rack::DeveloperMode
 end
 
 Padrino.load!

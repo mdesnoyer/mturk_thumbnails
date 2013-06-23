@@ -33,5 +33,5 @@
       %button
         = link_to("Begin Experiment", url(:index), query: { assignment_id: @assignment_id.to_s, hit_id: @hit_id, worker_id: @worker_id, image_set: @image_set })
 
-      - @all_images.each do |image|
+      - (@all_images || []).each do |image|
         = image_tag(image, class: :hidden)

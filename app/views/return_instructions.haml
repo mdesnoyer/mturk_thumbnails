@@ -30,6 +30,3 @@
 
     %button
       =link_to("Begin Part 2", url(:index), query: { assignment_id: @assignment_id.to_s, hit_id: @hit_id, worker_id: @worker_id, n: @current_choice_number, image_set: @image_set})
-
-    - @all_images.each do |image|
-      = image_tag(image, class: :hidden)

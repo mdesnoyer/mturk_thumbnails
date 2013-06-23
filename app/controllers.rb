@@ -1,45 +1,16 @@
-# def count_workers
-#   unique_worker_ids = ImageChoice.select(:worker_id).uniq
-#   unique_workers = unique_worker_ids.size
-#   unique_workers
-# end
-
-# def image_set
-#   unique_workers = count_workers
-#   if unique_workers.to_i < 60
-#     image_set = "#{PADRINO_ROOT}/config/stimuli6.txt"
-#   elsif (unique_workers.to_i > 60 and unique_workers.to_i < 120)
-#     image_set = "#{PADRINO_ROOT}/config/stimuli7.txt"
-#   else
-#     image_set = "#{PADRINO_ROOT}/config/stimuli8.txt"
-#   end
-#   image_set
-#
-# end
-
-# def set_stimfolder
-#   unique_workers = count_workers
-#   if unique_workers.to_i < 60
-#     stimuli_folder_name = 'stimuli6'
-#   elsif (unique_workers.to_i > 60 and unique_workers.to_i < 120)
-#     stimuli_folder_name = 'stimuli7'
-#   else
-#     stimuli_folder_name = 'stimuli8'
-#   end
-#   stimuli_folder_name
-# end
+TRIALS_PATH  = "#{PADRINO_ROOT}/config/trials.txt"
+SANDBOX = false
+TRIAL_COUNT = 144
+RETURN_INSTRUCTIONS_START = TRIAL_COUNT + 1
+TOTAL_TRIALS = TRIAL_COUNT * 2
 
 def image_set_path
   "#{PADRINO_ROOT}/config/#{@image_set}/stimuli.txt"
 end
 
-def set_stimfolder
-  stimuli_folder_name = "stimuli#{@image_set}"
-  stimuli_folder_name
+def stimuli_folder_name
+  "stimuli#{@image_set}"
 end
-
-TRIALS_PATH  = "#{PADRINO_ROOT}/config/trials.txt"
-SANDBOX = false
 
 def load_stimuli
   stimuli_str      = File.read(image_set_path)
@@ -73,45 +44,36 @@ end
 def images_for_trial(trial_number)
   trial_number = trial_number.to_i
   @compiled_trials ||= compile_trials
-  key = trial_number > total_choices ? (trial_number - total_choices) : trial_number
+  key = trial_number > TRIAL_COUNT ? (trial_number - TRIAL_COUNT) : trial_number
   @compiled_trials[key].map { |filename| add_folder(filename) }
-end
-
-def total_choices
-  @compiled_trials ||= compile_trials
-  @compiled_trials.count
-end
-
-def total_trials
-  total_choices * 2
-end
-
-def set_stimset_id
-  "stimuli#{@image_set}"
 end
 
 def read_params
   @image_set = params[:image_set]
-  p params
   @assignment_id = params[:assignmentId] || params[:assignment_id]
   @hit_id = params[:hitId] || params[:hit_id]
   @worker_id = params[:workerId] || params[:worker_id]
-  @current_choice_number = (params[:n] || 1).to_i
+  @n = (params[:n] ||  1).to_i
 end
 
-def set_variables
-  @first, @second, @third = images_for_trial(@current_choice_number)
-  @total_choices = total_choices
-  @total_trials = total_trials
+def set_images
+  @first, @second, @third = images_for_trial(current_choice_number)
+end
+
+def current_choice_number
+  if defined?(@current_choice_number)
+    @current_choice_number
+  else
+    max_trial = ImageChoice.where(worker_id: @worker_id, stimset_id: @image_set).maximum(:trial)
+    @current_choice_number = max_trial ? max_trial.to_i + 1 : 1
+  end
 end
 
 def clean_filename(path)
-  stimuli_folder_name = set_stimfolder
   path.to_s.sub(/^#{stimuli_folder_name}\//, '')
 end
 
 def add_folder(filename)
-  stimuli_folder_name = set_stimfolder
   "#{stimuli_folder_name}/#{filename}"
 end
 
@@ -121,8 +83,6 @@ def fetch_all_images
 end
 
 def post_to_amazon
-  p 'posting to amazon'
-
   if SANDBOX
     redirect "https://workersandbox.mturk.com/mturk/externalSubmit?assignmentId=#{@assignment_id}&hitId=#{@hit_id}&workerId=#{@worker_id}"
   else
@@ -130,16 +90,9 @@ def post_to_amazon
   end
 end
 
-def set_choice
+def set_variables
   @choice = params[:choice] == 'none' ? nil : params[:choice]
-end
-
-def set_condition
-  if @current_choice_number <= 144
-    @condition = "KEEP"
-  else
-    @condition = "RETURN"
-  end
+  @condition = current_choice_number <= TRIAL_COUNT ? 'KEEP' : 'RETURN'
 end
 
 def write_to_db
@@ -149,11 +102,14 @@ def write_to_db
     image_two: clean_filename(params[:image_two]),
     image_three: clean_filename(params[:image_three]),
     chosen_image: clean_filename(@choice),
-    condition: @condition,
-    stimset_id: @image_set
+    condition: @condition
   }
 
-  p ImageChoice.where(trial: @current_choice_number.to_i, worker_id: @worker_id).first_or_create(image_choice)
+  ImageChoice.where(trial: @n, worker_id: @worker_id, stimset_id: @image_set).first_or_create(image_choice)
+end
+
+def worker_already_completed?
+  ImageChoice.where(worker_id: @worker_id, stimset_id: @image_set).any?
 end
 
 MturkThumbnails.controllers do
@@ -163,59 +119,37 @@ MturkThumbnails.controllers do
 
   get 'keep_instructions/:image_set' do
     if @assignment_id == 'ASSIGNMENT_ID_NOT_AVAILABLE'
-      @all_images = []
+      if worker_already_completed?
+        haml :already_completed
+      else
+        haml :keep_instructions
+      end
     else
       @image_set  = params[:image_set]
       @all_images = fetch_all_images
-    end
 
-    haml :keep_instructions
+      haml :keep_instructions
+    end
   end
 
   get :choose, with: :choice do
-    p "current_choice_number: #{@current_choice_number}"
-    p "worker_id: #{@worker_id}"
+    set_variables
+    write_to_db
 
-    if @current_choice_number == 1 && ImageChoice.where(worker_id: @worker_id, image_set: @image_set).any?
-      previous_count = ImageChoice.where(worker_id: @worker_id).count
-      p "worker #{@worker_id} restarted after #{previous_count} trials"
+    if current_choice_number == RETURN_INSTRUCTIONS_START
+      haml :return_instructions
+    elsif current_choice_number <= TOTAL_TRIALS
+      set_images
 
-      ImageChoice.where(worker_id: @worker_id).delete_all
-      post_to_amazon
+      haml :index
     else
-      set_choice
-      set_condition
-      set_stimset_id
-      write_to_db
-
-      @current_choice_number = ImageChoice.where(worker_id: @worker_id).maximum(:trial).to_i + 1
-
-      if @current_choice_number == 145
-        p 'showing return instructions'
-        @all_images = fetch_all_images
-        haml :return_instructions
-      elsif @current_choice_number <= total_trials
-        p 'showing next set of images'
-        set_variables
-        haml :index
-      else
-        post_to_amazon
-
-        hits = RTurk::Hit.all
-        hits.each do |hit|
-          hit.assignments.each do |assignment|
-            if assignment.status == "Submitted"
-              assignment.approve!
-            end
-          end
-        end
-        
-      end
+      post_to_amazon
     end
   end
 
   get :index do
-    set_variables
+    set_images
+
     haml :index
   end
 end
