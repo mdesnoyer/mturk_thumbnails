@@ -176,7 +176,7 @@ MturkThumbnails.controllers do
     p "current_choice_number: #{@current_choice_number}"
     p "worker_id: #{@worker_id}"
 
-    if @current_choice_number == 1 && ImageChoice.where(worker_id: @worker_id).any?
+    if @current_choice_number == 1 && ImageChoice.where(worker_id: @worker_id, image_set: @image_set).any?
       previous_count = ImageChoice.where(worker_id: @worker_id).count
       p "worker #{@worker_id} restarted after #{previous_count} trials"
 
@@ -200,6 +200,16 @@ MturkThumbnails.controllers do
         haml :index
       else
         post_to_amazon
+
+        hits = RTurk::Hit.all
+        hits.each do |hit|
+          hit.assignments.each do |assignment|
+            if assignment.status == "Submitted"
+              assignment.approve!
+            end
+          end
+        end
+        
       end
     end
   end
