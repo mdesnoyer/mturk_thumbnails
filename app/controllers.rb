@@ -5,7 +5,7 @@ RETURN_INSTRUCTIONS_START = TRIAL_COUNT + 1
 TOTAL_TRIALS = TRIAL_COUNT * 2
 
 def image_set_path
-  "#{PADRINO_ROOT}/config/#{@image_set}/stimuli.txt"
+  "#{PADRINO_ROOT}/config/#{@image_set}/stimuli.csv"
 end
 
 def stimuli_folder_name
@@ -15,7 +15,7 @@ end
 def load_stimuli
   stimuli_str      = File.read(image_set_path)
   stimuli_lines    = stimuli_str.split("\r")
-  stimuli_mappings = stimuli_lines.map { |line| line.split("\t") }
+  stimuli_mappings = stimuli_lines.map { |line| line.split(",") }
 
   stimuli_mappings.each_with_object({}) do |stimuli_mapping, hash|
     hash[stimuli_mapping[0]] = stimuli_mapping[1]
@@ -33,10 +33,14 @@ def compile_trials
   stimuli = load_stimuli
   compiled_trials = {}
 
-  trials.shuffle.each_with_index do |trial, i|
+  trials.shuffle(random: Random.new(1)).each_with_index do |trial, i|
     n = i + 1
     compiled_trials[n] = trial.map { |t| stimuli[t] }
   end
+
+  ####################
+  # puts compiled_trials
+  ####################
 
   compiled_trials
 end
@@ -57,16 +61,13 @@ def read_params
 end
 
 def set_images
+  p "current_choice_number: #{current_choice_number}"
   @first, @second, @third = images_for_trial(current_choice_number)
 end
 
 def current_choice_number
-  if defined?(@current_choice_number)
-    @current_choice_number
-  else
-    max_trial = ImageChoice.where(worker_id: @worker_id, stimset_id: @image_set).maximum(:trial)
-    @current_choice_number = max_trial ? max_trial.to_i + 1 : 1
-  end
+  max_trial = ImageChoice.where(worker_id: @worker_id, stimset_id: @image_set).maximum(:trial)
+  @current_choice_number = max_trial ? max_trial.to_i + 1 : 1
 end
 
 def clean_filename(path)
@@ -102,7 +103,8 @@ def write_to_db
     image_two: clean_filename(params[:image_two]),
     image_three: clean_filename(params[:image_three]),
     chosen_image: clean_filename(@choice),
-    condition: @condition
+    condition: @condition,
+    reaction_time: params[:reaction_time]
   }
 
   ImageChoice.where(trial: @n, worker_id: @worker_id, stimset_id: @image_set).first_or_create(image_choice)
@@ -114,6 +116,7 @@ end
 
 MturkThumbnails.controllers do
   before do
+    p params
     read_params
   end
 

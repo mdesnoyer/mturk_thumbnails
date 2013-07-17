@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 5) do
+ActiveRecord::Schema.define(:version => 6) do
 
   create_table "image_choices", :force => true do |t|
     t.string   "assignment_id"
@@ -25,6 +25,7 @@ ActiveRecord::Schema.define(:version => 5) do
     t.integer  "trial"
     t.string   "worker_id"
     t.string   "stimset_id"
+    t.integer  "reaction_time"
   end
 
 end

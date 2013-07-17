@@ -8,11 +8,11 @@
     #container{ data: { assignment_id: @assignment_id.to_s, image_one: @first, image_two: @second, image_three: @third, n: @current_choice_number, hit_id: @hit_id, worker_id: @worker_id, image_set: @image_set } }
       #header
 
-      = link_to url(:choose, choice: File.basename(@first)), query: { assignment_id: @assignment_id.to_s, image_one: @first, image_two: @second, image_three: @third, n: @current_choice_number, hit_id: @hit_id, worker_id: @worker_id, image_set: @image_set } do
+      = link_to url(:choose, choice: File.basename(@first)) do
         = image_tag(@first, class: :left)
-      = link_to url(:choose, choice: File.basename(@second)), query: { assignment_id: @assignment_id.to_s, image_one: @first, image_two: @second, image_three: @third, n: @current_choice_number, hit_id: @hit_id, worker_id: @worker_id, image_set: @image_set } do
+      = link_to url(:choose, choice: File.basename(@second)) do
         = image_tag(@second, class: :middle)
-      = link_to url(:choose, choice: File.basename(@third)), query: { assignment_id: @assignment_id.to_s, image_one: @first, image_two: @second, image_three: @third, n: @current_choice_number, hit_id: @hit_id, worker_id: @worker_id, image_set: @image_set } do
+      = link_to url(:choose, choice: File.basename(@third)) do
         = image_tag(@third, class: :right)
 
   = javascript_include_tag :application
