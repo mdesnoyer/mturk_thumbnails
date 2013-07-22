@@ -5,7 +5,7 @@ RETURN_INSTRUCTIONS_START = TRIAL_COUNT + 1
 TOTAL_TRIALS = TRIAL_COUNT * 2
 
 def image_set_path
-  "#{PADRINO_ROOT}/config/#{@image_set}/stimuli.csv"
+  "#{PADRINO_ROOT}/config/#{@image_set}/stimuli.txt"
 end
 
 def stimuli_folder_name
@@ -15,7 +15,7 @@ end
 def load_stimuli
   stimuli_str      = File.read(image_set_path)
   stimuli_lines    = stimuli_str.split("\r")
-  stimuli_mappings = stimuli_lines.map { |line| line.split(",") }
+  stimuli_mappings = stimuli_lines.map { |line| line.split("\t") }
 
   stimuli_mappings.each_with_object({}) do |stimuli_mapping, hash|
     hash[stimuli_mapping[0]] = stimuli_mapping[1]
