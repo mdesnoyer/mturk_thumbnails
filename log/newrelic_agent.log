@@ -1262,3 +1262,27 @@
 [07/22/13 12:28:52 -0700 Deborahs-MacBook-Pro.local (78477)] INFO : Installing ActiveRecord instrumentation
 [07/22/13 12:28:52 -0700 Deborahs-MacBook-Pro.local (78477)] INFO : Installing Net instrumentation
 [07/22/13 12:28:52 -0700 Deborahs-MacBook-Pro.local (78477)] INFO : Finished instrumentation
+[07/22/13 12:37:16 -0700 Deborahs-MacBook-Pro.local (79246)] INFO : Starting the New Relic agent in "development" environment.
+[07/22/13 12:37:16 -0700 Deborahs-MacBook-Pro.local (79246)] INFO : To prevent agent startup add a NEWRELIC_ENABLE=false environment variable or modify the "development" section of your newrelic.yml.
+[07/22/13 12:37:16 -0700 Deborahs-MacBook-Pro.local (79246)] INFO : Reading configuration from config/newrelic.yml
+[07/22/13 12:37:16 -0700 Deborahs-MacBook-Pro.local (79246)] INFO : Disabling the Request Sampler.
+[07/22/13 12:37:16 -0700 Deborahs-MacBook-Pro.local (79246)] ERROR : No application name configured.
+[07/22/13 12:37:16 -0700 Deborahs-MacBook-Pro.local (79246)] ERROR : The Agent cannot start without at least one. Please check your 
+[07/22/13 12:37:16 -0700 Deborahs-MacBook-Pro.local (79246)] ERROR : newrelic.yml and ensure that it is valid and has at least one 
+[07/22/13 12:37:16 -0700 Deborahs-MacBook-Pro.local (79246)] ERROR : value set for app_name in the development 
+[07/22/13 12:37:16 -0700 Deborahs-MacBook-Pro.local (79246)] ERROR : environment.
+[07/22/13 12:37:16 -0700 Deborahs-MacBook-Pro.local (79246)] INFO : Installing ActiveRecord instrumentation
+[07/22/13 12:37:16 -0700 Deborahs-MacBook-Pro.local (79246)] INFO : Installing Net instrumentation
+[07/22/13 12:37:16 -0700 Deborahs-MacBook-Pro.local (79246)] INFO : Finished instrumentation
+[07/22/13 12:38:29 -0700 Deborahs-MacBook-Pro.local (79258)] INFO : Starting the New Relic agent in "development" environment.
+[07/22/13 12:38:29 -0700 Deborahs-MacBook-Pro.local (79258)] INFO : To prevent agent startup add a NEWRELIC_ENABLE=false environment variable or modify the "development" section of your newrelic.yml.
+[07/22/13 12:38:29 -0700 Deborahs-MacBook-Pro.local (79258)] INFO : Reading configuration from config/newrelic.yml
+[07/22/13 12:38:29 -0700 Deborahs-MacBook-Pro.local (79258)] INFO : Disabling the Request Sampler.
+[07/22/13 12:38:29 -0700 Deborahs-MacBook-Pro.local (79258)] ERROR : No application name configured.
+[07/22/13 12:38:29 -0700 Deborahs-MacBook-Pro.local (79258)] ERROR : The Agent cannot start without at least one. Please check your 
+[07/22/13 12:38:29 -0700 Deborahs-MacBook-Pro.local (79258)] ERROR : newrelic.yml and ensure that it is valid and has at least one 
+[07/22/13 12:38:29 -0700 Deborahs-MacBook-Pro.local (79258)] ERROR : value set for app_name in the development 
+[07/22/13 12:38:29 -0700 Deborahs-MacBook-Pro.local (79258)] ERROR : environment.
+[07/22/13 12:38:29 -0700 Deborahs-MacBook-Pro.local (79258)] INFO : Installing ActiveRecord instrumentation
+[07/22/13 12:38:29 -0700 Deborahs-MacBook-Pro.local (79258)] INFO : Installing Net instrumentation
+[07/22/13 12:38:29 -0700 Deborahs-MacBook-Pro.local (79258)] INFO : Finished instrumentation
