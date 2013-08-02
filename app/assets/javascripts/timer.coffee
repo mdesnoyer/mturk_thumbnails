@@ -11,7 +11,7 @@ $ ->
 		$('button').hide()
 		$('p.instructions_click').hide()
 	else if $(location).attr('pathname').split('/')[1] != 'keep_instructions'
-		window.setTimeout(nextPage, 2000)
+		# window.setTimeout(nextPage, 2000)
 		$('a').click (event) ->
 			event.preventDefault()
 			endTime = new Date()
