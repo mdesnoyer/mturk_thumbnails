@@ -23,7 +23,7 @@ def post_task(unique_id, folder_name, hit_title, payment_amount, hit_assignments
 
   if sandbox then
       app_base=$STAGING_APP
-  else:
+  else
       app_base=$PROD_APP
   end
   url_base = "http://#{app_base}.herokuapp.com"
@@ -110,7 +110,7 @@ end
 
 if opts[:sandbox] then
     app_base=$STAGING_APP
-else:
+else
     app_base=$PROD_APP
 end
 git_url = "git@heroku.com:#{app_base}.git"
