@@ -1,3 +1,5 @@
+require 'csv'
+
 TRIALS_PATH  = "#{PADRINO_ROOT}/config/trials.txt"
 SANDBOX = false
 TRIAL_COUNT = 144
@@ -13,13 +15,12 @@ def stimuli_folder_name
 end
 
 def load_stimuli
-  stimuli_str      = File.read(image_set_path)
-  stimuli_lines    = stimuli_str.split("\r")
-  stimuli_mappings = stimuli_lines.map { |line| line.split("\t") }
-
-  stimuli_mappings.each_with_object({}) do |stimuli_mapping, hash|
-    hash[stimuli_mapping[0]] = stimuli_mapping[1]
+  retval = Hash.new
+  CSV.foreach(image_set_path) do |row|
+    retval[row[0]] = row[1]
   end
+
+  return retval
 end
 
 def load_trials
