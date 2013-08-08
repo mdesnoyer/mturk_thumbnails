@@ -6,6 +6,9 @@ require 'clipboard'
 require 'securerandom'
 require 'trollop'
 
+$STAGING_URL='http://gentle-escarpment-8454.herokuapp.com'
+$PROD_URL='http://gentle-escarpment-8454-staging.herokuapp.com'
+
 def all_children_except(parent_folder, extra_regex = '')
     regex = '^\.'
     regex += '|' + extra_regex unless extra_regex.empty?
@@ -17,11 +20,16 @@ def post_task(unique_id, folder_name, hit_title, payment_amount, hit_assignments
   RTurk.setup("AKIAJ5G2RZ6BDNBZ2VBA",
               "d9Q9abhaUh625uXpSrKElvQ/DrbKsCUAYAPaeVLU",
               :sandbox => sandbox)
+
+  if sandbox:
+      url_base=$STAGING_URL
+  else:
+      url_base=$PROD_URL
   
   hit = RTurk::Hit.create(:title => "Choose an Online a Video! [#{unique_id}]") do |hit|
     hit.assignments = hit_assignments
     hit.description = 'Choose an Online a Video!'
-    hit.question("http://gentle-escarpment-8454.herokuapp.com/keep_instructions/#{folder_name}", :frame_height => 1000)
+      hit.question("#{url_base}/keep_instructions/#{folder_name}", :frame_height => 1000)
     hit.question("My Survey")
     hit.reward = payment_amount
     hit.lifetime = 86400
