@@ -12,7 +12,7 @@ def all_children_except(parent_folder, extra_regex = '')
     Dir.entries(parent_folder).reject { |file| file =~ Regexp.new(regex) }.map { |file| File.expand_path(file, parent_folder) }
 end
 
-def post_task(hit_title, unique_id, payment_amount, hit_assignments, sandbox)
+def post_task(unique_id, folder_name, hit_title, payment_amount, hit_assignments, sandbox)
 
   RTurk.setup("AKIAJ5G2RZ6BDNBZ2VBA",
               "d9Q9abhaUh625uXpSrKElvQ/DrbKsCUAYAPaeVLU",
@@ -21,15 +21,16 @@ def post_task(hit_title, unique_id, payment_amount, hit_assignments, sandbox)
   hit = RTurk::Hit.create(:title => "Choose an Online a Video! [#{unique_id}]") do |hit|
     hit.assignments = hit_assignments
     hit.description = 'Choose an Online a Video!'
-    hit.question("http://gentle-escarpment-8454.herokuapp.com/keep_instructions/#{unique_id}", :frame_height => 1000)
+    hit.question("http://gentle-escarpment-8454.herokuapp.com/keep_instructions/#{folder_name}", :frame_height => 1000)
     hit.question("My Survey")
     hit.reward = payment_amount
     hit.lifetime = 86400
     hit.qualifications.add :approval_rate, { :gt => 80 }
+    hit.keywords = "images, game, psychology, video, fast"
   end
   
   # Clipboard.copy hit.url
-  puts "Job on mturk at: #{hit.url}"
+  puts "Job id: #{unique_id} on mturk at: #{hit.url}"
 end
 
 # Define the command line arguments
@@ -102,6 +103,6 @@ end
 
 # Post HITs
 image_sets.each do |set|
-  post_task(set[:hit_title], set[:unique_id], opts[:pay], opts[:assignments],
-            opts[:sandbox])
+  post_task(set[:unique_id], set[:new_name], set[:hit_title], opts[:pay],
+            opts[:assignments], opts[:sandbox])
 end

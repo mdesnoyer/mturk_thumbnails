@@ -5,11 +5,11 @@ RETURN_INSTRUCTIONS_START = TRIAL_COUNT + 1
 TOTAL_TRIALS = TRIAL_COUNT * 2
 
 def image_set_path
-  "#{PADRINO_ROOT}/config/#{@image_set}/stimuli.txt"
+  "#{PADRINO_ROOT}/config/#{@image_set}/stimuli.csv"
 end
 
 def stimuli_folder_name
-  "stimuli#{@image_set}"
+  "#{@image_set}"
 end
 
 def load_stimuli
