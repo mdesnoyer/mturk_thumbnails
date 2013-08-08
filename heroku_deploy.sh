@@ -1,4 +1,3 @@
-git add .
 git commit -a -m 'Updated stimuli sets'
 pid=$!
 wait $pid
