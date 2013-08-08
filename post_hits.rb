@@ -6,8 +6,8 @@ require 'clipboard'
 require 'securerandom'
 require 'trollop'
 
-$STAGING_APP='gentle-escarpment-8454'
-$PROD_APP='gentle-escarpment-8454-staging'
+$STAGING_APP='gentle-escarpment-8454-staging'
+$PROD_APP='gentle-escarpment-8454'
 
 def all_children_except(parent_folder, extra_regex = '')
     regex = '^\.'
