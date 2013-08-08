@@ -6,8 +6,8 @@ require 'clipboard'
 require 'securerandom'
 require 'trollop'
 
-$STAGING_URL='http://gentle-escarpment-8454.herokuapp.com'
-$PROD_URL='http://gentle-escarpment-8454-staging.herokuapp.com'
+$STAGING_APP='gentle-escarpment-8454'
+$PROD_APP='gentle-escarpment-8454-staging'
 
 def all_children_except(parent_folder, extra_regex = '')
     regex = '^\.'
@@ -21,10 +21,12 @@ def post_task(unique_id, folder_name, hit_title, payment_amount, hit_assignments
               "d9Q9abhaUh625uXpSrKElvQ/DrbKsCUAYAPaeVLU",
               :sandbox => sandbox)
 
-  if sandbox:
-      url_base=$STAGING_URL
+  if sandbox then
+      app_base=$STAGING_APP
   else:
-      url_base=$PROD_URL
+      app_base=$PROD_APP
+  end
+  url_base = "http://#{app_base}.herokuapp.com"
   
   hit = RTurk::Hit.create(:title => "Choose an Online a Video! [#{unique_id}]") do |hit|
     hit.assignments = hit_assignments
@@ -106,8 +108,22 @@ image_sets.each do |folder|
   `git add #{folder[:text_file_path]}`
 end
 
-# ****RUN BASH SCRIPT****
-`./heroku_deploy.sh`
+if opts[:sandbox] then
+    app_base=$STAGING_APP
+else:
+    app_base=$PROD_APP
+end
+git_url = "git@heroku.com:#{app_base}.git"
+
+# Deploy the app to Heroku
+if ! system("git commit -m 'Updating stimuli sets'") then
+    puts("Error commiting to the git repo")
+    exit(1)
+end
+if ! system("git push #{git_url} master") then
+    puts("Error deploying to Heroku")
+    exit(1)
+end
 
 # Post HITs
 image_sets.each do |set|
