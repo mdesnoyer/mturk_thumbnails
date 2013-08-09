@@ -4,6 +4,8 @@ ruby '1.9.3'
 gem 'thin'
 gem 'squeel'
 gem 'rturk'
+gem 'awsp-sdk'
+gem 'open-uri/cached'
 
 # Project requirements
 gem 'rake'
