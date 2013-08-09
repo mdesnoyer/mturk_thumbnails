@@ -1,4 +1,5 @@
 require 'csv'
+require 'open-uri'
 
 TRIALS_PATH  = "#{PADRINO_ROOT}/config/trials.txt"
 SANDBOX = false
@@ -7,11 +8,11 @@ RETURN_INSTRUCTIONS_START = TRIAL_COUNT + 1
 TOTAL_TRIALS = TRIAL_COUNT * 2
 
 def image_set_path
-  "#{PADRINO_ROOT}/config/#{@image_set}/stimuli.csv"
+  "https://s3.amazonaws.com/#{@s3_bucket}/#{@job}_stimuli.csv"
 end
 
 def stimuli_folder_name
-  "#{@image_set}"
+  "https://s3.amazonaws.com/#{@s3_bucket}"
 end
 
 def load_stimuli
@@ -54,7 +55,8 @@ def images_for_trial(trial_number)
 end
 
 def read_params
-  @image_set = params[:image_set]
+  @s3_bucket = params[:s3_bucket]
+  @job = params[:job]
   @assignment_id = params[:assignmentId] || params[:assignment_id]
   @hit_id = params[:hitId] || params[:hit_id]
   @worker_id = params[:workerId] || params[:worker_id]
@@ -72,7 +74,8 @@ def current_choice_number
 end
 
 def clean_filename(path)
-  path.to_s.sub(/^#{stimuli_folder_name}\//, '')
+  escape_folder = Regexp.escape(stimuli_folder_name)
+  path.to_s.sub(/^#{escape_folder}\//, '')
 end
 
 def add_folder(filename)
@@ -121,7 +124,7 @@ MturkThumbnails.controllers do
     read_params
   end
 
-  get 'keep_instructions/:image_set' do
+  get 'keep_instructions/:s3_bucket' do
     if @assignment_id == 'ASSIGNMENT_ID_NOT_AVAILABLE'
       if worker_already_completed?
         haml :already_completed
@@ -129,7 +132,7 @@ MturkThumbnails.controllers do
         haml :keep_instructions
       end
     else
-      @image_set  = params[:image_set]
+      @s3_bucket  = params[:s3_bucket]
       @all_images = fetch_all_images
 
       haml :keep_instructions
