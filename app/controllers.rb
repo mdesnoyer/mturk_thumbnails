@@ -1,5 +1,5 @@
 require 'csv'
-require 'open-uri/cached'
+require 'open-uri-cached'
 
 TRIALS_PATH  = "#{PADRINO_ROOT}/config/trials.txt"
 SANDBOX = false
