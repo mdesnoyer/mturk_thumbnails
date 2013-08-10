@@ -1334,3 +1334,385 @@
 [08/07/13 14:00:59 -0700 Deborahs-MacBook-Pro.local (29069)] INFO : Installing ActiveRecord instrumentation
 [08/07/13 14:00:59 -0700 Deborahs-MacBook-Pro.local (29069)] INFO : Installing Net instrumentation
 [08/07/13 14:00:59 -0700 Deborahs-MacBook-Pro.local (29069)] INFO : Finished instrumentation
+[08/09/13 15:28:27 -0700 plutonium (15115)] INFO : Starting the New Relic agent in "development" environment.
+[08/09/13 15:28:27 -0700 plutonium (15115)] INFO : To prevent agent startup add a NEWRELIC_ENABLE=false environment variable or modify the "development" section of your newrelic.yml.
+[08/09/13 15:28:27 -0700 plutonium (15115)] INFO : Reading configuration from config/newrelic.yml
+[08/09/13 15:28:27 -0700 plutonium (15115)] INFO : Enabling the Request Sampler.
+[08/09/13 15:28:27 -0700 plutonium (15115)] ERROR : No application name configured.
+[08/09/13 15:28:27 -0700 plutonium (15115)] ERROR : The Agent cannot start without at least one. Please check your 
+[08/09/13 15:28:27 -0700 plutonium (15115)] ERROR : newrelic.yml and ensure that it is valid and has at least one 
+[08/09/13 15:28:27 -0700 plutonium (15115)] ERROR : value set for app_name in the development 
+[08/09/13 15:28:27 -0700 plutonium (15115)] ERROR : environment.
+[08/09/13 15:28:27 -0700 plutonium (15115)] INFO : Installing Net instrumentation
+[08/09/13 15:28:27 -0700 plutonium (15115)] INFO : Finished instrumentation
+[08/09/13 15:31:56 -0700 plutonium (15179)] INFO : Starting the New Relic agent in "development" environment.
+[08/09/13 15:31:56 -0700 plutonium (15179)] INFO : To prevent agent startup add a NEWRELIC_ENABLE=false environment variable or modify the "development" section of your newrelic.yml.
+[08/09/13 15:31:56 -0700 plutonium (15179)] INFO : Reading configuration from config/newrelic.yml
+[08/09/13 15:31:56 -0700 plutonium (15179)] INFO : Enabling the Request Sampler.
+[08/09/13 15:31:56 -0700 plutonium (15179)] ERROR : No application name configured.
+[08/09/13 15:31:56 -0700 plutonium (15179)] ERROR : The Agent cannot start without at least one. Please check your 
+[08/09/13 15:31:56 -0700 plutonium (15179)] ERROR : newrelic.yml and ensure that it is valid and has at least one 
+[08/09/13 15:31:56 -0700 plutonium (15179)] ERROR : value set for app_name in the development 
+[08/09/13 15:31:56 -0700 plutonium (15179)] ERROR : environment.
+[08/09/13 15:31:56 -0700 plutonium (15179)] INFO : Installing Net instrumentation
+[08/09/13 15:31:56 -0700 plutonium (15179)] INFO : Finished instrumentation
+[08/09/13 16:20:21 -0700 plutonium (20300)] INFO : Starting the New Relic agent in "development" environment.
+[08/09/13 16:20:21 -0700 plutonium (20300)] INFO : To prevent agent startup add a NEWRELIC_ENABLE=false environment variable or modify the "development" section of your newrelic.yml.
+[08/09/13 16:20:21 -0700 plutonium (20300)] INFO : Reading configuration from config/newrelic.yml
+[08/09/13 16:20:21 -0700 plutonium (20300)] INFO : Enabling the Request Sampler.
+[08/09/13 16:20:21 -0700 plutonium (20300)] ERROR : No application name configured.
+[08/09/13 16:20:21 -0700 plutonium (20300)] ERROR : The Agent cannot start without at least one. Please check your 
+[08/09/13 16:20:21 -0700 plutonium (20300)] ERROR : newrelic.yml and ensure that it is valid and has at least one 
+[08/09/13 16:20:21 -0700 plutonium (20300)] ERROR : value set for app_name in the development 
+[08/09/13 16:20:21 -0700 plutonium (20300)] ERROR : environment.
+[08/09/13 16:20:21 -0700 plutonium (20300)] INFO : Installing ActiveRecord instrumentation
+[08/09/13 16:20:21 -0700 plutonium (20300)] INFO : Installing Net instrumentation
+[08/09/13 16:20:21 -0700 plutonium (20300)] INFO : Finished instrumentation
+[08/09/13 16:21:10 -0700 plutonium (20325)] INFO : Starting the New Relic agent in "development" environment.
+[08/09/13 16:21:10 -0700 plutonium (20325)] INFO : To prevent agent startup add a NEWRELIC_ENABLE=false environment variable or modify the "development" section of your newrelic.yml.
+[08/09/13 16:21:10 -0700 plutonium (20325)] INFO : Reading configuration from config/newrelic.yml
+[08/09/13 16:21:10 -0700 plutonium (20325)] INFO : Enabling the Request Sampler.
+[08/09/13 16:21:10 -0700 plutonium (20325)] ERROR : No application name configured.
+[08/09/13 16:21:10 -0700 plutonium (20325)] ERROR : The Agent cannot start without at least one. Please check your 
+[08/09/13 16:21:10 -0700 plutonium (20325)] ERROR : newrelic.yml and ensure that it is valid and has at least one 
+[08/09/13 16:21:10 -0700 plutonium (20325)] ERROR : value set for app_name in the development 
+[08/09/13 16:21:10 -0700 plutonium (20325)] ERROR : environment.
+[08/09/13 16:21:10 -0700 plutonium (20325)] INFO : Installing ActiveRecord instrumentation
+[08/09/13 16:21:10 -0700 plutonium (20325)] INFO : Installing Net instrumentation
+[08/09/13 16:21:10 -0700 plutonium (20325)] INFO : Finished instrumentation
+[08/09/13 16:52:54 -0700 plutonium (21620)] INFO : Starting the New Relic agent in "development" environment.
+[08/09/13 16:52:54 -0700 plutonium (21620)] INFO : To prevent agent startup add a NEWRELIC_ENABLE=false environment variable or modify the "development" section of your newrelic.yml.
+[08/09/13 16:52:54 -0700 plutonium (21620)] INFO : Reading configuration from config/newrelic.yml
+[08/09/13 16:52:54 -0700 plutonium (21620)] INFO : Enabling the Request Sampler.
+[08/09/13 16:52:54 -0700 plutonium (21620)] ERROR : No application name configured.
+[08/09/13 16:52:54 -0700 plutonium (21620)] ERROR : The Agent cannot start without at least one. Please check your 
+[08/09/13 16:52:54 -0700 plutonium (21620)] ERROR : newrelic.yml and ensure that it is valid and has at least one 
+[08/09/13 16:52:54 -0700 plutonium (21620)] ERROR : value set for app_name in the development 
+[08/09/13 16:52:54 -0700 plutonium (21620)] ERROR : environment.
+[08/09/13 16:52:54 -0700 plutonium (21620)] INFO : Installing ActiveRecord instrumentation
+[08/09/13 16:52:54 -0700 plutonium (21620)] INFO : Installing Net instrumentation
+[08/09/13 16:52:54 -0700 plutonium (21620)] INFO : Finished instrumentation
+[08/09/13 16:54:45 -0700 plutonium (21633)] INFO : Starting the New Relic agent in "development" environment.
+[08/09/13 16:54:45 -0700 plutonium (21633)] INFO : To prevent agent startup add a NEWRELIC_ENABLE=false environment variable or modify the "development" section of your newrelic.yml.
+[08/09/13 16:54:45 -0700 plutonium (21633)] INFO : Reading configuration from config/newrelic.yml
+[08/09/13 16:54:45 -0700 plutonium (21633)] INFO : Enabling the Request Sampler.
+[08/09/13 16:54:45 -0700 plutonium (21633)] ERROR : No application name configured.
+[08/09/13 16:54:45 -0700 plutonium (21633)] ERROR : The Agent cannot start without at least one. Please check your 
+[08/09/13 16:54:45 -0700 plutonium (21633)] ERROR : newrelic.yml and ensure that it is valid and has at least one 
+[08/09/13 16:54:45 -0700 plutonium (21633)] ERROR : value set for app_name in the development 
+[08/09/13 16:54:45 -0700 plutonium (21633)] ERROR : environment.
+[08/09/13 16:54:45 -0700 plutonium (21633)] INFO : Installing ActiveRecord instrumentation
+[08/09/13 16:54:45 -0700 plutonium (21633)] INFO : Installing Net instrumentation
+[08/09/13 16:54:45 -0700 plutonium (21633)] INFO : Finished instrumentation
+[08/09/13 17:02:31 -0700 plutonium (21698)] INFO : Starting the New Relic agent in "development" environment.
+[08/09/13 17:02:31 -0700 plutonium (21698)] INFO : To prevent agent startup add a NEWRELIC_ENABLE=false environment variable or modify the "development" section of your newrelic.yml.
+[08/09/13 17:02:31 -0700 plutonium (21698)] INFO : Reading configuration from config/newrelic.yml
+[08/09/13 17:02:31 -0700 plutonium (21698)] INFO : Enabling the Request Sampler.
+[08/09/13 17:02:31 -0700 plutonium (21698)] ERROR : No application name configured.
+[08/09/13 17:02:31 -0700 plutonium (21698)] ERROR : The Agent cannot start without at least one. Please check your 
+[08/09/13 17:02:31 -0700 plutonium (21698)] ERROR : newrelic.yml and ensure that it is valid and has at least one 
+[08/09/13 17:02:31 -0700 plutonium (21698)] ERROR : value set for app_name in the development 
+[08/09/13 17:02:31 -0700 plutonium (21698)] ERROR : environment.
+[08/09/13 17:02:31 -0700 plutonium (21698)] INFO : Installing ActiveRecord instrumentation
+[08/09/13 17:02:32 -0700 plutonium (21698)] INFO : Installing Net instrumentation
+[08/09/13 17:02:32 -0700 plutonium (21698)] INFO : Finished instrumentation
+[08/09/13 17:02:54 -0700 plutonium (21710)] INFO : Starting the New Relic agent in "development" environment.
+[08/09/13 17:02:54 -0700 plutonium (21710)] INFO : To prevent agent startup add a NEWRELIC_ENABLE=false environment variable or modify the "development" section of your newrelic.yml.
+[08/09/13 17:02:54 -0700 plutonium (21710)] INFO : Reading configuration from config/newrelic.yml
+[08/09/13 17:02:54 -0700 plutonium (21710)] INFO : Enabling the Request Sampler.
+[08/09/13 17:02:54 -0700 plutonium (21710)] ERROR : No application name configured.
+[08/09/13 17:02:54 -0700 plutonium (21710)] ERROR : The Agent cannot start without at least one. Please check your 
+[08/09/13 17:02:54 -0700 plutonium (21710)] ERROR : newrelic.yml and ensure that it is valid and has at least one 
+[08/09/13 17:02:54 -0700 plutonium (21710)] ERROR : value set for app_name in the development 
+[08/09/13 17:02:54 -0700 plutonium (21710)] ERROR : environment.
+[08/09/13 17:02:54 -0700 plutonium (21710)] INFO : Installing ActiveRecord instrumentation
+[08/09/13 17:02:54 -0700 plutonium (21710)] INFO : Installing Net instrumentation
+[08/09/13 17:02:54 -0700 plutonium (21710)] INFO : Finished instrumentation
+[08/09/13 17:06:28 -0700 plutonium (21731)] INFO : Starting the New Relic agent in "development" environment.
+[08/09/13 17:06:28 -0700 plutonium (21731)] INFO : To prevent agent startup add a NEWRELIC_ENABLE=false environment variable or modify the "development" section of your newrelic.yml.
+[08/09/13 17:06:28 -0700 plutonium (21731)] INFO : Reading configuration from config/newrelic.yml
+[08/09/13 17:06:28 -0700 plutonium (21731)] INFO : Enabling the Request Sampler.
+[08/09/13 17:06:28 -0700 plutonium (21731)] ERROR : No application name configured.
+[08/09/13 17:06:28 -0700 plutonium (21731)] ERROR : The Agent cannot start without at least one. Please check your 
+[08/09/13 17:06:28 -0700 plutonium (21731)] ERROR : newrelic.yml and ensure that it is valid and has at least one 
+[08/09/13 17:06:28 -0700 plutonium (21731)] ERROR : value set for app_name in the development 
+[08/09/13 17:06:28 -0700 plutonium (21731)] ERROR : environment.
+[08/09/13 17:06:28 -0700 plutonium (21731)] INFO : Installing ActiveRecord instrumentation
+[08/09/13 17:06:28 -0700 plutonium (21731)] INFO : Installing Net instrumentation
+[08/09/13 17:06:28 -0700 plutonium (21731)] INFO : Finished instrumentation
+[08/09/13 17:08:40 -0700 plutonium (21747)] INFO : Starting the New Relic agent in "development" environment.
+[08/09/13 17:08:40 -0700 plutonium (21747)] INFO : To prevent agent startup add a NEWRELIC_ENABLE=false environment variable or modify the "development" section of your newrelic.yml.
+[08/09/13 17:08:40 -0700 plutonium (21747)] INFO : Reading configuration from config/newrelic.yml
+[08/09/13 17:08:40 -0700 plutonium (21747)] INFO : Enabling the Request Sampler.
+[08/09/13 17:08:40 -0700 plutonium (21747)] ERROR : No application name configured.
+[08/09/13 17:08:40 -0700 plutonium (21747)] ERROR : The Agent cannot start without at least one. Please check your 
+[08/09/13 17:08:40 -0700 plutonium (21747)] ERROR : newrelic.yml and ensure that it is valid and has at least one 
+[08/09/13 17:08:40 -0700 plutonium (21747)] ERROR : value set for app_name in the development 
+[08/09/13 17:08:40 -0700 plutonium (21747)] ERROR : environment.
+[08/09/13 17:08:40 -0700 plutonium (21747)] INFO : Installing ActiveRecord instrumentation
+[08/09/13 17:08:40 -0700 plutonium (21747)] INFO : Installing Net instrumentation
+[08/09/13 17:08:40 -0700 plutonium (21747)] INFO : Finished instrumentation
+[08/09/13 17:09:58 -0700 plutonium (21784)] INFO : Starting the New Relic agent in "development" environment.
+[08/09/13 17:09:58 -0700 plutonium (21784)] INFO : To prevent agent startup add a NEWRELIC_ENABLE=false environment variable or modify the "development" section of your newrelic.yml.
+[08/09/13 17:09:58 -0700 plutonium (21784)] INFO : Reading configuration from config/newrelic.yml
+[08/09/13 17:09:58 -0700 plutonium (21784)] INFO : Enabling the Request Sampler.
+[08/09/13 17:09:58 -0700 plutonium (21784)] ERROR : No application name configured.
+[08/09/13 17:09:58 -0700 plutonium (21784)] ERROR : The Agent cannot start without at least one. Please check your 
+[08/09/13 17:09:58 -0700 plutonium (21784)] ERROR : newrelic.yml and ensure that it is valid and has at least one 
+[08/09/13 17:09:58 -0700 plutonium (21784)] ERROR : value set for app_name in the development 
+[08/09/13 17:09:58 -0700 plutonium (21784)] ERROR : environment.
+[08/09/13 17:09:58 -0700 plutonium (21784)] INFO : Installing ActiveRecord instrumentation
+[08/09/13 17:09:58 -0700 plutonium (21784)] INFO : Installing Net instrumentation
+[08/09/13 17:09:58 -0700 plutonium (21784)] INFO : Finished instrumentation
+[08/09/13 17:14:29 -0700 plutonium (21931)] INFO : Starting the New Relic agent in "development" environment.
+[08/09/13 17:14:29 -0700 plutonium (21931)] INFO : To prevent agent startup add a NEWRELIC_ENABLE=false environment variable or modify the "development" section of your newrelic.yml.
+[08/09/13 17:14:29 -0700 plutonium (21931)] INFO : Reading configuration from config/newrelic.yml
+[08/09/13 17:14:29 -0700 plutonium (21931)] INFO : Enabling the Request Sampler.
+[08/09/13 17:14:29 -0700 plutonium (21931)] ERROR : No application name configured.
+[08/09/13 17:14:29 -0700 plutonium (21931)] ERROR : The Agent cannot start without at least one. Please check your 
+[08/09/13 17:14:29 -0700 plutonium (21931)] ERROR : newrelic.yml and ensure that it is valid and has at least one 
+[08/09/13 17:14:29 -0700 plutonium (21931)] ERROR : value set for app_name in the development 
+[08/09/13 17:14:29 -0700 plutonium (21931)] ERROR : environment.
+[08/09/13 17:14:29 -0700 plutonium (21931)] INFO : Installing ActiveRecord instrumentation
+[08/09/13 17:14:29 -0700 plutonium (21931)] INFO : Installing Net instrumentation
+[08/09/13 17:14:29 -0700 plutonium (21931)] INFO : Finished instrumentation
+[08/09/13 17:15:46 -0700 plutonium (21954)] INFO : Starting the New Relic agent in "development" environment.
+[08/09/13 17:15:46 -0700 plutonium (21954)] INFO : To prevent agent startup add a NEWRELIC_ENABLE=false environment variable or modify the "development" section of your newrelic.yml.
+[08/09/13 17:15:46 -0700 plutonium (21954)] INFO : Reading configuration from config/newrelic.yml
+[08/09/13 17:15:46 -0700 plutonium (21954)] INFO : Enabling the Request Sampler.
+[08/09/13 17:15:46 -0700 plutonium (21954)] ERROR : No application name configured.
+[08/09/13 17:15:46 -0700 plutonium (21954)] ERROR : The Agent cannot start without at least one. Please check your 
+[08/09/13 17:15:46 -0700 plutonium (21954)] ERROR : newrelic.yml and ensure that it is valid and has at least one 
+[08/09/13 17:15:46 -0700 plutonium (21954)] ERROR : value set for app_name in the development 
+[08/09/13 17:15:46 -0700 plutonium (21954)] ERROR : environment.
+[08/09/13 17:15:46 -0700 plutonium (21954)] INFO : Installing ActiveRecord instrumentation
+[08/09/13 17:15:46 -0700 plutonium (21954)] INFO : Installing Net instrumentation
+[08/09/13 17:15:46 -0700 plutonium (21954)] INFO : Finished instrumentation
+[08/09/13 17:16:17 -0700 plutonium (21983)] INFO : Starting the New Relic agent in "development" environment.
+[08/09/13 17:16:17 -0700 plutonium (21983)] INFO : To prevent agent startup add a NEWRELIC_ENABLE=false environment variable or modify the "development" section of your newrelic.yml.
+[08/09/13 17:16:17 -0700 plutonium (21983)] INFO : Reading configuration from config/newrelic.yml
+[08/09/13 17:16:17 -0700 plutonium (21983)] INFO : Enabling the Request Sampler.
+[08/09/13 17:16:17 -0700 plutonium (21983)] ERROR : No application name configured.
+[08/09/13 17:16:17 -0700 plutonium (21983)] ERROR : The Agent cannot start without at least one. Please check your 
+[08/09/13 17:16:17 -0700 plutonium (21983)] ERROR : newrelic.yml and ensure that it is valid and has at least one 
+[08/09/13 17:16:17 -0700 plutonium (21983)] ERROR : value set for app_name in the development 
+[08/09/13 17:16:17 -0700 plutonium (21983)] ERROR : environment.
+[08/09/13 17:16:17 -0700 plutonium (21983)] INFO : Installing ActiveRecord instrumentation
+[08/09/13 17:16:18 -0700 plutonium (21983)] INFO : Installing Net instrumentation
+[08/09/13 17:16:18 -0700 plutonium (21983)] INFO : Finished instrumentation
+[08/09/13 17:16:30 -0700 plutonium (21988)] INFO : Starting the New Relic agent in "development" environment.
+[08/09/13 17:16:30 -0700 plutonium (21988)] INFO : To prevent agent startup add a NEWRELIC_ENABLE=false environment variable or modify the "development" section of your newrelic.yml.
+[08/09/13 17:16:30 -0700 plutonium (21988)] INFO : Reading configuration from config/newrelic.yml
+[08/09/13 17:16:30 -0700 plutonium (21988)] INFO : Enabling the Request Sampler.
+[08/09/13 17:16:30 -0700 plutonium (21988)] ERROR : No application name configured.
+[08/09/13 17:16:30 -0700 plutonium (21988)] ERROR : The Agent cannot start without at least one. Please check your 
+[08/09/13 17:16:30 -0700 plutonium (21988)] ERROR : newrelic.yml and ensure that it is valid and has at least one 
+[08/09/13 17:16:30 -0700 plutonium (21988)] ERROR : value set for app_name in the development 
+[08/09/13 17:16:30 -0700 plutonium (21988)] ERROR : environment.
+[08/09/13 17:16:30 -0700 plutonium (21988)] INFO : Installing ActiveRecord instrumentation
+[08/09/13 17:16:30 -0700 plutonium (21988)] INFO : Installing Net instrumentation
+[08/09/13 17:16:30 -0700 plutonium (21988)] INFO : Finished instrumentation
+[08/09/13 17:17:05 -0700 plutonium (21997)] INFO : Starting the New Relic agent in "development" environment.
+[08/09/13 17:17:05 -0700 plutonium (21997)] INFO : To prevent agent startup add a NEWRELIC_ENABLE=false environment variable or modify the "development" section of your newrelic.yml.
+[08/09/13 17:17:05 -0700 plutonium (21997)] INFO : Reading configuration from config/newrelic.yml
+[08/09/13 17:17:05 -0700 plutonium (21997)] INFO : Enabling the Request Sampler.
+[08/09/13 17:17:05 -0700 plutonium (21997)] ERROR : No application name configured.
+[08/09/13 17:17:05 -0700 plutonium (21997)] ERROR : The Agent cannot start without at least one. Please check your 
+[08/09/13 17:17:05 -0700 plutonium (21997)] ERROR : newrelic.yml and ensure that it is valid and has at least one 
+[08/09/13 17:17:05 -0700 plutonium (21997)] ERROR : value set for app_name in the development 
+[08/09/13 17:17:05 -0700 plutonium (21997)] ERROR : environment.
+[08/09/13 17:17:05 -0700 plutonium (21997)] INFO : Installing ActiveRecord instrumentation
+[08/09/13 17:17:05 -0700 plutonium (21997)] INFO : Installing Net instrumentation
+[08/09/13 17:17:05 -0700 plutonium (21997)] INFO : Finished instrumentation
+[08/09/13 17:17:25 -0700 plutonium (22002)] INFO : Starting the New Relic agent in "development" environment.
+[08/09/13 17:17:25 -0700 plutonium (22002)] INFO : To prevent agent startup add a NEWRELIC_ENABLE=false environment variable or modify the "development" section of your newrelic.yml.
+[08/09/13 17:17:25 -0700 plutonium (22002)] INFO : Reading configuration from config/newrelic.yml
+[08/09/13 17:17:25 -0700 plutonium (22002)] INFO : Enabling the Request Sampler.
+[08/09/13 17:17:25 -0700 plutonium (22002)] ERROR : No application name configured.
+[08/09/13 17:17:25 -0700 plutonium (22002)] ERROR : The Agent cannot start without at least one. Please check your 
+[08/09/13 17:17:25 -0700 plutonium (22002)] ERROR : newrelic.yml and ensure that it is valid and has at least one 
+[08/09/13 17:17:25 -0700 plutonium (22002)] ERROR : value set for app_name in the development 
+[08/09/13 17:17:25 -0700 plutonium (22002)] ERROR : environment.
+[08/09/13 17:17:25 -0700 plutonium (22002)] INFO : Installing ActiveRecord instrumentation
+[08/09/13 17:17:25 -0700 plutonium (22002)] INFO : Installing Net instrumentation
+[08/09/13 17:17:25 -0700 plutonium (22002)] INFO : Finished instrumentation
+[08/09/13 17:18:02 -0700 plutonium (22010)] INFO : Starting the New Relic agent in "development" environment.
+[08/09/13 17:18:02 -0700 plutonium (22010)] INFO : To prevent agent startup add a NEWRELIC_ENABLE=false environment variable or modify the "development" section of your newrelic.yml.
+[08/09/13 17:18:02 -0700 plutonium (22010)] INFO : Reading configuration from config/newrelic.yml
+[08/09/13 17:18:02 -0700 plutonium (22010)] INFO : Enabling the Request Sampler.
+[08/09/13 17:18:02 -0700 plutonium (22010)] ERROR : No application name configured.
+[08/09/13 17:18:02 -0700 plutonium (22010)] ERROR : The Agent cannot start without at least one. Please check your 
+[08/09/13 17:18:02 -0700 plutonium (22010)] ERROR : newrelic.yml and ensure that it is valid and has at least one 
+[08/09/13 17:18:02 -0700 plutonium (22010)] ERROR : value set for app_name in the development 
+[08/09/13 17:18:02 -0700 plutonium (22010)] ERROR : environment.
+[08/09/13 17:18:02 -0700 plutonium (22010)] INFO : Installing ActiveRecord instrumentation
+[08/09/13 17:18:02 -0700 plutonium (22010)] INFO : Installing Net instrumentation
+[08/09/13 17:18:02 -0700 plutonium (22010)] INFO : Finished instrumentation
+[08/09/13 17:43:43 -0700 plutonium (22330)] INFO : Starting the New Relic agent in "development" environment.
+[08/09/13 17:43:43 -0700 plutonium (22330)] INFO : To prevent agent startup add a NEWRELIC_ENABLE=false environment variable or modify the "development" section of your newrelic.yml.
+[08/09/13 17:43:43 -0700 plutonium (22330)] INFO : Reading configuration from config/newrelic.yml
+[08/09/13 17:43:43 -0700 plutonium (22330)] INFO : Enabling the Request Sampler.
+[08/09/13 17:43:43 -0700 plutonium (22330)] ERROR : No application name configured.
+[08/09/13 17:43:43 -0700 plutonium (22330)] ERROR : The Agent cannot start without at least one. Please check your 
+[08/09/13 17:43:43 -0700 plutonium (22330)] ERROR : newrelic.yml and ensure that it is valid and has at least one 
+[08/09/13 17:43:43 -0700 plutonium (22330)] ERROR : value set for app_name in the development 
+[08/09/13 17:43:43 -0700 plutonium (22330)] ERROR : environment.
+[08/09/13 17:43:43 -0700 plutonium (22330)] INFO : Installing ActiveRecord instrumentation
+[08/09/13 17:43:43 -0700 plutonium (22330)] INFO : Installing Net instrumentation
+[08/09/13 17:43:43 -0700 plutonium (22330)] INFO : Finished instrumentation
+[08/09/13 17:50:11 -0700 plutonium (22495)] INFO : Starting the New Relic agent in "development" environment.
+[08/09/13 17:50:11 -0700 plutonium (22495)] INFO : To prevent agent startup add a NEWRELIC_ENABLE=false environment variable or modify the "development" section of your newrelic.yml.
+[08/09/13 17:50:11 -0700 plutonium (22495)] INFO : Reading configuration from config/newrelic.yml
+[08/09/13 17:50:11 -0700 plutonium (22495)] INFO : Enabling the Request Sampler.
+[08/09/13 17:50:11 -0700 plutonium (22495)] ERROR : No application name configured.
+[08/09/13 17:50:11 -0700 plutonium (22495)] ERROR : The Agent cannot start without at least one. Please check your 
+[08/09/13 17:50:11 -0700 plutonium (22495)] ERROR : newrelic.yml and ensure that it is valid and has at least one 
+[08/09/13 17:50:11 -0700 plutonium (22495)] ERROR : value set for app_name in the development 
+[08/09/13 17:50:11 -0700 plutonium (22495)] ERROR : environment.
+[08/09/13 17:50:11 -0700 plutonium (22495)] INFO : Installing ActiveRecord instrumentation
+[08/09/13 17:50:11 -0700 plutonium (22495)] INFO : Installing Net instrumentation
+[08/09/13 17:50:11 -0700 plutonium (22495)] INFO : Finished instrumentation
+[08/09/13 17:52:57 -0700 plutonium (22538)] INFO : Starting the New Relic agent in "development" environment.
+[08/09/13 17:52:57 -0700 plutonium (22538)] INFO : To prevent agent startup add a NEWRELIC_ENABLE=false environment variable or modify the "development" section of your newrelic.yml.
+[08/09/13 17:52:57 -0700 plutonium (22538)] INFO : Reading configuration from config/newrelic.yml
+[08/09/13 17:52:57 -0700 plutonium (22538)] INFO : Enabling the Request Sampler.
+[08/09/13 17:52:57 -0700 plutonium (22538)] ERROR : No application name configured.
+[08/09/13 17:52:57 -0700 plutonium (22538)] ERROR : The Agent cannot start without at least one. Please check your 
+[08/09/13 17:52:57 -0700 plutonium (22538)] ERROR : newrelic.yml and ensure that it is valid and has at least one 
+[08/09/13 17:52:57 -0700 plutonium (22538)] ERROR : value set for app_name in the development 
+[08/09/13 17:52:57 -0700 plutonium (22538)] ERROR : environment.
+[08/09/13 17:52:57 -0700 plutonium (22538)] INFO : Installing ActiveRecord instrumentation
+[08/09/13 17:52:57 -0700 plutonium (22538)] INFO : Installing Net instrumentation
+[08/09/13 17:52:57 -0700 plutonium (22538)] INFO : Finished instrumentation
+[08/09/13 17:56:47 -0700 plutonium (22571)] INFO : Starting the New Relic agent in "development" environment.
+[08/09/13 17:56:47 -0700 plutonium (22571)] INFO : To prevent agent startup add a NEWRELIC_ENABLE=false environment variable or modify the "development" section of your newrelic.yml.
+[08/09/13 17:56:47 -0700 plutonium (22571)] INFO : Reading configuration from config/newrelic.yml
+[08/09/13 17:56:47 -0700 plutonium (22571)] INFO : Enabling the Request Sampler.
+[08/09/13 17:56:47 -0700 plutonium (22571)] ERROR : No application name configured.
+[08/09/13 17:56:47 -0700 plutonium (22571)] ERROR : The Agent cannot start without at least one. Please check your 
+[08/09/13 17:56:47 -0700 plutonium (22571)] ERROR : newrelic.yml and ensure that it is valid and has at least one 
+[08/09/13 17:56:47 -0700 plutonium (22571)] ERROR : value set for app_name in the development 
+[08/09/13 17:56:47 -0700 plutonium (22571)] ERROR : environment.
+[08/09/13 17:56:47 -0700 plutonium (22571)] INFO : Installing ActiveRecord instrumentation
+[08/09/13 17:56:47 -0700 plutonium (22571)] INFO : Installing Net instrumentation
+[08/09/13 17:56:47 -0700 plutonium (22571)] INFO : Finished instrumentation
+[08/09/13 18:05:54 -0700 plutonium (22654)] INFO : Starting the New Relic agent in "development" environment.
+[08/09/13 18:05:54 -0700 plutonium (22654)] INFO : To prevent agent startup add a NEWRELIC_ENABLE=false environment variable or modify the "development" section of your newrelic.yml.
+[08/09/13 18:05:54 -0700 plutonium (22654)] INFO : Reading configuration from config/newrelic.yml
+[08/09/13 18:05:54 -0700 plutonium (22654)] INFO : Enabling the Request Sampler.
+[08/09/13 18:05:54 -0700 plutonium (22654)] ERROR : No application name configured.
+[08/09/13 18:05:54 -0700 plutonium (22654)] ERROR : The Agent cannot start without at least one. Please check your 
+[08/09/13 18:05:54 -0700 plutonium (22654)] ERROR : newrelic.yml and ensure that it is valid and has at least one 
+[08/09/13 18:05:54 -0700 plutonium (22654)] ERROR : value set for app_name in the development 
+[08/09/13 18:05:54 -0700 plutonium (22654)] ERROR : environment.
+[08/09/13 18:05:54 -0700 plutonium (22654)] INFO : Installing ActiveRecord instrumentation
+[08/09/13 18:05:54 -0700 plutonium (22654)] INFO : Installing Net instrumentation
+[08/09/13 18:05:54 -0700 plutonium (22654)] INFO : Finished instrumentation
+[08/09/13 18:09:49 -0700 plutonium (22705)] INFO : Starting the New Relic agent in "development" environment.
+[08/09/13 18:09:49 -0700 plutonium (22705)] INFO : To prevent agent startup add a NEWRELIC_ENABLE=false environment variable or modify the "development" section of your newrelic.yml.
+[08/09/13 18:09:49 -0700 plutonium (22705)] INFO : Reading configuration from config/newrelic.yml
+[08/09/13 18:09:49 -0700 plutonium (22705)] INFO : Enabling the Request Sampler.
+[08/09/13 18:09:49 -0700 plutonium (22705)] ERROR : No application name configured.
+[08/09/13 18:09:49 -0700 plutonium (22705)] ERROR : The Agent cannot start without at least one. Please check your 
+[08/09/13 18:09:49 -0700 plutonium (22705)] ERROR : newrelic.yml and ensure that it is valid and has at least one 
+[08/09/13 18:09:49 -0700 plutonium (22705)] ERROR : value set for app_name in the development 
+[08/09/13 18:09:49 -0700 plutonium (22705)] ERROR : environment.
+[08/09/13 18:09:49 -0700 plutonium (22705)] INFO : Installing ActiveRecord instrumentation
+[08/09/13 18:09:50 -0700 plutonium (22705)] INFO : Installing Net instrumentation
+[08/09/13 18:09:50 -0700 plutonium (22705)] INFO : Finished instrumentation
+[08/09/13 18:14:47 -0700 plutonium (22752)] INFO : Starting the New Relic agent in "development" environment.
+[08/09/13 18:14:47 -0700 plutonium (22752)] INFO : To prevent agent startup add a NEWRELIC_ENABLE=false environment variable or modify the "development" section of your newrelic.yml.
+[08/09/13 18:14:47 -0700 plutonium (22752)] INFO : Reading configuration from config/newrelic.yml
+[08/09/13 18:14:47 -0700 plutonium (22752)] INFO : Enabling the Request Sampler.
+[08/09/13 18:14:47 -0700 plutonium (22752)] ERROR : No application name configured.
+[08/09/13 18:14:47 -0700 plutonium (22752)] ERROR : The Agent cannot start without at least one. Please check your 
+[08/09/13 18:14:47 -0700 plutonium (22752)] ERROR : newrelic.yml and ensure that it is valid and has at least one 
+[08/09/13 18:14:47 -0700 plutonium (22752)] ERROR : value set for app_name in the development 
+[08/09/13 18:14:47 -0700 plutonium (22752)] ERROR : environment.
+[08/09/13 18:14:47 -0700 plutonium (22752)] INFO : Installing ActiveRecord instrumentation
+[08/09/13 18:14:47 -0700 plutonium (22752)] INFO : Installing Net instrumentation
+[08/09/13 18:14:47 -0700 plutonium (22752)] INFO : Finished instrumentation
+[08/09/13 18:17:20 -0700 plutonium (22778)] INFO : Starting the New Relic agent in "development" environment.
+[08/09/13 18:17:20 -0700 plutonium (22778)] INFO : To prevent agent startup add a NEWRELIC_ENABLE=false environment variable or modify the "development" section of your newrelic.yml.
+[08/09/13 18:17:20 -0700 plutonium (22778)] INFO : Reading configuration from config/newrelic.yml
+[08/09/13 18:17:20 -0700 plutonium (22778)] INFO : Enabling the Request Sampler.
+[08/09/13 18:17:20 -0700 plutonium (22778)] ERROR : No application name configured.
+[08/09/13 18:17:20 -0700 plutonium (22778)] ERROR : The Agent cannot start without at least one. Please check your 
+[08/09/13 18:17:20 -0700 plutonium (22778)] ERROR : newrelic.yml and ensure that it is valid and has at least one 
+[08/09/13 18:17:20 -0700 plutonium (22778)] ERROR : value set for app_name in the development 
+[08/09/13 18:17:20 -0700 plutonium (22778)] ERROR : environment.
+[08/09/13 18:17:20 -0700 plutonium (22778)] INFO : Installing ActiveRecord instrumentation
+[08/09/13 18:17:20 -0700 plutonium (22778)] INFO : Installing Net instrumentation
+[08/09/13 18:17:20 -0700 plutonium (22778)] INFO : Finished instrumentation
+[08/09/13 18:21:09 -0700 plutonium (22810)] INFO : Starting the New Relic agent in "development" environment.
+[08/09/13 18:21:09 -0700 plutonium (22810)] INFO : To prevent agent startup add a NEWRELIC_ENABLE=false environment variable or modify the "development" section of your newrelic.yml.
+[08/09/13 18:21:09 -0700 plutonium (22810)] INFO : Reading configuration from config/newrelic.yml
+[08/09/13 18:21:09 -0700 plutonium (22810)] INFO : Enabling the Request Sampler.
+[08/09/13 18:21:09 -0700 plutonium (22810)] ERROR : No application name configured.
+[08/09/13 18:21:09 -0700 plutonium (22810)] ERROR : The Agent cannot start without at least one. Please check your 
+[08/09/13 18:21:09 -0700 plutonium (22810)] ERROR : newrelic.yml and ensure that it is valid and has at least one 
+[08/09/13 18:21:09 -0700 plutonium (22810)] ERROR : value set for app_name in the development 
+[08/09/13 18:21:09 -0700 plutonium (22810)] ERROR : environment.
+[08/09/13 18:21:09 -0700 plutonium (22810)] INFO : Installing ActiveRecord instrumentation
+[08/09/13 18:21:09 -0700 plutonium (22810)] INFO : Installing Net instrumentation
+[08/09/13 18:21:09 -0700 plutonium (22810)] INFO : Finished instrumentation
+[08/09/13 18:31:10 -0700 plutonium (22882)] INFO : Starting the New Relic agent in "development" environment.
+[08/09/13 18:31:10 -0700 plutonium (22882)] INFO : To prevent agent startup add a NEWRELIC_ENABLE=false environment variable or modify the "development" section of your newrelic.yml.
+[08/09/13 18:31:10 -0700 plutonium (22882)] INFO : Reading configuration from config/newrelic.yml
+[08/09/13 18:31:10 -0700 plutonium (22882)] INFO : Enabling the Request Sampler.
+[08/09/13 18:31:10 -0700 plutonium (22882)] ERROR : No application name configured.
+[08/09/13 18:31:10 -0700 plutonium (22882)] ERROR : The Agent cannot start without at least one. Please check your 
+[08/09/13 18:31:10 -0700 plutonium (22882)] ERROR : newrelic.yml and ensure that it is valid and has at least one 
+[08/09/13 18:31:10 -0700 plutonium (22882)] ERROR : value set for app_name in the development 
+[08/09/13 18:31:10 -0700 plutonium (22882)] ERROR : environment.
+[08/09/13 18:31:10 -0700 plutonium (22882)] INFO : Installing ActiveRecord instrumentation
+[08/09/13 18:31:10 -0700 plutonium (22882)] INFO : Installing Net instrumentation
+[08/09/13 18:31:10 -0700 plutonium (22882)] INFO : Finished instrumentation
+[08/09/13 18:32:36 -0700 plutonium (22907)] INFO : Starting the New Relic agent in "development" environment.
+[08/09/13 18:32:36 -0700 plutonium (22907)] INFO : To prevent agent startup add a NEWRELIC_ENABLE=false environment variable or modify the "development" section of your newrelic.yml.
+[08/09/13 18:32:36 -0700 plutonium (22907)] INFO : Reading configuration from config/newrelic.yml
+[08/09/13 18:32:36 -0700 plutonium (22907)] INFO : Enabling the Request Sampler.
+[08/09/13 18:32:36 -0700 plutonium (22907)] ERROR : No application name configured.
+[08/09/13 18:32:36 -0700 plutonium (22907)] ERROR : The Agent cannot start without at least one. Please check your 
+[08/09/13 18:32:36 -0700 plutonium (22907)] ERROR : newrelic.yml and ensure that it is valid and has at least one 
+[08/09/13 18:32:36 -0700 plutonium (22907)] ERROR : value set for app_name in the development 
+[08/09/13 18:32:36 -0700 plutonium (22907)] ERROR : environment.
+[08/09/13 18:32:36 -0700 plutonium (22907)] INFO : Installing ActiveRecord instrumentation
+[08/09/13 18:32:36 -0700 plutonium (22907)] INFO : Installing Net instrumentation
+[08/09/13 18:32:36 -0700 plutonium (22907)] INFO : Finished instrumentation
+[08/09/13 18:34:12 -0700 plutonium (22927)] INFO : Starting the New Relic agent in "development" environment.
+[08/09/13 18:34:12 -0700 plutonium (22927)] INFO : To prevent agent startup add a NEWRELIC_ENABLE=false environment variable or modify the "development" section of your newrelic.yml.
+[08/09/13 18:34:12 -0700 plutonium (22927)] INFO : Reading configuration from config/newrelic.yml
+[08/09/13 18:34:12 -0700 plutonium (22927)] INFO : Enabling the Request Sampler.
+[08/09/13 18:34:12 -0700 plutonium (22927)] ERROR : No application name configured.
+[08/09/13 18:34:12 -0700 plutonium (22927)] ERROR : The Agent cannot start without at least one. Please check your 
+[08/09/13 18:34:12 -0700 plutonium (22927)] ERROR : newrelic.yml and ensure that it is valid and has at least one 
+[08/09/13 18:34:12 -0700 plutonium (22927)] ERROR : value set for app_name in the development 
+[08/09/13 18:34:12 -0700 plutonium (22927)] ERROR : environment.
+[08/09/13 18:34:12 -0700 plutonium (22927)] INFO : Installing ActiveRecord instrumentation
+[08/09/13 18:34:12 -0700 plutonium (22927)] INFO : Installing Net instrumentation
+[08/09/13 18:34:12 -0700 plutonium (22927)] INFO : Finished instrumentation
+[08/09/13 18:35:56 -0700 plutonium (22960)] INFO : Starting the New Relic agent in "development" environment.
+[08/09/13 18:35:56 -0700 plutonium (22960)] INFO : To prevent agent startup add a NEWRELIC_ENABLE=false environment variable or modify the "development" section of your newrelic.yml.
+[08/09/13 18:35:56 -0700 plutonium (22960)] INFO : Reading configuration from config/newrelic.yml
+[08/09/13 18:35:56 -0700 plutonium (22960)] INFO : Enabling the Request Sampler.
+[08/09/13 18:35:56 -0700 plutonium (22960)] ERROR : No application name configured.
+[08/09/13 18:35:56 -0700 plutonium (22960)] ERROR : The Agent cannot start without at least one. Please check your 
+[08/09/13 18:35:56 -0700 plutonium (22960)] ERROR : newrelic.yml and ensure that it is valid and has at least one 
+[08/09/13 18:35:56 -0700 plutonium (22960)] ERROR : value set for app_name in the development 
+[08/09/13 18:35:56 -0700 plutonium (22960)] ERROR : environment.
+[08/09/13 18:35:56 -0700 plutonium (22960)] INFO : Installing ActiveRecord instrumentation
+[08/09/13 18:35:56 -0700 plutonium (22960)] INFO : Installing Net instrumentation
+[08/09/13 18:35:56 -0700 plutonium (22960)] INFO : Finished instrumentation
+[08/09/13 18:37:07 -0700 plutonium (23345)] INFO : Starting the New Relic agent in "development" environment.
+[08/09/13 18:37:07 -0700 plutonium (23345)] INFO : To prevent agent startup add a NEWRELIC_ENABLE=false environment variable or modify the "development" section of your newrelic.yml.
+[08/09/13 18:37:07 -0700 plutonium (23345)] INFO : Reading configuration from config/newrelic.yml
+[08/09/13 18:37:07 -0700 plutonium (23345)] INFO : Enabling the Request Sampler.
+[08/09/13 18:37:07 -0700 plutonium (23345)] ERROR : No application name configured.
+[08/09/13 18:37:07 -0700 plutonium (23345)] ERROR : The Agent cannot start without at least one. Please check your 
+[08/09/13 18:37:07 -0700 plutonium (23345)] ERROR : newrelic.yml and ensure that it is valid and has at least one 
+[08/09/13 18:37:07 -0700 plutonium (23345)] ERROR : value set for app_name in the development 
+[08/09/13 18:37:07 -0700 plutonium (23345)] ERROR : environment.
+[08/09/13 18:37:07 -0700 plutonium (23345)] INFO : Installing ActiveRecord instrumentation
+[08/09/13 18:37:07 -0700 plutonium (23345)] INFO : Installing Net instrumentation
+[08/09/13 18:37:07 -0700 plutonium (23345)] INFO : Finished instrumentation

@@ -1,7 +1,7 @@
 $ ->
 	window.startTime = new Date()
 	params = $('#container').data()
-	window.param_str = 'assignment_id=' + params['assignmentId'] + '&image_one=' + params['imageOne'] + '&image_two=' + params['imageTwo'] + '&image_three=' + params['imageThree'] + '&n=' + params['n'] + '&hit_id=' + params['hitId'] + '&worker_id=' + params['workerId'] + '&image_set=' + params['imageSet']
+	window.param_str = 'assignment_id=' + params['assignmentId'] + '&image_one=' + params['imageOne'] + '&image_two=' + params['imageTwo'] + '&image_three=' + params['imageThree'] + '&n=' + params['n'] + '&hit_id=' + params['hitId'] + '&worker_id=' + params['workerId'] + '&job=' + params['job'] + '&s3_bucket=' + params['s3bucket']
 
 	nextPage = ->
 		url = $(location).attr('origin') + '/choose/none?' + window.param_str

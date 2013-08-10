@@ -30,7 +30,7 @@
       %p.instructions_click When you are ready to begin, click the button below to start the task.
       / = button_to("Begin Experiment", :index)
       %button
-        = link_to("Begin Experiment", url(:index), query: { assignment_id: @assignment_id.to_s, hit_id: @hit_id, worker_id: @worker_id, image_set: @image_set })
+        = link_to("Begin Experiment", url(:index), query: { assignment_id: @assignment_id.to_s, hit_id: @hit_id, worker_id: @worker_id, s3_bucket: @s3_bucket, job: @job })
 
       - (@all_images || []).each do |image|
         = image_tag(image, class: :hidden)

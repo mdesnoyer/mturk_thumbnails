@@ -1,5 +1,5 @@
 require 'csv'
-require 'open-uri-cached'
+require 'open-uri/cached'
 
 TRIALS_PATH  = "#{PADRINO_ROOT}/config/trials.txt"
 SANDBOX = false
@@ -8,16 +8,21 @@ RETURN_INSTRUCTIONS_START = TRIAL_COUNT + 1
 TOTAL_TRIALS = TRIAL_COUNT * 2
 
 def image_set_path
-  "https://s3.amazonaws.com/#{@s3_bucket}/#{@job}_stimuli.csv"
+  "http://s3.amazonaws.com/#{@s3_bucket}/#{@job}_stimuli.csv"
 end
 
 def stimuli_folder_name
-  "https://s3.amazonaws.com/#{@s3_bucket}"
+  "http://s3.amazonaws.com/#{@s3_bucket}"
 end
 
 def load_stimuli
+  puts(image_set_path)
+  stream = open(image_set_path)
+  data = stream.read
+  stream.close
+
   retval = Hash.new
-  CSV.foreach(image_set_path) do |row|
+  CSV.parse(data) do |row|
     retval[row[0]] = row[1]
   end
 
@@ -69,13 +74,12 @@ def set_images
 end
 
 def current_choice_number
-  max_trial = ImageChoice.where(worker_id: @worker_id, stimset_id: @image_set).maximum(:trial)
+  max_trial = ImageChoice.where(worker_id: @worker_id, stimset_id: @job).maximum(:trial)
   @current_choice_number = max_trial ? max_trial.to_i + 1 : 1
 end
 
 def clean_filename(path)
-  escape_folder = Regexp.escape(stimuli_folder_name)
-  path.to_s.sub(/^#{escape_folder}\//, '')
+  path.to_s.sub(/^#{stimuli_folder_name}\//, '')
 end
 
 def add_folder(filename)
@@ -111,11 +115,11 @@ def write_to_db
     reaction_time: params[:reaction_time]
   }
 
-  ImageChoice.where(trial: @n, worker_id: @worker_id, stimset_id: @image_set).first_or_create(image_choice)
+  ImageChoice.where(trial: @n, worker_id: @worker_id, stimset_id: @job).first_or_create(image_choice)
 end
 
 def worker_already_completed?
-  ImageChoice.where(worker_id: @worker_id, stimset_id: @image_set).any?
+  ImageChoice.where(worker_id: @worker_id, stimset_id: @job).any?
 end
 
 MturkThumbnails.controllers do

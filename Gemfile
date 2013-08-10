@@ -9,7 +9,6 @@ gem 'open-uri-cached'
 
 # Project requirements
 gem 'rake'
-gem 'sinatra-flash', require: 'sinatra/flash'
 
 # Component requirements
 gem 'haml'

@@ -56,11 +56,12 @@ def post_tasks(job_names, bucket_name, payment_amount, hit_assignments,
       hit.question("#{url_base}/keep_instructions/#{bucket_name}",
                    :job => job_name,
                    :frame_height => 1000)
+
+        
     end
+    # Clipboard.copy hit.url
+    puts "Job on mturk at: #{hit.url}"
   end
-  
-  # Clipboard.copy hit.url
-  puts "Job on mturk at: #{hit.url}"
 end
 
 # Define the command line arguments
@@ -95,7 +96,8 @@ image_sets.each do |folder|
     folder[:file_names] << key
     s3obj = s3.buckets[opts[:s3bucket]].objects[key]
     if !s3obj.exists? then
-        s3obj.write(:file => image_path)
+        s3obj.write(:file => image_path,
+                    :acl => :public_read)
     end
   end
 
@@ -108,7 +110,9 @@ image_sets.each do |folder|
   end
 
   puts("Writing #{text_file_name} to S3")
-  s3.buckets[opts[:s3bucket]].objects[text_file_name].write(csv_string)
+  s3.buckets[opts[:s3bucket]].objects[text_file_name].write(
+    csv_string,
+    :acl => :public_read)
 
 end
 
