@@ -32,9 +32,11 @@ def post_tasks(job_names, bucket_name, payment_amount, hit_assignments,
               :sandbox => sandbox)
 
   if sandbox then
-      app_base=$STAGING_APP
+    app_base=$STAGING_APP
+    sandbox_val=1
   else
-      app_base=$PROD_APP
+    app_base=$PROD_APP
+    sandbox_val=0
   end
   url_base = "http://#{app_base}.herokuapp.com"
 
@@ -42,6 +44,7 @@ def post_tasks(job_names, bucket_name, payment_amount, hit_assignments,
     hit.description = 'Choose an Online a Video!'
     hit.reward = payment_amount
     hit.duration = 14400
+    hit.auto_approval = 172800 # auto approves the job 2 days after submission
     hit.keywords = "images, game, psychology, video, fast"
     hit.qualifications.add :approval_rate, { :gt => 80 }
   end
@@ -53,8 +56,10 @@ def post_tasks(job_names, bucket_name, payment_amount, hit_assignments,
       hit.assignments = hit_assignments
       hit.hit_type_id = hittype.type_id
       hit.lifetime = 2592000
-      hit.question("#{url_base}/keep_instructions/#{bucket_name}",
+      hit.question("#{url_base}/experiment",
                    :job => job_name,
+                   :s3_bucket => bucket_name,
+                   :sandbox => sandbox_val,
                    :frame_height => 1000)
 
         

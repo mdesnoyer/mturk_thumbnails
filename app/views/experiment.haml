@@ -1,0 +1,69 @@
+!!! 5
+%html
+  %head
+    %title Pick a Video
+    = stylesheet_link_tag :application
+    = javascript_include_tag :application
+
+  %body
+    #keep_instructions.container.hidden
+      .header
+        %h1 Pick a Video: Instructions
+
+      %p.instructions Imagine you are about to watch a video. At any one time, you will be presented with three different video thumbnails to choose from. Please click on the one you most want to watch if you could only watch one of the three.
+
+      = image_tag "instructions/sample_trial.png", :class => "instructions"
+
+      %p.instructions Please note that you will not actually be watching the videos; you are simply clicking on the video that you would most want to watch.
+
+      %p.instructions
+        The video thumbnails will be presented
+        %b**VERY FAST**.
+        Please make your response as quickly and as accurately as possible.
+
+      %p.instructions Once you have selected a video thumbnail, three more will appear on the next screen. Please continue selecting the video you would most like to watch.
+
+      %p.instructions There are two parts to this experiment. You will be notified when the first part is over and given instructions for the second part.
+
+      #start_box.instructions_click
+        %p When you are ready to begin, click the button below to start the task.
+        %p <a href="javascript:void(0)", class="start_button", id="keep_but">Begin Experiment</a>
+
+    #return_instructions.container.hidden
+      .header
+        %h1 Instructions - Part 2
+
+      %p.instructions
+        Imagine you are about to watch a video. At any one time, you will be presented with three different video thumbnails to choose from.
+        %b You only have time to watch one video. Please click to remove the video that you do not want to watch.
+
+      =image_tag "instructions/sample_trial.png", :class => "instructions"
+
+      %p.instructions Please note that you will not actually be watching the videos; you are simply clicking on the video that you would *least* want to watch.
+
+      %p.instructions
+        The video thumbnails will be presented
+        %b**VERY FAST**.
+        Please make your response as quickly and as accurately as possible.
+
+      %p.instructions Once you have selected a video thumbnail, three more will appear on the next screen. Please continue selecting the video you would *least* like to watch.
+
+      .instructions_click
+        %p When you are ready to begin, click the button below to start the task.
+        %p <a href="javascript:void(0)", class="start_button", id="return_but">Begin Part 2</a>
+
+    #loading.container.hidden
+      .header.waiting
+
+        %h1#loading_text Loading...0%
+
+    #experiment.hidden.images{ data: { edata: @experiment_data, job_data: @job_data } }
+      = image_tag '', class: :left, id: 'left_image'
+      = image_tag '', class: :middle, id: 'mid_image'
+      = image_tag '', class: :right, id: 'right_image'
+
+    #jobdata.container.hidden{ data: { jdata: @job_data } }
+
+    #donejob.container.hidden.waiting
+      .header
+        %h1#sending_text Seding Data. Please Wait
