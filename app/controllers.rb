@@ -7,11 +7,11 @@ RETURN_INSTRUCTIONS_START = TRIAL_COUNT + 1
 TOTAL_TRIALS = TRIAL_COUNT * 2
 
 def image_set_path
-  "http://s3.amazonaws.com/#{@s3_bucket}/#{@job}_stimuli.csv"
+  "https://s3.amazonaws.com/#{@s3_bucket}/#{@job}_stimuli.csv"
 end
 
 def stimuli_folder_name
-  "http://s3.amazonaws.com/#{@s3_bucket}"
+  "https://s3.amazonaws.com/#{@s3_bucket}"
 end
 
 def load_stimuli
@@ -50,10 +50,7 @@ def get_trial_sequence
 end
 
 def get_amazon_url
-  if @sandbox == '1'
-    return 'https://workersandbox.mturk.com/mturk/externalSubmit'
-  end
-  return 'https://www.mturk.com/mturk/externalSubmit'
+  return params[:turkSubmitTo] + '/mturk/externalSubmit'
 end
 
 def read_params
@@ -63,7 +60,6 @@ def read_params
   @hit_id = params[:hitId] || params[:hit_id]
   @worker_id = params[:workerId] || params[:worker_id]
   @n = (params[:n] ||  0).to_i
-  @sandbox = params[:sandbox]
 end
 
 def current_choice_number
