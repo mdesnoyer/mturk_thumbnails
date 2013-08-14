@@ -114,8 +114,9 @@ $ ->
 
   ### Submits the data to Amazon ###
   SubmitToAmazon = ->
-    url = jdata.turk_url + "?assignmentId=" + jdata.assignment_id + "&workerId=" + jdata.worker_id
-    window.location = url
+    $('#turkform').submit()
+    #url = jdata.turk_url + "?assignmentId=" + jdata.assignment_id + "&workerId=" + jdata.worker_id
+    #window.location = url
 
   ### Displays a message to the user telling them we're uploading ###
   DisplaySentPercent =  ->

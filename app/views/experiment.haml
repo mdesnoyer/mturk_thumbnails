@@ -68,3 +68,5 @@
       .header
         %h1#sending_text Seding Data. Please Wait
 
+    %form{:id => "turkform", :action => @turk_url, :method => "post"}
+      %input{ :type => "hidden", :name => "assignmentId", :value => @assignment_id}
