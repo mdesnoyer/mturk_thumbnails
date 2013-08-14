@@ -50,7 +50,7 @@ def get_trial_sequence
 end
 
 def get_amazon_url
-  return (params[:turkSubmitTo] | 'http://www.mturk.com') + '/mturk/externalSubmit'
+  return (params[:turkSubmitTo] || 'http://www.mturk.com') + '/mturk/externalSubmit'
 end
 
 def read_params
