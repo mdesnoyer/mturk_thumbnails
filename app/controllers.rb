@@ -105,11 +105,17 @@ MturkThumbnails.controllers do
   end
 
   get :experiment do
+    cur_trial = current_choice_number
+    trials = get_trial_sequence
+    if cur_trial >= trials.length
+      return haml :already_completed
+    end
+
     @experiment_data = {
       'img_dir' => stimuli_folder_name,
-      'cur_trial' => current_choice_number,
+      'cur_trial' => cur_trial,
       'images' => get_image_list,
-      'trials' => get_trial_sequence
+      'trials' => trials
     }.to_json;
 
     @job_data = {
