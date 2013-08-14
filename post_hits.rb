@@ -36,7 +36,7 @@ def post_tasks(job_names, bucket_name, payment_amount, hit_assignments,
   else
     app_base=$PROD_APP
   end
-  url_base = "http://#{app_base}.herokuapp.com"
+  url_base = "https://#{app_base}.herokuapp.com"
 
   hittype = RTurk::RegisterHITType.create(:title => "Choose an Online a Video!") do |hit|
     hit.description = 'Choose an Online a Video!'
