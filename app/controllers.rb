@@ -47,7 +47,7 @@ end
 def get_trial_sequence
   trials = load_trials.map{ |trial| trial.map{ |val| val.to_i } }
   # TODO(mdesnoyer): Remove this line after testing
-  trials = trials[0..6]
+  #trials = trials[0..6]
 
   return trials.shuffle(random: Random.new(@worker_id.hash & 0xFFFF))
 end
