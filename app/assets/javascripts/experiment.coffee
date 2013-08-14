@@ -121,9 +121,10 @@ $ ->
   ### Displays a message to the user telling them we're uploading ###
   DisplaySentPercent =  ->
     percent = Math.round(100.0 * trialsRegistered / (edata.trials.length*2))
-    
-    if trialsRegistered >= (edata.trials.length*2)
-       SubmitToAmazon()
 
     $('#sending_text').text("Sending Data... " + percent.toString() + "%")
+    if trialsRegistered >= (edata.trials.length*2)
+       SubmitToAmazon()
+       return
+
     setTimeout(DisplaySentPercent, 200)
