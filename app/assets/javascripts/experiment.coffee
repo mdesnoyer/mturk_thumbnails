@@ -114,7 +114,7 @@ $ ->
 
   ### Submits the data to Amazon ###
   SubmitToAmazon = ->
-    url = jdata.turk_url + "?assignmentId=" + jdata.assignment_id + "&hitId=" + jdata.hit_id + "&workerId=" + jdata.worker_id
+    url = jdata.turk_url + "?assignmentId=" + jdata.assignment_id + "&workerId=" + jdata.worker_id
     window.location = url
 
   ### Displays a message to the user telling them we're uploading ###

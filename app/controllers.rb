@@ -114,9 +114,10 @@ MturkThumbnails.controllers do
       'hit_id' => @hit_id,
       'worker_id' => @worker_id,
       's3_bucket' => @s3_bucket,
-      'job' => @job,
-      'turk_url' => get_amazon_url
+      'job' => @job
     }.to_json;
+
+    @turk_url = get_amazon_url
 
     haml :experiment
   end
