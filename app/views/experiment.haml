@@ -58,9 +58,9 @@
         %h1#loading_text Loading...0%
 
     #experiment.hidden.images{ data: { edata: @experiment_data, job_data: @job_data } }
-      = image_tag '', class: :left, id: 'left_image'
-      = image_tag '', class: :middle, id: 'mid_image'
-      = image_tag '', class: :right, id: 'right_image'
+      = link_to image_tag('', class: :left, id: 'left_image'), "javascript:void(0)"
+      = link_to image_tag('', class: :middle, id: 'mid_image'), "javascript:void(0)"
+      = link_to image_tag('', class: :right, id: 'right_image'), "javascript:void(0)"
 
     #jobdata.container.hidden{ data: { jdata: @job_data } }
 

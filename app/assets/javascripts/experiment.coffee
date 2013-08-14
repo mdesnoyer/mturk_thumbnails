@@ -110,7 +110,7 @@ $ ->
       $('#experiment').hide()
       $('#donejob').show()
       DisplaySentPercent()
-      setTimeout(SubmitToAmazon, 300000)
+      setTimeout(SubmitToAmazon, 60000)
 
   ### Submits the data to Amazon ###
   SubmitToAmazon = ->

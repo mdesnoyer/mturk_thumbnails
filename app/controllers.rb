@@ -1,7 +1,7 @@
 require 'csv'
 require 'open-uri/cached'
 
-TRIALS_PATH  = "#{PADRINO_ROOT}/config/trials.txt"
+TRIALS_PATH  = "#{PADRINO_ROOT}/config/trials_mixed.csv"
 TRIAL_COUNT = 144
 RETURN_INSTRUCTIONS_START = TRIAL_COUNT + 1
 TOTAL_TRIALS = TRIAL_COUNT * 2
@@ -16,7 +16,6 @@ end
 
 def load_stimuli
   # Returns a image_id->image_file map
-  puts(image_set_path)
   stream = open(image_set_path)
   data = stream.read
   stream.close
@@ -37,8 +36,12 @@ end
 
 def load_trials
   trials_str = File.read(TRIALS_PATH)
-  trial_lines = trials_str.split("\r")
-  trial_lines[1..-1].map { |line| line.split("\t") }
+  trial_lines = []
+  CSV.parse(trials_str) do |line|
+    trial_lines << line
+  end
+
+  return trial_lines
 end
 
 def get_trial_sequence
