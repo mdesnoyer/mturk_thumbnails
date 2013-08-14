@@ -107,7 +107,7 @@ MturkThumbnails.controllers do
   get :experiment do
     cur_trial = current_choice_number
     trials = get_trial_sequence
-    if cur_trial >= trials.length
+    if cur_trial >= (2 * trials.length)
       return haml :already_completed
     end
 
