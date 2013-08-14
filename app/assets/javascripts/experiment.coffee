@@ -30,9 +30,9 @@ $ ->
       worker_id: jdata.worker_id
       s3_bucket: jdata.s3_bucket
       job: jdata.job
-      image_one: trialSeq[0]
-      image_two: trialSeq[1]
-      image_three: trialSeq[3]
+      image_one: edata.images[trialSeq[0]]
+      image_two: edata.images[trialSeq[1]]
+      image_three: edata.images[trialSeq[2]]
       n: curTrial
       condition: if curTrial < edata.trials.length then 'KEEP' else 'RETURN'
 
