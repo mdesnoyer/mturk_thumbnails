@@ -41,7 +41,7 @@ def post_tasks(job_names, bucket_name, payment_amount, hit_assignments,
   hittype = RTurk::RegisterHITType.create(:title => "Choose an Online a Video!") do |hit|
     hit.description = 'Choose an Online a Video!'
     hit.reward = payment_amount
-    hit.duration = 14400
+    hit.duration = 3600
     hit.auto_approval = 172800 # auto approves the job 2 days after submission
     hit.keywords = "images, game, psychology, video, fast"
     hit.qualifications.add :approval_rate, { :gt => 80 }
