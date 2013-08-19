@@ -100,8 +100,11 @@ def register_worker(workerId, remoteIp, xForwarded)
     remote_ip: remoteIp,
     x_forwarded_for: xForwarded
   }
-  
-  WorkerInfo.where(worker_id: workerId, remote_ip: remoteIp, x_forwarded_for: xForwarded).first_or_create(worker_info)
+
+
+  if workerId then
+    WorkerInfo.where(worker_id: workerId, remote_ip: remoteIp, x_forwarded_for: xForwarded).first_or_create(worker_info)
+  end
 end
 
 MturkThumbnails.controllers do
@@ -140,7 +143,7 @@ MturkThumbnails.controllers do
 
     @turk_url = get_amazon_url
 
-    register_worker(@worker_id, request.env['REMOTE_ADDR'],
+    register_worker(@worker_id, request.ip,
                     request.env['HTTP_X_FORWARDED_FOR'])
 
     haml :experiment
