@@ -56,6 +56,24 @@ def get_amazon_url
   return (params[:turkSubmitTo] || 'https://www.mturk.com') + '/mturk/externalSubmit'
 end
 
+def get_practice_images
+  # If the user has done the job in the last few days, don't send
+  # practice images
+  lastTime = ImageChoice.where(worker_id: @worker_id).maximum(:updated_at)
+  if lastTime and ((Time.now - lastTime)/86400) < 4 then
+    return []
+  end
+
+  practice_path = "/assets/practice"
+  trials = []
+  (0...10).each do |i|
+    trials << ["%s/image%i.jpg" % [practice_path, 3*i],
+               "%s/image%i.jpg" % [practice_path, 3*i + 1],
+               "%s/image%i.jpg" % [practice_path, 3*i + 2]]
+   end
+   return trials
+end
+
 def read_params
   @s3_bucket = params[:s3_bucket]
   @job = params[:job]
@@ -129,7 +147,8 @@ MturkThumbnails.controllers do
       'img_dir' => stimuli_folder_name,
       'cur_trial' => cur_trial,
       'images' => get_image_list,
-      'trials' => trials
+      'trials' => trials,
+      'practice_images' => get_practice_images
     }.to_json;
 
     @job_data = {

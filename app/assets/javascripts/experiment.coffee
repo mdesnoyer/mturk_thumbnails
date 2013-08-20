@@ -10,6 +10,7 @@ $ ->
     $('#experiment').hide()
     $('#loading').hide()
     $('#donejob').hide()
+    $('#donepractice').hide()
     if curTrial < edata.trials.length
        $('#keep_instructions').show()
     else
@@ -22,6 +23,11 @@ $ ->
     window.clearTimeout(timeoutId)
     endTime = new Date()
     reactionTime = endTime - startTime
+
+    # If we're practicing don't record anything
+    if practice_trial <= edata.practice_images.length
+      DisplayNextPracticeTrial()
+      return
 
     trialSeq = edata.trials[curTrial % edata.trials.length]
     postParams =
@@ -61,8 +67,17 @@ $ ->
 
   ### Handles loading the images in the background ###
   images = new Array()
+  practice_images = new Array()
   imagesLoaded = 0
   LoadImages = ->
+    if jdata.assignment_id == "ASSIGNMENT_ID_NOT_AVAILABLE"
+       return
+
+    for i in [0...edata.practice_images.length]
+      do (i) ->
+        practice_images.push(new Image(edata.practice_images[i][0]))
+        practice_images.push(new Image(edata.practice_images[i][1]))
+        practice_images.push(new Image(edata.practice_images[i][2]))
     for i in [0..(edata.images.length-1)]
       do (i) ->
         images[i] = new Image()
@@ -76,6 +91,7 @@ $ ->
   DisplayTrial = (trialNum) ->
     if trialNum >= 2 * edata.trials.length
        FinishJob()
+       return
 
     trialSeq = edata.trials[trialNum % edata.trials.length]
     $('#left_image').attr('src', images[trialSeq[0]].src)
@@ -94,6 +110,7 @@ $ ->
        $('#loading').css("display", "none")
        $('#keep_instructions').hide()
        $('#return_instructions').hide()
+       $('#donepractice').hide()
        $('#experiment').css("display", "block")
        DisplayTrial(curTrial)
        return
@@ -101,16 +118,47 @@ $ ->
     $('#loading_text').text("Loading... " + percent.toString() + "%")
     $('#loading').css("display", "block")
     $('#keep_instructions').hide()
+    $('#donepractice').hide()
     setTimeout(DisplayLoadedPercent, 200)
   $('#keep_but').click(DisplayLoadedPercent)
   $('#return_but').click(DisplayLoadedPercent)
 
+  ### Run the practice trials ###
+  practice_trial = 0
+  DisplayNextPracticeTrial = ->
+    practice_trial = practice_trial + 1
+    if edata.practice_images.length == 0
+      DisplayLoadedPercent()
+      return 
+
+    if practice_trial > edata.practice_images.length
+      $('#donepractice').show()
+      $('#experiment').hide()
+      return
+
+    $('#experiment').show()
+    $('#keep_instructions').hide()
+    $('#return_instructions').hide()
+
+    $('#left_image').attr('src', edata.practice_images[practice_trial-1][0])
+    $('#mid_image').attr('src', edata.practice_images[practice_trial-1][1])
+    $('#right_image').attr('src', edata.practice_images[practice_trial-1][2])
+    
+    startTime = new Date()
+    timeoutId = setTimeout RegisterChoiceNone, 2000
+    
+  $('#practice_but').click(DisplayNextPracticeTrial)
+
+  if edata.practice_images.length == 0
+     $('#practice_instructions').hide()
+     $('#practice_but').text("Begin Experiment")
+
   ### Finishes the job ###
   FinishJob = ->
-      $('#experiment').hide()
-      $('#donejob').show()
-      DisplaySentPercent()
-      setTimeout(SubmitToAmazon, 60000)
+    $('#experiment').hide()
+    $('#donejob').show()
+    DisplaySentPercent()
+    setTimeout(SubmitToAmazon, 60000)
 
   ### Submits the data to Amazon ###
   SubmitToAmazon = ->

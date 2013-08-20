@@ -25,11 +25,14 @@
 
       %p.instructions Once you have selected a video thumbnail, three more will appear on the next screen. Please continue selecting the video you would most like to watch.
 
+      #practice_instructions
+        %p.instructions First, you will be given shown a few trials to practice on and then the experiment will begin.
+
       %p.instructions There are two parts to this experiment. You will be notified when the first part is over and given instructions for the second part.
 
       #start_box.instructions_click
         %p When you are ready to begin, click the button below to start the task.
-        %p <a href="javascript:void(0)", class="start_button", id="keep_but">Begin Experiment</a>
+        %p <a href="javascript:void(0)", class="start_button", id="practice_but">Begin Practice</a>
 
     #return_instructions.container.hidden
       .header
@@ -58,6 +61,16 @@
       .header.waiting
 
         %h1#loading_text Loading...0%
+
+    #donepractice.container.hidden
+      .header
+
+        %h1 Practice Complete
+
+      .instructions_click
+        %p Click below to start the task
+
+        %p <a href="javascript:void(0)", class="start_button", id="keep_but">Begin Experiment</a>
 
     #experiment.hidden.images{ data: { edata: @experiment_data, job_data: @job_data } }
       = link_to image_tag('', class: :left, id: 'left_image'), "javascript:void(0)"
