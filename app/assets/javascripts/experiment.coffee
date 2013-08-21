@@ -147,11 +147,16 @@ $ ->
     startTime = new Date()
     timeoutId = setTimeout RegisterChoiceNone, 2000
     
-  $('#practice_but').click(DisplayNextPracticeTrial)
+  $('#practice_but').click(->
+    if edata.practice_images.length > 0
+      jQuery.post('register_worker', $('#worker_form').serialize())
+    DisplayNextPracticeTrial()
+  )
 
   if edata.practice_images.length == 0
      $('#practice_instructions').hide()
      $('#practice_but').text("Begin Experiment")
+     $('#worker_form').hide()
 
   ### Finishes the job ###
   FinishJob = ->

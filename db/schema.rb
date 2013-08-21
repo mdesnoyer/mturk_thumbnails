@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 7) do
+ActiveRecord::Schema.define(:version => 8) do
 
   create_table "image_choices", :force => true do |t|
     t.string   "assignment_id"
@@ -32,8 +32,10 @@ ActiveRecord::Schema.define(:version => 7) do
     t.string   "worker_id"
     t.string   "remote_ip"
     t.string   "x_forwarded_for"
-    t.datetime "created_at",      :null => false
-    t.datetime "updated_at",      :null => false
+    t.datetime "created_at",                   :null => false
+    t.datetime "updated_at",                   :null => false
+    t.string   "gender",          :limit => 1
+    t.string   "age_group"
   end
 
 end

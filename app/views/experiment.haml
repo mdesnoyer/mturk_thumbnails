@@ -32,6 +32,27 @@
 
       #start_box.instructions_click
         %p When you are ready to begin, click the button below to start the task.
+        %form{:id => "worker_form", :action => "", :method => "post"}
+          %input{:type => "hidden", :name => "workerId", :value => @worker_id}
+          %table.form_table
+            %tr
+              %td Gender:
+              %td
+                %input{:type => "radio", :name => "gender", :value => "M"}M
+                %input{:type => "radio", :name => "gender", :value => "F"}F
+            %tr
+              %td Age:
+              %td 
+                %select{:name => "age_group"}
+                  %option{:value => ""}= ""
+                  %option{:value => "0-19"}= "0-19"
+                  %option{:value => "20-29"}= "20-29"
+                  %option{:value => "30-39"}= "30-39"
+                  %option{:value => "40-49"}= "40-49"
+                  %option{:value => "50-59"}= "50-59"
+                  %option{:value => "60-69"}= "60-69"
+                  %option{:value => "70+"}= "70+"
+          
         %p <a href="javascript:void(0)", class="start_button", id="practice_but">Begin Practice</a>
 
     #return_instructions.container.hidden

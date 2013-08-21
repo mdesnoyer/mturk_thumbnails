@@ -111,12 +111,14 @@ def write_to_db
   ImageChoice.where(trial: @n, worker_id: @worker_id, stimset_id: @job).first_or_create(image_choice)
 end
 
-def register_worker(workerId, remoteIp, xForwarded)
+def register_worker(workerId, remoteIp, xForwarded, gender, age_group)
   # Registers a worker in the database
   worker_info = {
     worker_id: workerId,
     remote_ip: remoteIp,
-    x_forwarded_for: xForwarded
+    x_forwarded_for: xForwarded,
+    gender: gender,
+    age_group: age_group
   }
 
 
@@ -134,6 +136,13 @@ MturkThumbnails.controllers do
   post :choose, with: :choice do
     set_variables
     write_to_db
+  end
+
+  post :register_worker do
+    register_worker(@worker_id, request.ip,
+                    request.env['HTTP_X_FORWARDED_FOR'],
+                    params[:gender] == '' ? nil : params[:gender],
+                    params[:age_group] == '' ? nil : params[:age_group])
   end
 
   get :experiment do
@@ -161,9 +170,6 @@ MturkThumbnails.controllers do
     }.to_json;
 
     @turk_url = get_amazon_url
-
-    register_worker(@worker_id, request.ip,
-                    request.env['HTTP_X_FORWARDED_FOR'])
 
     haml :experiment
   end
