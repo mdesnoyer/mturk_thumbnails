@@ -8,6 +8,9 @@ The trial order is a sequence of trials such that:
 
 The output is a csv file such that each line is a trial of the form:
 <image#1>,<image#2>,<image#3>
+
+Copyright Neon Labs 2013
+Author: Mark Desnoyer (desnoyer@neon-lab.com)
 '''
 import csv
 import copy
