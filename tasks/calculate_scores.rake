@@ -31,9 +31,8 @@ task calculate_scores: :environment do
   end
 
   filename = "#{Date.today.strftime('%Y-%m-%d')}-scores.csv"
-  path = "#{PADRINO_ROOT}/tmp/#{filename}"
 
-  CSV.open(path, 'w') do |csv|
+  score_string = CSV.generate do |csv|
     results.each do |stimset, scores|
       scores.each do |img, score|
         csv << [img, score, stimset]
@@ -41,7 +40,8 @@ task calculate_scores: :environment do
     end
   end
 
-  s3 = AWS::S3.new(access_key_id: ENV['S3_KEY'], secret_access_key: ENV['S3_SECRET'])
+  s3 = AWS::S3.new(access_key_id: ENV['S3_KEY'],
+                   secret_access_key: ENV['S3_SECRET'])
   bucket = s3.buckets['mturk-results']
-  bucket.objects[filename].write(Pathname.new(path))
+  bucket.objects[filename].write(score_string)
 end
