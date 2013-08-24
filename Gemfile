@@ -6,6 +6,9 @@ gem 'squeel'
 gem 'rturk'
 gem 'aws-sdk'
 gem 'open-uri-cached'
+gem 'interpolator'
+gem 'googlecharts'
+gem 'debugger'
 
 # Project requirements
 gem 'rake'

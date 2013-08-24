@@ -22,10 +22,18 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.5.0)
+    columnize (0.3.6)
     daemons (1.1.9)
+    debugger (1.6.1)
+      columnize (>= 0.3.1)
+      debugger-linecache (~> 1.2.0)
+      debugger-ruby_core_source (~> 1.2.3)
+    debugger-linecache (1.2.0)
+    debugger-ruby_core_source (1.2.3)
     eventmachine (1.0.1)
     execjs (1.4.0)
       multi_json (~> 1.0)
+    googlecharts (1.6.8)
     haml (4.0.0)
       tilt
     hike (1.2.3)
@@ -36,6 +44,7 @@ GEM
       multi_json (~> 1.0)
       multi_xml (>= 0.5.2)
     i18n (0.6.4)
+    interpolator (0.15)
     json (1.8.0)
     libv8 (3.11.8.13)
     mail (2.3.3)
@@ -131,8 +140,11 @@ DEPENDENCIES
   activerecord
   aws-sdk
   coffee-script
+  debugger
+  googlecharts
   haml
   httparty
+  interpolator
   newrelic_rpm
   open-uri-cached
   padrino

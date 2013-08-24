@@ -1,4 +1,5 @@
 require 'csv'
+require 'turk_filter'
 
 task calculate_scores: :environment do
   stimsets = ImageChoice.select('distinct stimset_id').map(&:stimset_id)
