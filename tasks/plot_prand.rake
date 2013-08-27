@@ -27,15 +27,12 @@ task plot_prand: :environment do
     |c| [c.worker_id, c.stimset_id]
   }
   jobs.each do |worker, stim|
-    puts worker
     trials = ImageChoice.where(:worker_id => worker, :stimset_id => stim)
     if trials.length == 0
       next
     end
 
     trials = filter.filter_trials(trials)
-
-    probs << calculator.calculate_p_random(trials)
 
     time_sum = 0
     valid_trials = 0
@@ -45,7 +42,11 @@ task plot_prand: :environment do
         valid_trials += 1
       end
     end
-    reaction_times << time_sum.to_f / valid_trials
+    
+    if valid_trials > 0
+      reaction_times << time_sum.to_f / valid_trials
+      probs << calculator.calculate_p_random(trials)
+    end
   end
 
   # Plot them
