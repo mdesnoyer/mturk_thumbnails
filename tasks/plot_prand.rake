@@ -11,7 +11,7 @@ require 'debugger'
 $AWS_ACCESS_KEY='AKIAJ5G2RZ6BDNBZ2VBA'
 $AWS_SECRET_KEY='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'
 
-task plot_prand: => :environment do
+task plot_prand: :environment do
 
   calculator = TurkFilter::TooRandom.new(
     Rake.application.original_dir + '/config/score_prob.csv',
