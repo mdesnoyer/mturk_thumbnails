@@ -7,6 +7,7 @@
 require 'turk_filter'
 require 'gchart'
 require 'debugger'
+require 'securerandom'
 
 $AWS_ACCESS_KEY='AKIAJ5G2RZ6BDNBZ2VBA'
 $AWS_SECRET_KEY='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'
@@ -57,14 +58,18 @@ task plot_prand: :environment do
     :size => '500x500',
     :point_size => 2,
     :title => 'P(random) vs. Avg. Reaction Time (ms)',                         
-    :axis_with_labels => [['x'],['y']])
+    :axis_with_labels => [['x'],['y']],
+    :axis_range => [[100,2000],[10,100]])
+
+  unique_id = SecureRandom.hex(10)
+  graph_file = "p_random_vs_reaction_time_#{unique_id}.png"
 
   s3 = AWS::S3.new(access_key_id:$AWS_ACCESS_KEY ,
                    secret_access_key: $AWS_SECRET_KEY)
   bucket = s3.buckets['neon-graphs']
-  bucket.objects['p_random_vs_reaction_time.png'].write(chart.fetch,
+  bucket.objects[graph_file].write(chart.fetch,
                                                         :acl => :public_read)
-
+  
   puts 'Your graph is available at:'
-  puts 'https://neon-graphs.s3.amazonaws.com/p_random_vs_reaction_time.png'
+  puts "https://neon-graphs.s3.amazonaws.com/#{graph_file}"
 end
