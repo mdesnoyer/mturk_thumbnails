@@ -65,5 +65,6 @@ task plot_prand: :environment do
   bucket.objects['p_random_vs_reaction_time.png'].write(chart.fetch,
                                                         :acl => :public_read)
 
+  puts 'Your graph is available at:'
   puts 'https://neon-graphs.s3.amazonaws.com/p_random_vs_reaction_time.png'
 end
