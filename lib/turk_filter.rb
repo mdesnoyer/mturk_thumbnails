@@ -178,10 +178,6 @@ module TurkFilter
           scores[trial.image_three] = 0
         end
 
-        if scores[trial.chosen_image].nil?
-          puts trial.chosen_image
-        end
-
         # Add a count for the selected image
         if trial.chosen_image != 'none' and trial.chosen_image != ''
           if trial.condition == 'KEEP'
@@ -196,6 +192,8 @@ module TurkFilter
       max_score = (@p_expected.length - 1)/2
       obs_count = Array.new(@p_expected.length, 0)
       scores.each do |image, score|
+        if score > max_score
+          puts image + score
         obs_count[score + max_score] += 1
       end
       sum = obs_count.inject{|sum,x| sum + x}
