@@ -12,15 +12,21 @@ module TurkFilter
   module RejectReason
     NONE = nil
     TOO_FAST = 'Reaction was too fast'
+    DUPLICATE = 'Duplicate'
     TOO_RANDOM = 'Worker was too random'
   end
 
-  @trial_filters = nil
+  @pre_trial_filters = nil
+  @post_trial_filters = nil
   @worker_filters = nil
 
   def load_filters
-    if @trial_filters.nil?
-      @trial_filters = [TrialTooFast.new]
+    if @pre_trial_filters.nil?
+      @pre_trial_filters = [TrialDuplicate.new]
+    end
+
+    if @post_trial_filters.nil?
+      @post_trial_filters = [TrialTooFast.new]
     end
 
     if @worker_filters.nil?
@@ -55,6 +61,13 @@ module TurkFilter
     trials = ImageChoice.where(worker_id: worker_id,
                                stimset_id: stimset_id).all
 
+    # Run the filters on the trials
+    @pre_trial_filters.each do |filter|
+      start_trials = trials.length
+      trials = filter.filter_trials(trials)
+      retval.trial_rejections[filter.reason()] = trials.length - start_trials
+    end
+
     # Filter the worker to decide if the resulting
     # dataset is valid
     @worker_filters.each do |filter|
@@ -66,7 +79,7 @@ module TurkFilter
     
 
     # Run the filters on the trials
-    @trial_filters.each do |filter|
+    @post_trial_filters.each do |filter|
       start_trials = trials.length
       trials = filter.filter_trials(trials)
       retval.trial_rejections[filter.reason()] = trials.length - start_trials
@@ -111,6 +124,24 @@ module TurkFilter
       return RejectReason::TOO_FAST
     end
 
+  end
+
+  # Filter any situations where the trial was recorded more than once
+  class TrialDuplicate < TrialFilter
+    def filter_trials(trials)
+      retval = []
+      trials_seen = Set.new
+      for trial in trials
+        if not trials_seen.add?(trial.trial).nil?
+          retval << trial
+        end
+      end
+      return retval
+    end
+
+    def reason
+      return RejectReason::DUPLICATE
+    end
   end
 
   # Abstract class that will filter a worker

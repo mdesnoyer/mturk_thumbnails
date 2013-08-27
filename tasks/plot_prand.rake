@@ -18,6 +18,8 @@ task plot_prand: :environment do
     Rake.application.original_dir + '/config/g_stats.csv',
     0.10)
 
+  filter = TurkFilter::TrialDuplicate.new
+
   # Calculate the stats
   reaction_times = []
   probs = []
@@ -30,6 +32,8 @@ task plot_prand: :environment do
     if trials.length == 0
       next
     end
+
+    trials = filter.filter_trials(trials)
 
     probs << calculator.calculate_p_random(trials)
 
