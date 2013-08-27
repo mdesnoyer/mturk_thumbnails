@@ -193,7 +193,7 @@ module TurkFilter
       obs_count = Array.new(@p_expected.length, 0)
       scores.each do |image, score|
         if score > max_score
-          puts image + score
+          puts image + score.to_s
         end
         obs_count[score + max_score] += 1
       end
