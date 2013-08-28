@@ -19,6 +19,17 @@ ActiveRecord::Base.configurations[:production] = {
   :host     => postgres.host
 }
 
+# Connect to the production database, but we don't need to be in the
+# Heroku environment.
+ActiveRecord::Base.configurations[:remote_production] = {
+  :adapter  => 'postgresql',
+  :encoding => 'utf8',
+  :database => 'd818kso4dkedro',
+  :username => 'ypqkdxvnyynxtc',
+  :password => 'Kr3_R6gYvLqGk_WnYc9dclK6sF',
+  :host     => 'ec2-23-23-234-207.compute-1.amazonaws.com'
+}
+
 # Setup our logger
 ActiveRecord::Base.logger = logger
 

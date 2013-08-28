@@ -12,6 +12,7 @@ module TurkFilter
   module RejectReason
     NONE = nil
     TOO_FAST = 'Reaction was too fast'
+    TOO_SLOW = 'Reaction was too slow'
     DUPLICATE = 'Duplicate'
     TOO_RANDOM = 'Worker was too random'
   end
@@ -22,7 +23,8 @@ module TurkFilter
 
   def load_filters
     if @pre_trial_filters.nil?
-      @pre_trial_filters = [TrialDuplicate.new]
+      @pre_trial_filters = [TrialDuplicate.new,
+                           TrialTooSlow.new]
     end
 
     if @post_trial_filters.nil?
@@ -32,7 +34,7 @@ module TurkFilter
     if @worker_filters.nil?
       @worker_filters = [TooRandom.new('#{PADRINO_ROOT}/config/score_prob.csv',
                                        '#{PADRINO_ROOT}/config/g_stats.csv',
-                                       0.10)]
+                                       0.15)]
     end
   end
 
@@ -117,13 +119,15 @@ module TurkFilter
   # Filter the trial because the reaction time was too fast
   class TrialTooFast < TrialFilter
     def is_valid(trial)
+      if trial.reaction_time.nil?
+        return true
+      end
       return trial.reaction_time > 400 # ms
     end
 
     def reason
       return RejectReason::TOO_FAST
     end
-
   end
 
   # Filter any situations where the trial was recorded more than once
@@ -141,6 +145,20 @@ module TurkFilter
 
     def reason
       return RejectReason::DUPLICATE
+    end
+  end
+
+  # The trial time was too slow, so somethine weird happened
+  class TrialTooSlow < TrialFilter
+    def is_valid(trial)
+      if trial.reaction_time.nil?
+        return true
+      end
+      return trial.reaction_time < 2000 # ms
+    end
+
+    def reason
+      return RejectReason::TOO_SLOW
     end
   end
 
@@ -178,10 +196,11 @@ module TurkFilter
       g_p = []
       CSV.foreach(g_prob) do |row|
         g_val << Float(row[0])
-        g_p << Float(row[0])
+        g_p << Float(row[1])
       end
       @g_prob = Interpolator::Table.new(g_val,g_p) do |tab|
         tab.style=Interpolator::Table::CUBIC
+        tab.extrapolate=false
       end
     end
 

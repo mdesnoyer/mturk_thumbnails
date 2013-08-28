@@ -33,7 +33,6 @@ GEM
     eventmachine (1.0.1)
     execjs (1.4.0)
       multi_json (~> 1.0)
-    googlecharts (1.6.8)
     haml (4.0.0)
       tilt
     hike (1.2.3)
@@ -141,7 +140,6 @@ DEPENDENCIES
   aws-sdk
   coffee-script
   debugger
-  googlecharts
   haml
   httparty
   interpolator

@@ -7,8 +7,8 @@ gem 'rturk'
 gem 'aws-sdk'
 gem 'open-uri-cached'
 gem 'interpolator'
-gem 'googlecharts'
 gem 'debugger'
+#gem 'rsruby'
 
 # Project requirements
 gem 'rake'
