@@ -2,32 +2,39 @@ require 'csv'
 require 'turk_filter'
 
 task calculate_scores: :environment do
-  stimsets = ImageChoice.select('distinct stimset_id').map(&:stimset_id)
   results = {}
 
-  stimsets.each do |stimset|
+  stimsets = ImageChoice.select('distinct stimset_id').map(&:stimset_id)
+  for stimset in stimsets
     stimset_results = results[stimset] = {}
-    worker_ids = ImageChoice.where(trial: 288, stimset_id: stimset).select(:worker_id).map(&:worker_id)
-    worker_count = worker_ids.size
-    scores = Hash.new { |h, k| h[k] = 0 }
-  
-    worker_ids.each do |worker_id|
-      trials = ImageChoice.where(worker_id: worker_id, stimset_id: stimset).all
-      unique_trials = trials.uniq_by(&:trial)
 
-      unique_trials.each do |trial|
-        if trial.chosen_image != 'NONE'
+    # for each image, to counts of [<keep_view>, <return_view>,
+    # <keep_clicks>, <return_clicks]
+    counts = Hash.new { |h, k| h[k] = [0, 0, 0, 0] }
+
+    workers = ImageChoice.select('distinct worker_id').where(
+      :stimset_id => stimset).map(&:worker_id)
+    for worker_id in workers
+      for trial in TurkFilter::get_filtered_trials(worker, stimset).trials
+        if trial.chosen_image != 'NONE' and trial.chosen_image != ''
           if trial.condition == 'KEEP'
-            scores[trial.chosen_image] += 1
+            counts[trial.chosen_image][2] += 1
+            counts[trial.image_one][0] += 1
+            counts[trial.image_two][0] += 1
+            counts[trial.image_three][0] += 1
           else
-            scores[trial.chosen_image] -= 1
+            counts[trial.chosen_image][3] += 1
+            counts[trial.image_one][1] += 1
+            counts[trial.image_two][2] += 1
+            counts[trial.image_three][3] += 1
           end
         end
       end
     end
-  
-    scores.each do |img, score|
-      stimset_results[img] = (score/worker_count.to_f).round(3)
+      
+    counts.each do |img, count|
+      score = count[2].to_f / count[0] - count[3].to_f / count[1]
+      stimset_results[img] = score.round(3)
     end
   end
 
