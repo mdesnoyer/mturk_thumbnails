@@ -38,11 +38,12 @@ namespace :plot_prand do
     # Calculate the stats
     reaction_times = []
     probs = []
-    jobs = ImageChoice.select('distinct worker_id, stimset_id').limit($N_SAMPLES).map{
-      |c| [c.worker_id, c.stimset_id]
+    jobs = ImageChoice.select('distinct worker_id, substring(stimset_id from \'stimuli_[0-9]+\') as stim').limit($N_SAMPLES).where("stimset_id like 'stimuli_%'").map{
+      |c| [c.worker_id, c.stim]
     }
     jobs.each do |worker, stim|
-      trials = ImageChoice.where(:worker_id => worker, :stimset_id => stim)
+      trials = ImageChoice.where('worker_id = ? and stimset_id like ?',
+                                 worker, "#{stim}%").all
       if trials.length == 0
         next
       end

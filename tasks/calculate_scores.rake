@@ -4,7 +4,7 @@ require 'turk_filter'
 task calculate_scores: :environment do
   results = {}
 
-  stimsets = ImageChoice.select('distinct stimset_id').map(&:stimset_id)
+  stimsets = ImageChoice.select('distinct substring(stimset_id from \'stimuli_[0-9]+\')').map(&:stimset_id)
   for stimset in stimsets
     stimset_results = results[stimset] = {}
 

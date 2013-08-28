@@ -60,8 +60,8 @@ module TurkFilter
 
     load_filters()
 
-    trials = ImageChoice.where(worker_id: worker_id,
-                               stimset_id: stimset_id).all
+    trials = ImageChoice.where('worker_id = ? and stimset_id like ?',
+                               worker_id, "#{stimset_id}%").all
 
     # Run the filters on the trials
     @pre_trial_filters.each do |filter|
