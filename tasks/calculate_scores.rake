@@ -4,7 +4,7 @@ require 'turk_filter'
 task calculate_scores: :environment do
   results = {}
 
-  stimsets = ImageChoice.select('distinct substring(stimset_id from \'stimuli_[0-9]+\')').map(&:stimset_id)
+  stimsets = ImageChoice.select('distinct substring(stimset_id from \'stimuli_[0-9]+\') as stim').map(&:stim)
   for stimset in stimsets
     stimset_results = results[stimset] = {}
 
@@ -13,9 +13,9 @@ task calculate_scores: :environment do
     counts = Hash.new { |h, k| h[k] = [0, 0, 0, 0] }
 
     workers = ImageChoice.select('distinct worker_id').where(
-      :stimset_id => stimset).map(&:worker_id)
+      'stimset_id like ?', "#{stimset}%").map(&:worker_id)
     for worker_id in workers
-      for trial in TurkFilter::get_filtered_trials(worker, stimset).trials
+      for trial in TurkFilter.get_filtered_trials(worker_id, stimset)['trials']
         if trial.chosen_image != 'NONE' and trial.chosen_image != ''
           if trial.condition == 'KEEP'
             counts[trial.chosen_image][2] += 1

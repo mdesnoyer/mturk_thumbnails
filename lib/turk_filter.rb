@@ -21,7 +21,7 @@ module TurkFilter
   @post_trial_filters = nil
   @worker_filters = nil
 
-  def load_filters
+  def TurkFilter.load_filters
     if @pre_trial_filters.nil?
       @pre_trial_filters = [TrialDuplicate.new,
                            TrialTooSlow.new]
@@ -32,9 +32,10 @@ module TurkFilter
     end
 
     if @worker_filters.nil?
-      @worker_filters = [TooRandom.new('#{PADRINO_ROOT}/config/score_prob.csv',
-                                       '#{PADRINO_ROOT}/config/g_stats.csv',
-                                       0.15)]
+      @worker_filters = [TooRandom.new(
+        Rake.application.original_dir + '/config/score_prob.csv',
+        Rake.application.original_dir + '/config/g_stats.csv',
+        0.15)]
     end
   end
 
@@ -51,14 +52,14 @@ module TurkFilter
   # worker_rejection - Reason that the worker was rejected
   # trial_rejections - Map of rejection reason -> # of trials rejected that
   #                    way. Note, a trial can only be rejected for one reason.
-  def get_filtered_trials(worker_id, stimset_id)
+  def TurkFilter.get_filtered_trials(worker_id, stimset_id)
     retval = {
       'trials' => [],
       'worker_rejection' => RejectReason::NONE,
       'trial_rejections' => {}
     }
 
-    load_filters()
+    TurkFilter.load_filters()
 
     trials = ImageChoice.where('worker_id = ? and stimset_id like ?',
                                worker_id, "#{stimset_id}%").all
@@ -67,14 +68,14 @@ module TurkFilter
     @pre_trial_filters.each do |filter|
       start_trials = trials.length
       trials = filter.filter_trials(trials)
-      retval.trial_rejections[filter.reason()] = trials.length - start_trials
+      retval['trial_rejections'][filter.reason()] = trials.length - start_trials
     end
 
     # Filter the worker to decide if the resulting
     # dataset is valid
     @worker_filters.each do |filter|
-      if not filter.is_valid
-        retval.worker_rejection = filter.reason
+      if not filter.is_valid(trials)
+        retval['worker_rejection'] = filter.reason
         return retval
       end
     end
@@ -84,9 +85,10 @@ module TurkFilter
     @post_trial_filters.each do |filter|
       start_trials = trials.length
       trials = filter.filter_trials(trials)
-      retval.trial_rejections[filter.reason()] = trials.length - start_trials
+      retval['trial_rejections'][filter.reason()] = trials.length - start_trials
     end
 
+    retval['trials'] = trials
     return retval
   end
 
@@ -205,7 +207,7 @@ module TurkFilter
     end
 
     def reason
-      raise Reason::TOO_RANDOM
+      return RejectReason::TOO_RANDOM
     end
 
     def is_valid(trials)
