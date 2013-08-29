@@ -8,7 +8,7 @@ gem 'aws-sdk'
 gem 'open-uri-cached'
 gem 'interpolator'
 gem 'debugger'
-gem 'rsruby'
+#gem 'rsruby'
 
 # Project requirements
 gem 'rake'
