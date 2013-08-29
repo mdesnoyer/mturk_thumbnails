@@ -98,6 +98,7 @@ GEM
     ref (1.0.2)
     rest-client (1.6.7)
       mime-types (>= 1.16)
+    rsruby (0.5.1.1)
     rturk (2.10.2)
       nokogiri (>= 1.4.1)
       rest-client (>= 1.4.0)
@@ -149,6 +150,7 @@ DEPENDENCIES
   padrino-assets
   pg
   rake
+  rsruby
   rturk
   sass
   squeel
