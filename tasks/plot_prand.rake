@@ -6,8 +6,12 @@
 
 require 'turk_filter'
 require 'debugger'
-require 'rsruby'
 require 'securerandom'
+
+begin
+  require 'rsruby'
+rescue LoadError
+end
 
 $AWS_ACCESS_KEY='AKIAJ5G2RZ6BDNBZ2VBA'
 $AWS_SECRET_KEY='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'

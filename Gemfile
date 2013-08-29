@@ -8,7 +8,6 @@ gem 'aws-sdk'
 gem 'open-uri-cached'
 gem 'interpolator'
 gem 'debugger'
-#gem 'rsruby'
 
 # Project requirements
 gem 'rake'
@@ -25,6 +24,7 @@ gem 'newrelic_rpm'
 
 group :development do
   gem 'therubyracer'
+  gem 'rsruby'
 end
 
 # Test requirements
