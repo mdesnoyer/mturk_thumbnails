@@ -25,14 +25,18 @@ task calculate_scores: :environment do
           else
             counts[trial.chosen_image][3] += 1
             counts[trial.image_one][1] += 1
-            counts[trial.image_two][2] += 1
-            counts[trial.image_three][3] += 1
+            counts[trial.image_two][1] += 1
+            counts[trial.image_three][1] += 1
           end
         end
       end
     end
       
     counts.each do |img, count|
+      # Make sure that there is enough data for this image
+      if count[0] < 60 or count[1] < 60
+        next
+      end
       score = count[2].to_f / count[0] - count[3].to_f / count[1]
       stimset_results[img] = score.round(3)
     end
@@ -52,4 +56,6 @@ task calculate_scores: :environment do
                    secret_access_key: ENV['S3_SECRET'])
   bucket = s3.buckets['mturk-results']
   bucket.objects[filename].write(score_string)
+
+  puts("Wrote #{filename} to S3")
 end
