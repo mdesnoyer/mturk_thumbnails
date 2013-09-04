@@ -105,10 +105,13 @@ def write_to_db
     image_three: clean_filename(params[:image_three]),
     chosen_image: clean_filename(@choice),
     condition: @condition,
-    reaction_time: params[:reaction_time]
+    reaction_time: params[:reaction_time],
+    worker_id: @worker_id,
+    stimset_id: @job,
+    trial: @n
   }
 
-  ImageChoice.where(trial: @n, worker_id: @worker_id, stimset_id: @job).first_or_create(image_choice)
+  ImageChoice.create(image_choice)
 end
 
 def register_worker(workerId, remoteIp, xForwarded, gender, age_group)

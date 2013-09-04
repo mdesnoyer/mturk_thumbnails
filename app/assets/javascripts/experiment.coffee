@@ -75,9 +75,11 @@ $ ->
 
     for i in [0...edata.practice_images.length]
       do (i) ->
-        practice_images.push(new Image(edata.practice_images[i][0]))
-        practice_images.push(new Image(edata.practice_images[i][1]))
-        practice_images.push(new Image(edata.practice_images[i][2]))
+        for j in [0...3] 
+          do (j) ->
+            im = new Image()
+            im.src = edata.practice_images[i][j]
+            practice_images[3*i + j] = im
     for i in [0..(edata.images.length-1)]
       do (i) ->
         images[i] = new Image()
