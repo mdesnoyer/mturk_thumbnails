@@ -59,7 +59,9 @@ end
 def get_practice_images
   # If the user has done the job in the last few days, don't send
   # practice images
-  lastTime = ImageChoice.where(worker_id: @worker_id).maximum(:updated_at)
+  if @assignment_id != "ASSIGNMENT_ID_NOT_AVAILABLE" then
+    lastTime = ImageChoice.where(worker_id: @worker_id).maximum(:updated_at)
+  end
   if lastTime and ((Time.now - lastTime)/86400) < 4 then
     return []
   end
@@ -84,7 +86,10 @@ def read_params
 end
 
 def current_choice_number
-  max_trial = ImageChoice.where(worker_id: @worker_id, stimset_id: @job).maximum(:trial)
+  if @assignment_id != "ASSIGNMENT_ID_NOT_AVAILABLE" then
+    max_trial = ImageChoice.where(worker_id: @worker_id,
+                                  stimset_id: @job).maximum(:trial)
+  end
   @current_choice_number = max_trial ? max_trial.to_i + 1 : 0
 end
 
