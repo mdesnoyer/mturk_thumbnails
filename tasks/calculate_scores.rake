@@ -40,9 +40,9 @@ task calculate_scores: :environment do
       
     counts.each do |img, count|
       # Make sure that there is enough data for this image
-      if count[0] < 50 or count[1] < 50
-        next
-      end
+      #if count[0] < 50 or count[1] < 50
+      #  next
+      #end
       score = count[2].to_f / count[0] - count[3].to_f / count[1]
       stimset_results[img] = score.round(3)
     end
