@@ -18,7 +18,7 @@ task calculate_scores: :environment do
     workers = ImageChoice.select('distinct worker_id').where(
       'stimset_id like ?', "#{stimset}%").map(&:worker_id)
     for worker_id in workers
-      if WorkerInfo.select('gender').where(:worker_id => worker_id).map(&:gender)[0] != 'F':
+      if WorkerInfo.select('gender').where("worker_id = #{worker_id}").map(&:gender)[0] != 'F':
           next
       end
       for trial in TurkFilter.get_filtered_trials(worker_id, stimset)['trials']
