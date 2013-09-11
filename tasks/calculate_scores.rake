@@ -6,6 +6,9 @@ task calculate_scores: :environment do
 
   stimsets = ImageChoice.select('distinct substring(stimset_id from \'faces[0-9]+\') as stim').map(&:stim)
   for stimset in stimsets
+    if stimset.nil? or stimset.empty?
+      next
+    end
     stimset_results = results[stimset] = {}
 
     # for each image, to counts of [<keep_view>, <return_view>,
