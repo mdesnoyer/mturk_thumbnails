@@ -64,6 +64,8 @@ module TurkFilter
     trials = ImageChoice.where('worker_id = ? and stimset_id like ?',
                                worker_id, "#{stimset_id}%").all
 
+    puts trials.length
+
     # Run the filters on the trials
     @pre_trial_filters.each do |filter|
       start_trials = trials.length

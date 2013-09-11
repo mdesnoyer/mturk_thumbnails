@@ -11,6 +11,8 @@ task calculate_scores: :environment do
     end
     stimset_results = results[stimset] = {}
 
+    puts stimset
+
     # for each image, to counts of [<keep_view>, <return_view>,
     # <keep_clicks>, <return_clicks]
     counts = Hash.new { |h, k| h[k] = [0, 0, 0, 0] }
