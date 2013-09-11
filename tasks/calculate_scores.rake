@@ -37,7 +37,7 @@ task calculate_scores: :environment do
       
     counts.each do |img, count|
       # Make sure that there is enough data for this image
-      puts count
+      puts "#{count[0]} #{count[1]} #{count[2]} #{count[3]}"
       if count[0] < 60 or count[1] < 60
         next
       end
