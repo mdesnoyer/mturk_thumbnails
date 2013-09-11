@@ -64,13 +64,12 @@ module TurkFilter
     trials = ImageChoice.where('worker_id = ? and stimset_id like ?',
                                worker_id, "#{stimset_id}%").all
 
-    puts trials.length
 
     # Run the filters on the trials
     @pre_trial_filters.each do |filter|
       start_trials = trials.length
       trials = filter.filter_trials(trials)
-      retval['trial_rejections'][filter.reason()] = trials.length - start_trials
+      retval['trial_rejections'][filter.reason()] = start_trials - trials.length
     end
 
     # Filter the worker to decide if the resulting
@@ -87,12 +86,9 @@ module TurkFilter
     @post_trial_filters.each do |filter|
       start_trials = trials.length
       trials = filter.filter_trials(trials)
-      retval['trial_rejections'][filter.reason()] = trials.length - start_trials
+      retval['trial_rejections'][filter.reason()] = start_trials - trials.length
     end
 
-    puts trials.length
-    puts retval['worker_rejection']
-    puts retval['trial_rejections']
 
     retval['trials'] = trials
     return retval

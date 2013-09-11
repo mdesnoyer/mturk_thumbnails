@@ -11,8 +11,6 @@ task calculate_scores: :environment do
     end
     stimset_results = results[stimset] = {}
 
-    puts stimset
-
     # for each image, to counts of [<keep_view>, <return_view>,
     # <keep_clicks>, <return_clicks]
     counts = Hash.new { |h, k| h[k] = [0, 0, 0, 0] }
@@ -39,6 +37,7 @@ task calculate_scores: :environment do
       
     counts.each do |img, count|
       # Make sure that there is enough data for this image
+      puts count
       if count[0] < 60 or count[1] < 60
         next
       end
