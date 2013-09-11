@@ -90,6 +90,10 @@ module TurkFilter
       retval['trial_rejections'][filter.reason()] = trials.length - start_trials
     end
 
+    puts trials.length
+    puts retval['worker_rejection']
+    puts retval['trial_rejections']
+
     retval['trials'] = trials
     return retval
   end
