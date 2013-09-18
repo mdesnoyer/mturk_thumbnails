@@ -17,7 +17,7 @@ namespace :calculate_scores do
   task :default => :environment do
     results = {}
 
-    stimsets = ImageChoice.select('distinct substring(stimset_id from \'faces[0-9]+\') as stim').map(&:stim)
+    stimsets = ImageChoice.select('distinct substring(stimset_id from \'stimuli_[0-9]+\') as stim').map(&:stim)
     for stimset in stimsets
       if stimset.nil? or stimset.empty?
         next
