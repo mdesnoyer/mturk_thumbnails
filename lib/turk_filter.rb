@@ -6,6 +6,7 @@
 
 require 'csv'
 require 'interpolator'
+require 'logger'
 
 module TurkFilter
   # Set of constants used to describe why rejections took place
@@ -16,6 +17,9 @@ module TurkFilter
     DUPLICATE = 'Duplicate'
     TOO_RANDOM = 'Worker was too random'
   end
+
+  logger = Logger.new(STDOUT)
+  logger.level = Logger::WARN
 
   @pre_trial_filters = nil
   @post_trial_filters = nil
@@ -246,6 +250,10 @@ module TurkFilter
       max_score = (@p_expected.length - 1)/2
       obs_count = Array.new(@p_expected.length, 0)
       scores.each do |image, score|
+        if score > max_score or score < -max_score
+          logger.error("Score for image #{image} is invalid. Throwing out all of the user's results.")
+          return 1.0
+        end
         obs_count[score + max_score] += 1
       end
       sum = obs_count.inject{|sum,x| sum + x}
