@@ -135,6 +135,33 @@ def register_worker(workerId, remoteIp, xForwarded, gender, age_group)
   end
 end
 
+def JobId2Stimset(jobId)
+  # Extract out the stimset id
+  reg = /(?<stimset>[A-Za-z0-9_\-]+)_[A-Za-z0-9]+$/x
+
+  parse = jobId.match(reg)
+  if parse.nil? then
+    stimset = jobId
+  else
+    stimset = parse['stimset']
+  end
+
+  return stimset
+end
+
+def register_completed_job(workerId, jobId)
+
+  # Register that this worker completed the job
+  JobsCompleted.create(worker_id: workerId, stimset: JobId2Stimset(jobId))
+end
+
+def job_completed(workerId, jobId)
+  # Returns true if the job was completed by the worker already
+
+  return JobsCompleted.where(worker_id: workerId,
+                             stimset: JobId2Stimset(jobId)).count > 0
+end
+
 MturkThumbnails.controllers do
   before do
     p params
@@ -144,6 +171,10 @@ MturkThumbnails.controllers do
   post :choose, with: :choice do
     set_variables
     write_to_db
+
+    if @n >= (TOTAL_TRIALS-1)
+      register_completed_job(@worker_id, @job)
+    end
   end
 
   post :register_worker do
@@ -154,11 +185,12 @@ MturkThumbnails.controllers do
   end
 
   get :experiment do
-    cur_trial = current_choice_number
-    trials = get_trial_sequence
-    if cur_trial >= (2 * trials.length)
+    if job_completed(@worker_id, @job)
       return haml :already_completed
     end
+
+    cur_trial = current_choice_number
+    trials = get_trial_sequence
 
     @experiment_data = {
       'img_dir' => stimuli_folder_name,
