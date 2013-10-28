@@ -31,7 +31,22 @@ namespace :calculate_scores do
       workers = ImageChoice.select('distinct worker_id').where(
         'stimset_id like ?', "#{stimset}%").map(&:worker_id)
       for worker_id in workers
-        for trial in TurkFilter.get_filtered_trials(worker_id, stimset)['trials']
+        filtered_result = TurkFilter.get_filtered_trials(worker_id, stimset)
+        if not filtered_result['worker_rejection'].nil?
+          # This user was filtered, so record it
+          UserRejection.create(worker_id: worker_id, stimset: stimset,
+                               reason: filtered_result['worker_rejection'])
+          next
+        end
+
+        # Record the number of trials rejected and for what reason
+        filtered_result['trial_rejections'].each do |reason, count|
+          TrialRejection.create(worker_id: worker_id, stimset: stimset,
+                                reason: reason, count: count)
+        end
+        
+        trials = filtered_result['trials']
+        for trial in trials
           if trial.chosen_image != 'NONE' and trial.chosen_image != ''
             if trial.condition == 'KEEP'
               counts[trial.chosen_image][2] += 1
@@ -49,13 +64,23 @@ namespace :calculate_scores do
       end
       
       counts.each do |img, count|
+        if count[0] == 0 or count[1] == 0
+            next
+        end
+        score = count[2].to_f / count[0] - count[3].to_f / count[1]
+        score = score.round(3)
+
+        # Record the image score in the database
+        ImageScore.create(image: img, valence: score, stimset: stimset,
+                          valid_keeps: count[0], valid_returns: count[1])
+
         # Make sure that there is enough data for this image
         # TODO(deb): Figure out what this number should be
         if count[0] < 50 or count[1] < 50
           next
         end
-        score = count[2].to_f / count[0] - count[3].to_f / count[1]
-        stimset_results[img] = score.round(3)
+
+        stimset_results[img] = score
       end
     end
 

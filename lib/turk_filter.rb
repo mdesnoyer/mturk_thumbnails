@@ -73,7 +73,10 @@ module TurkFilter
     @pre_trial_filters.each do |filter|
       start_trials = trials.length
       trials = filter.filter_trials(trials)
-      retval['trial_rejections'][filter.reason()] = start_trials - trials.length
+      n_filtered = start_trials - trials.length
+      if n_filtered > 0
+        retval['trial_rejections'][filter.reason()] = n_filtered
+      end
     end
 
     # Filter the worker to decide if the resulting
@@ -90,7 +93,10 @@ module TurkFilter
     @post_trial_filters.each do |filter|
       start_trials = trials.length
       trials = filter.filter_trials(trials)
-      retval['trial_rejections'][filter.reason()] = start_trials - trials.length
+      n_filtered = start_trials - trials.length
+      if n_filtered > 0
+        retval['trial_rejections'][filter.reason()] = n_filtered
+      end
     end
 
 
@@ -156,7 +162,7 @@ module TurkFilter
     end
   end
 
-  # The trial time was too slow, so somethine weird happened
+  # The trial time was too slow, so something weird happened
   class TrialTooSlow < TrialFilter
     def is_valid(trial)
       if trial.reaction_time.nil?

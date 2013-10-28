@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 9) do
+ActiveRecord::Schema.define(:version => 12) do
 
   create_table "image_choices", :force => true do |t|
     t.string   "assignment_id"
@@ -28,9 +28,30 @@ ActiveRecord::Schema.define(:version => 9) do
     t.integer  "reaction_time"
   end
 
+  create_table "image_scores", :force => true do |t|
+    t.string  "image"
+    t.float   "valence"
+    t.string  "stimset"
+    t.integer "valid_keeps"
+    t.integer "valid_returns"
+  end
+
   create_table "jobs_completed", :force => true do |t|
     t.string "worker_id"
     t.string "stimset"
+  end
+
+  create_table "trial_rejections", :force => true do |t|
+    t.string  "worker_id"
+    t.string  "stimset"
+    t.string  "reason"
+    t.integer "count"
+  end
+
+  create_table "user_rejections", :force => true do |t|
+    t.string "worker_id"
+    t.string "stimset"
+    t.string "reason"
   end
 
   create_table "worker_info", :force => true do |t|
