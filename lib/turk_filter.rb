@@ -66,7 +66,7 @@ module TurkFilter
     TurkFilter.load_filters()
 
     trials = ImageChoice.where('worker_id = ? and stimset_id like ?',
-                               worker_id, "#{stimset_id}%").all
+                               worker_id, "#{stimset_id}_%").all
 
 
     # Run the filters on the trials

@@ -30,7 +30,7 @@ namespace :plot_nworkers do
     
     # First collect all the counts from the database for every worker
     workers = ImageChoice.select('distinct worker_id').where(
-        'stimset_id like ?', "faces1_%").map(&:worker_id)
+        'stimset_id like ?', "faces1%").map(&:worker_id)
     for worker_id in workers
       filtered_result = TurkFilter.get_filtered_trials(worker_id, 'faces1_')
 
