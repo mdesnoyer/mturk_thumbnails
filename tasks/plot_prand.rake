@@ -5,7 +5,6 @@
 # Copyright 2013 Neon Labs
 
 require 'turk_filter'
-require 'debugger'
 require 'securerandom'
 
 begin
