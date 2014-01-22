@@ -17,6 +17,11 @@ namespace :calculate_scores do
   task :default => :environment do
     results = {}
 
+    # First delete the entries in the rejection database
+    UserRejection.delete_all()
+    TrialRejection.delete_all()
+    ImageScore.delete_all()
+
     stimsets = ImageChoice.select('distinct substring(stimset_id from \'stimuli_[0-9]+\') as stim').map(&:stim)
     for stimset in stimsets
       if stimset.nil? or stimset.empty?
@@ -63,24 +68,25 @@ namespace :calculate_scores do
         end
       end
       
-      counts.each do |img, count|
-        if count[0] == 0 or count[1] == 0
+      ImageScore.transaction do
+        counts.each do |img, count|
+          if count[0] == 0 or count[1] == 0
             next
+          end
+          score = count[2].to_f / count[0] - count[3].to_f / count[1]
+          score = score.round(3)
+
+          # Record the image score in the database
+          ImageScore.create(image: img, valence: score, stimset: stimset,
+                            valid_keeps: count[0], valid_returns: count[1])
+
+          # Make sure that there is enough data for this image
+          if (count[0] + count[1]) / 2
+            next
+          end
+
+          stimset_results[img] = score
         end
-        score = count[2].to_f / count[0] - count[3].to_f / count[1]
-        score = score.round(3)
-
-        # Record the image score in the database
-        ImageScore.create(image: img, valence: score, stimset: stimset,
-                          valid_keeps: count[0], valid_returns: count[1])
-
-        # Make sure that there is enough data for this image
-        # TODO(deb): Figure out what this number should be
-        if count[0] < 50 or count[1] < 50
-          next
-        end
-
-        stimset_results[img] = score
       end
     end
 

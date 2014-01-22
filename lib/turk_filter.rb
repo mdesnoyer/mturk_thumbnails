@@ -16,6 +16,7 @@ module TurkFilter
     TOO_SLOW = 'Reaction was too slow'
     DUPLICATE = 'Duplicate'
     TOO_RANDOM = 'Worker was too random'
+    SAME_SLOT = 'Worker clicked the same slot too many times in a row'
   end
 
   logger = Logger.new(STDOUT)
@@ -39,7 +40,8 @@ module TurkFilter
       @worker_filters = [TooRandom.new(
         Rake.application.original_dir + '/config/score_prob.csv',
         Rake.application.original_dir + '/config/g_stats.csv',
-        0.15)]
+        0.15),
+                        TooManyClicksInSameSlot.new(10)]
     end
   end
 
@@ -277,6 +279,48 @@ module TurkFilter
       # Determine the probability of have a g statistic >= to this
       # value by random
       return @g_prob.interpolate(g)
+    end
+  end
+
+  # Filters a worker if they click the same slot too many times in a row
+  class TooManyClicksInSameSlot < WorkerFilter
+    # Inputs:
+    #
+    # thresh - threshold for the maximum number of times to click the
+    # same spot and be safe.
+    def initialize(thresh)
+      @thresh = thresh
+    end
+
+    def reason
+      return RejectReason::SAME_SLOT
+    end
+
+    def is_valid(trials)
+      last_slot = nil
+      same_slot_count = 0
+      trials.each do |trial|
+        cur_slot = nil
+        if trial.chosen_image == trial.image_one
+          cur_slot = 1
+        elsif trial.chosen_image == trial.image_two
+          cur_slot = 2
+        elsif trial.chosen_image == trial.image_three
+          cur_slot = 3
+        end
+
+        if last_slot == cur_slot
+          same_slot_count += 1
+        else
+          same_slot_count = 0
+        end
+
+        last_slot = cur_slot
+        if same_slot_count > @thresh
+          return false
+        end
+      end
+      return true
     end
   end
 
