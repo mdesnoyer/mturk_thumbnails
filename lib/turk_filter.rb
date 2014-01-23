@@ -37,11 +37,13 @@ module TurkFilter
     end
 
     if @worker_filters.nil?
-      @worker_filters = [TooRandom.new(
-        Rake.application.original_dir + '/config/score_prob.csv',
-        Rake.application.original_dir + '/config/g_stats.csv',
-        0.15),
-                        TooManyClicksInSameSlot.new(10)]
+      @worker_filters = [
+        TooManyClicksInSameSlot.new(15),
+        TooRandom.new(
+          Rake.application.original_dir + '/config/score_prob.csv',
+          Rake.application.original_dir + '/config/g_stats.csv',
+          0.15)
+      ]
     end
   end
 
@@ -67,8 +69,9 @@ module TurkFilter
 
     TurkFilter.load_filters()
 
-    trials = ImageChoice.where('worker_id = ? and stimset_id like ?',
-                               worker_id, "#{stimset_id}_%").all
+    trials = ImageChoice.where(
+      'worker_id = ? and stimset_id like ?',
+      worker_id, "#{stimset_id}_%").order(:trial).all
 
 
     # Run the filters on the trials

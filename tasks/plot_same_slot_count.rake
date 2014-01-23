@@ -1,0 +1,118 @@
+# Script that plots the reaction time vs. the maximum number of times
+# the same slot was chosen.
+#
+# Author: Mark Desnoyer (desnoyer@neon-lab.com)
+# Copyright 2013 Neon Labs
+
+require 'turk_filter'
+require 'securerandom'
+
+begin
+  require 'rsruby'
+rescue LoadError
+end
+
+$AWS_ACCESS_KEY='AKIAJ5G2RZ6BDNBZ2VBA'
+$AWS_SECRET_KEY='d9Q9abhaUh625uXpSrKElvQ/DrbKsCUAYAPaeVLU'
+
+$N_SAMPLES = 500
+
+namespace :plot_same_slot_count do
+  task :prod => :environment do
+    # Connect to the production database
+    ActiveRecord::Base.establish_connection(
+      ActiveRecord::Base.configurations[:remote_production])
+
+    Rake::Task['plot_same_slot_count:default'].invoke
+
+    # Close connection to the production database
+    ActiveRecord::Base.establish_connection(ENV['RAILS_ENV']) 
+  end
+
+  task :default => :environment do
+
+    filters = [TurkFilter::TrialDuplicate.new,
+               TurkFilter::TrialTooSlow.new]
+
+    # Calculate the stats
+    reaction_times = []
+    same_counts = []
+    jobs = ImageChoice.select('distinct worker_id, substring(stimset_id from \'stimuli_[0-9]+\') as stim').limit($N_SAMPLES).where("stimset_id like 'stimuli_%'").map{
+      |c| [c.worker_id, c.stim]
+    }
+    jobs.each do |worker, stim|
+      trials = ImageChoice.where('worker_id = ? and stimset_id like ?',
+                                 worker, "#{stim}%").order(:trial).all
+      if trials.length == 0
+        next
+      end
+
+      filters.each do |filter|
+        trials = filter.filter_trials(trials)
+      end
+
+      time_sum = 0
+      valid_trials = 0
+      last_slot = nil
+      same_slot_count = 0
+      max_same_slot = 0
+      for trial in trials
+        if not trial.reaction_time.nil?
+          time_sum += trial.reaction_time
+          valid_trials += 1
+
+          cur_slot = nil
+          if trial.chosen_image == trial.image_one
+            cur_slot = 1
+          elsif trial.chosen_image == trial.image_two
+            cur_slot = 2
+          elsif trial.chosen_image == trial.image_three
+            cur_slot = 3
+          end
+          
+          if last_slot == cur_slot
+            same_slot_count += 1
+            if same_slot_count > max_same_slot
+              max_same_slot = same_slot_count
+            end
+          else
+            same_slot_count = 0
+          end
+          last_slot = cur_slot
+        end
+      end
+    
+      if valid_trials > 0
+        reaction_times << time_sum.to_f / valid_trials
+        same_counts << max_same_slot
+      end
+    end
+
+    # Plot them
+    r = RSRuby.instance
+    r.plot(:x => reaction_times,
+           :y => same_counts,
+           :xlab => 'Avg. Reaction Time (ms)',
+           :ylab => 'Max same choice')
+    #r.hist(:x => same_counts,
+    #       :breaks => 50,
+    #       :plot => true)
+    $stdin.gets.chomp
+
+    # For now, don't put the graph up on S3
+    return
+
+    unique_id = SecureRandom.hex(10)
+    graph_file = "p_random_vs_reaction_time_#{unique_id}.png"
+    
+    s3 = AWS::S3.new(access_key_id:$AWS_ACCESS_KEY ,
+                     secret_access_key: $AWS_SECRET_KEY)
+    bucket = s3.buckets['neon-graphs']
+    bucket.objects[graph_file].write(chart.fetch,
+                                     :acl => :public_read)
+  
+    puts 'Your graph is available at:'
+    puts "https://neon-graphs.s3.amazonaws.com/#{graph_file}"
+  end
+
+end
