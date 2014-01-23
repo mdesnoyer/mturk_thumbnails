@@ -151,7 +151,7 @@ $ ->
     
   $('#practice_but').click(->
     if $('#age_group_selector').val() == "0-17"
-      alert "Sorry, you must be 18 or over to do this task. Please return it."
+      alert "Sorry, you must be 18 or over to do this HIT. Please return it."
       return
     if edata.practice_images.length > 0
       jQuery.post('register_worker', $('#worker_form').serialize())

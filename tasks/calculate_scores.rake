@@ -81,7 +81,7 @@ namespace :calculate_scores do
                             valid_keeps: count[0], valid_returns: count[1])
 
           # Make sure that there is enough data for this image
-          if (count[0] + count[1]) / 2
+          if (count[0] + count[1]) / 2 < 100
             next
           end
 
