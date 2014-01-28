@@ -4,13 +4,14 @@
 # Author: Mark Desnoyer (desnoyer@neon-lab.com)
 # Copyright 2013 Neon Labs
 require 'aws-sdk'
+require 'hit_utils'
+require 'debugger'
 require 'rturk'
 
 namespace :extend_hits do
   def AnyHitRunning(hits)
     # Returns true if any of the hits in a list are still running
     for hit in hits
-      debugger
       if (hit.assignments_pending_count > 0 or 
           hit.assignments_available_count > 0)
         return true
@@ -32,20 +33,6 @@ namespace :extend_hits do
       hits[stimset] << hit_details
     end
     return hits
-  end
-
-  def QuestionURL2Stimset(jobId)
-    # Extract out the stimset id
-    reg = /job=(?<stimset>[A-Za-z0-9_\-]+)_[A-Za-z0-9]+&/x
-
-    parse = jobId.match(reg)
-    if parse.nil? then
-      stimset = jobId
-    else
-      stimset = parse['stimset']
-    end
-
-    return stimset
   end
 
   def GetMinValidResponses(stimset)
@@ -83,7 +70,7 @@ namespace :extend_hits do
       end
 
       # Now extend the hit
-      newAssignments = ((100-minValidResponses) / 3.0).ceil
+      newAssignments = ((100-minValidResponses) / 3.0).floor
       timeExtension = (Time.now - hits[0].expires_at)
       timeExtension = (timeExtension * 24 * 60 * 60 + 605000).to_i
       if timeExtension < 0

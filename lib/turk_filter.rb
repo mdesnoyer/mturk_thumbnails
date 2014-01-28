@@ -71,7 +71,7 @@ module TurkFilter
 
     trials = ImageChoice.where(
       'worker_id = ? and stimset_id like ?',
-      worker_id, "#{stimset_id}_%").order(:trial).all
+      worker_id, "#{stimset_id}\\_%").order(:trial).all
 
 
     # Run the filters on the trials

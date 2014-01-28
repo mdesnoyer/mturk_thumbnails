@@ -22,7 +22,7 @@ namespace :calculate_scores do
     TrialRejection.delete_all()
     ImageScore.delete_all()
 
-    stimsets = ImageChoice.select('distinct substring(stimset_id from \'stimuli_[0-9]+\') as stim').map(&:stim)
+    stimsets = ImageChoice.select('distinct substring(stimset_id from E\'(stimuli_[0-9]+)\\_[0-9a-f]+\') as stim').map(&:stim)
     for stimset in stimsets
       if stimset.nil? or stimset.empty?
         next
@@ -34,7 +34,7 @@ namespace :calculate_scores do
       counts = Hash.new { |h, k| h[k] = [0, 0, 0, 0] }
 
       workers = ImageChoice.select('distinct worker_id').where(
-        'stimset_id like ?', "#{stimset}%").map(&:worker_id)
+        'stimset_id like ?', "#{stimset}\\_%").map(&:worker_id)
       for worker_id in workers
         filtered_result = TurkFilter.get_filtered_trials(worker_id, stimset)
         if not filtered_result['worker_rejection'].nil?
