@@ -46,7 +46,7 @@ namespace :plot_prand do
     }
     jobs.each do |worker, stim|
       trials = ImageChoice.where('worker_id = ? and stimset_id like ?',
-                                 worker, "#{stim}%").all
+                                 worker, "#{stim}\\_%").all
       if trials.length == 0
         next
       end

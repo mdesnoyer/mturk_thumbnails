@@ -27,7 +27,20 @@ ActiveRecord::Base.configurations[:remote_production] = {
   :database => 'd818kso4dkedro',
   :username => 'ypqkdxvnyynxtc',
   :password => 'Kr3_R6gYvLqGk_WnYc9dclK6sF',
-  :host     => 'ec2-23-23-234-207.compute-1.amazonaws.com'
+  :host     => 'ec2-23-23-234-207.compute-1.amazonaws.com',
+  :port     => 5432
+}
+
+# Connect to the staging database, but we don't need to be in the
+# Heroku environment.
+ActiveRecord::Base.configurations[:remote_staging] = {
+  :adapter  => 'postgresql',
+  :encoding => 'utf8',
+  :database => 'd6kgo1cd8j469q',
+  :username => 'nzqjrjpftscjev',
+  :password => 'QldrAVGgp7PeKLX3WwJgeK2JIS',
+  :host     => 'ec2-54-221-204-45.compute-1.amazonaws.com',
+  :port     => 5432
 }
 
 # Setup our logger

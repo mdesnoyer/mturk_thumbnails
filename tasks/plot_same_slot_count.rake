@@ -42,7 +42,7 @@ namespace :plot_same_slot_count do
     }
     jobs.each do |worker, stim|
       trials = ImageChoice.where('worker_id = ? and stimset_id like ?',
-                                 worker, "#{stim}%").order(:trial).all
+                                 worker, "#{stim}\\_%").order(:trial).all
       if trials.length == 0
         next
       end

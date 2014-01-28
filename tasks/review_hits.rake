@@ -19,14 +19,16 @@ namespace :review_hits do
 
   def HandleBadAssignment(assignment, warning_level)
     if warning_level < 2
-      assignment.approve
+      RTurk::ApproveAssignment(:assignment_id => assignment.id)
     else
-      assignment.reject("I'm sorry, but after being warned, it still looks like you are not doing the task correctly. You should select the images you would prefer to find more about.")
+      puts "Rejecting assignment #{assignment.id} from worker #{assignment.worker_id}"
+      RTurk::RejectAssignment(:assignment_id => assignment.id,
+                              :feedback => "I'm sorry, but after being warned, it still looks like you are not doing the task correctly. You should select the images you would prefer to explore more.")
     end
   end
 
   task :sandbox => :environment do
-    Rake::Task['extend_hits:default'].invoke('true')
+    Rake::Task['review_hits:default'].invoke('true')
   end
 
   task :default, [:sandbox] => [:environment] do |t, args|
@@ -34,9 +36,14 @@ namespace :review_hits do
     args.with_defaults(:sandbox => 'false')
     sandbox = args[:sandbox] == 'true'
 
-    # Connect to the production database
-    ActiveRecord::Base.establish_connection(
-      ActiveRecord::Base.configurations[:remote_production])
+    # Connect to the remote database
+    if sandbox
+      ActiveRecord::Base.establish_connection(
+        ActiveRecord::Base.configurations[:remote_staging])
+    else
+      ActiveRecord::Base.establish_connection(
+        ActiveRecord::Base.configurations[:remote_production])
+    end
 
     # Connect to mechanical turk
     RTurk.setup(ENV['AWS_ACCESS_KEY'],
@@ -63,41 +70,42 @@ namespace :review_hits do
             worker_id: assignment.worker_id, stimset: stimset).map(&:reason)[0]
           if reason.nil?
             # We didn't reject this user
-            assignment.approve
+            RTurk::ApproveAssignment(:assignment_id => assignment.id)
             next
           end
 
-          debugger
+          warning_info = RejectionWarning.select(
+            [:id, :last_warning_time, :last_warning_level]).where(
+            worker_id: assignment.worker_id)[0]
 
-          warning_info = RejectionWarnings.select(:id, :last_warning_time, :last_warning_level).where(worker_id: assignment.worker_id)
           if warning_info.nil?
             # First time to warn the user
-            RejectionWarnings.create(worker_id: assignment.worker_id,
-                                     last_warning_level: 0,
-                                     last_warning_time: Time.now())
+            RejectionWarning.create(worker_id: assignment.worker_id,
+                                    last_warning_level: 0,
+                                    last_warning_time: Time.now())
             cur_level = 0
           else
             # See if we've already warned the user recently
-            if warning_info.last_warning_time > assignment.submit_time
+            if warning_info.last_warning_time > assignment.submitted_at
               HandleBadAssignment(assignment, 0)
               next
             end
 
             # Record the next level of warning
             cur_level = warning_info.last_warning_level + 1
-            RejectionWarnings.update(warning_info.id,
-                                     :last_warning_level => cur_level,
-                                     :last_warning_time => Time.now())
+            RejectionWarning.update(warning_info.id,
+                                    :last_warning_level => cur_level,
+                                    :last_warning_time => Time.now())
           end
 
           # Send the actual warning
           if cur_level < warning_messages.length
+            puts "Warning worker: #{assignment.worker_id}"
             RTurk::NotifyWorkers(:worker_ids => [assignment.worker_id],
                                  :message_text => warning_messages[cur_level],
-                                 :subject => "Problem with HIT #{hit.id}")
-          else
-            HandleBadAssignment(assignment, cur_level)
+                                 :subject => "Problem with HIT #{hit.title}")
           end
+          HandleBadAssignment(assignment, cur_level)
         end
       end
     end

@@ -41,7 +41,8 @@ namespace :extend_hits do
 
   def GetMinValidResponses(stimset)
     # Retrieves the minimum number of valid responses for a given stimset
-    return ImageScore.where(:stimset => stimset).minimum(:valid_returns)
+    return (ImageScore.where(:stimset => stimset).minimum(:valid_returns) ||
+            0)
   end
 
   task :sandbox => :environment do
@@ -53,9 +54,14 @@ namespace :extend_hits do
     args.with_defaults(:sandbox => 'false')
     sandbox = args[:sandbox] == 'true'
 
-    # Connect to the production database
-    ActiveRecord::Base.establish_connection(
-      ActiveRecord::Base.configurations[:remote_production])
+    # Connect to the remote database
+    if sandbox
+      ActiveRecord::Base.establish_connection(
+        ActiveRecord::Base.configurations[:remote_staging])
+    else
+      ActiveRecord::Base.establish_connection(
+        ActiveRecord::Base.configurations[:remote_production])
+    end
 
     # Connect to mechanical turk
     RTurk.setup(ENV['AWS_ACCESS_KEY'],

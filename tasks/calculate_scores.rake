@@ -1,12 +1,28 @@
 require 'csv'
 require 'turk_filter'
 
+begin
+  require 'debugger'
+rescue LoadError
+end
+
 namespace :calculate_scores do
   
   task :prod => :environment do
     # Connect to the production database instead of the local one
     ActiveRecord::Base.establish_connection(
       ActiveRecord::Base.configurations[:remote_production])
+
+    Rake::Task['calculate_scores:default'].invoke
+
+    # Close connection to the production database
+    ActiveRecord::Base.establish_connection(ENV['RAILS_ENV'])
+  end
+
+  task :staging => :environment do
+    # Connect to the production database instead of the local one
+    ActiveRecord::Base.establish_connection(
+      ActiveRecord::Base.configurations[:remote_staging])
 
     Rake::Task['calculate_scores:default'].invoke
 
@@ -28,6 +44,7 @@ namespace :calculate_scores do
         next
       end
       stimset_results = results[stimset] = {}
+
 
       # for each image, to counts of [<keep_view>, <return_view>,
       # <keep_clicks>, <return_clicks]

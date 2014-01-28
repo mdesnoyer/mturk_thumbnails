@@ -30,7 +30,7 @@ namespace :plot_nclicks do
     workers = ImageChoice.select('distinct worker_id').where(
         'stimset_id like ?', "faces1%").map(&:worker_id)
     for worker_id in workers
-      filtered_result = TurkFilter.get_filtered_trials(worker_id, 'faces1_')
+      filtered_result = TurkFilter.get_filtered_trials(worker_id, 'faces1')
 
       counts = Hash.new { |h, k| h[k]=[0, 0, 0, 0] }
 

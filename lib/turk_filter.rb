@@ -42,7 +42,7 @@ module TurkFilter
         TooRandom.new(
           Rake.application.original_dir + '/config/score_prob.csv',
           Rake.application.original_dir + '/config/g_stats.csv',
-          0.15)
+          0.4)
       ]
     end
   end
