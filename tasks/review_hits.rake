@@ -3,8 +3,12 @@
 # Author: Mark Desnoyer (desnoyer@neon-lab.com)
 # Copyright 2013 Neon Labs
 require 'aws-sdk'
-require 'debugger'
 require 'rturk'
+
+begin
+  require 'debugger'
+rescue LoadError
+end
 
 namespace :review_hits do
   warning_messages = [

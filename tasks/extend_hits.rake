@@ -5,8 +5,12 @@
 # Copyright 2013 Neon Labs
 require 'aws-sdk'
 require 'hit_utils'
-require 'debugger'
 require 'rturk'
+
+begin
+  require 'debugger'
+rescue LoadError
+end
 
 namespace :extend_hits do
   def AnyHitRunning(hits)
