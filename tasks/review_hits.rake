@@ -58,6 +58,7 @@ namespace :review_hits do
       puts "Reviewing all assignments"
 
       hits.each do |hit|
+
         hit_details = RTurk::GetHIT(:hit_id => hit.id)
         stimset = QuestionURL2Stimset(hit_details.question_external_url)
         hit.assignments.each do |assignment|
