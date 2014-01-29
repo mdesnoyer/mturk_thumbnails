@@ -41,8 +41,12 @@ namespace :extend_hits do
 
   def GetMinValidResponses(stimset)
     # Retrieves the minimum number of valid responses for a given stimset
-    return (ImageScore.where(:stimset => stimset).minimum(:valid_returns) ||
-            0)
+    response = ImageScore.select('(min(valid_keeps) + min(valid_returns))/2 as val').where(:stimset => stimset)[0]
+
+    if response.nil?
+      return 0
+    end
+    return response.val.to_i
   end
 
   task :sandbox => :environment do
@@ -80,7 +84,7 @@ namespace :extend_hits do
       end
 
       # Now extend the hit
-      newAssignments = ((100-minValidResponses) / 3.0).floor
+      newAssignments = [((100-minValidResponses) / 3.0).floor, 1].max
       timeExtension = (Time.now - hits[0].expires_at)
       timeExtension = (timeExtension * 24 * 60 * 60 + 605000).to_i
       if timeExtension < 0

@@ -12,8 +12,8 @@ end
 
 namespace :review_hits do
   warning_messages = [
-    "It appears that you are not doing the selection task correctly. It looks like you are clicking randomly instead of quickly selecting the image you would prefer. I'll accept this batch of work, but next time, please try to complete the task as asked.",
-    "You still seem to be doing the task incorrectly. Please select those images you would prefer. I'll accept this batch, but the next time your work looks bad, I'll start rejecting the HITS."
+    "Hi,\n\nIt appears that you are not doing the selection task correctly. It looks like you are clicking randomly instead of quickly selecting the image you would prefer. I'll accept this batch of work, but next time, please try to complete the task as asked.",
+    "Hi,\n\nYou still seem to be doing the task incorrectly. Please select those images you would prefer. I'll accept this batch, but the next time your work looks bad, I'll start rejecting the HITS."
                       ]
                       
 
