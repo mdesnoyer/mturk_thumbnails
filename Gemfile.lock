@@ -144,6 +144,7 @@ DEPENDENCIES
   haml
   httparty
   interpolator
+  mail
   newrelic_rpm
   open-uri-cached
   padrino
