@@ -4,9 +4,10 @@
 # Copyright 2013 Neon Labs
 
 namespace :background_jobs do
-  task :calculate_scores_and_extend_hits => :environment do
+  task :run_review_pipeline => :environment do
 
     Rake::Task['calculate_scores:default'].invoke
+    #Rake::Task['review_hits:default'].invoke('false')
     Rake::Task['extend_hits:default'].invoke('false')
 
   end

@@ -54,6 +54,9 @@ namespace :review_hits do
 
     puts "#{hits.size} reviewable hits. \n"
 
+    # Get the last time that the user_rejection table was uploaded
+    last_user_rejection_time = UserRejection.maximum(:updated_at)
+
     unless hits.empty?
       puts "Reviewing all assignments"
 
@@ -62,8 +65,15 @@ namespace :review_hits do
         hit_details = RTurk::GetHIT(:hit_id => hit.id)
         stimset = QuestionURL2Stimset(hit_details.question_external_url)
         hit.assignments.each do |assignment|
+
           if assignment.status != 'Submitted'
             # The assignment is not ready to review
+            next
+          end
+
+          # If the assignment was submitted after our last database
+          # update, we can't draw a conclusion yet
+          if last_user_rejection_time < assignment.submitted_at
             next
           end
 
