@@ -70,8 +70,8 @@ namespace :extend_hits do
     end
 
     # Connect to mechanical turk
-    RTurk.setup(ENV['AWS_ACCESS_KEY'],
-                ENV['AWS_SECRET_KEY'],
+    RTurk.setup(ENV['AWS_ACCESS_KEY_ID'],
+                ENV['AWS_SECRET_ACCESS_KEY'],
                 :sandbox => sandbox)
 
     GetHitsByStimset().each do | stimset, hits |
