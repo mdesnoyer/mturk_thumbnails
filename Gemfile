@@ -6,6 +6,7 @@ gem 'squeel'
 gem 'rturk'
 gem 'aws-sdk'
 gem 'open-uri-cached'
+gem 'mail'
 gem 'interpolator'
 
 # Project requirements

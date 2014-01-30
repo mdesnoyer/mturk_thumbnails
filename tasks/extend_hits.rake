@@ -5,6 +5,8 @@
 # Copyright 2013 Neon Labs
 require 'aws-sdk'
 require 'hit_utils'
+require 'mail'
+require 'net/smtp'
 require 'rturk'
 
 begin
@@ -91,9 +93,30 @@ namespace :extend_hits do
         timeExtension = 60
       end
       puts "Extending #{stimset} by #{newAssignments} during #{timeExtension}"
-      RTurk::ExtendHIT(:hit_id => hits[0].hit_id,
-                       :seconds => timeExtension,
-                       :assignments => newAssignments)
+      begin
+        RTurk::ExtendHIT(:hit_id => hits[0].hit_id,
+                         :seconds => timeExtension,
+                         :assignments => newAssignments)
+      rescue RTurk::InvalidRequest => e
+        puts "Error extending the HIT: #{e.message}"
+
+        # Send the admin an e-mail saying that there's a problem with
+        # Mechanical Turk. Odds are we ran out of money.
+        mail = Mail.new do
+          from    'mturk@neon-lab.com'
+          to      'desnoyer@neon-lab.com'
+          subject 'Error extending HIT'
+          body    "Problem with hit #{hits[0].hit_id}:\n#{e.message}"
+        end
+        Net::SMTP.start('aspmx.l.google.com',
+                        25,
+                        'neon-lab.com') do |smtp|
+          smtp.send_message(mail.to_s,
+                            'mturk@neon-lab.com',
+                            'desnoyer@neon-lab.com')
+        end
+        break
+      end
     end
 
     # Close connection to the production database
