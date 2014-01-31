@@ -95,7 +95,7 @@ module TurkFilter
         worker_passed = false
       end
       if not score.nil?
-        retval['worker_scores'][classname(filter)] = score
+        retval['worker_scores'][filter.class.name.split('::').last] = score
       end
     end
     if not worker_passed
