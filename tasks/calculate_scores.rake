@@ -54,6 +54,15 @@ namespace :calculate_scores do
         'stimset_id like ?', "#{stimset}\\_%").map(&:worker_id)
       for worker_id in workers
         filtered_result = TurkFilter.get_filtered_trials(worker_id, stimset)
+
+        # Record the scores on the filter
+        FilterStat.where(:worker_id => worker_id,
+                         :stimset => stimset).first_or_create do |filter_stats|
+          filter_stats.p_rand = filtered_result['worker_scores']['TooRandom']
+          filter_stats.max_same_slot = 
+            filtered_result['worker_scores']['TooManyClicksInSameSlot']
+        end
+
         if not filtered_result['worker_rejection'].nil?
           # This user was filtered, so record it
           UserRejection.create(worker_id: worker_id, stimset: stimset,

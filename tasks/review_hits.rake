@@ -55,6 +55,7 @@ namespace :review_hits do
     puts "#{hits.size} reviewable hits. \n"
 
     # Get the last time that the user_rejection table was uploaded
+    ActiveRecord::Base.default_timezone = :utc # Database stores in UTC
     last_user_rejection_time = UserRejection.maximum(:updated_at)
 
     unless hits.empty?
@@ -71,11 +72,15 @@ namespace :review_hits do
             next
           end
 
+          debugger
+
           # If the assignment was submitted after our last database
           # update, we can't draw a conclusion yet
           if last_user_rejection_time < assignment.submitted_at
             next
           end
+
+          debugger
 
           reason = UserRejection.select(:reason).where(
             worker_id: assignment.worker_id, stimset: stimset).map(&:reason)[0]
