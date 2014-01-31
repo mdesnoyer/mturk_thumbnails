@@ -11,7 +11,14 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 14) do
+ActiveRecord::Schema.define(:version => 15) do
+
+  create_table "filter_stats", :force => true do |t|
+    t.string  "worker_id"
+    t.string  "stimset"
+    t.float   "p_rand"
+    t.integer "max_same_slot"
+  end
 
   create_table "image_choices", :force => true do |t|
     t.string   "assignment_id"

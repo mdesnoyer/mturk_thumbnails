@@ -4,7 +4,7 @@ class CreateFilterStats < ActiveRecord::Migration
       t.string :worker_id
       t.string :stimset
       t.float :p_rand
-      t.int :max_same_slot
+      t.integer :max_same_slot
     end
   end
 end
