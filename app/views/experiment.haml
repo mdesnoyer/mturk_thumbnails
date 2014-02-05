@@ -17,7 +17,7 @@
       %p.instructions Please note that you will not actually be watching the videos; you are simply clicking on the video that you would most want to watch.
 
       %p.instructions
-        The video thumbnails will be presented very fast, so please make your response as quickly and as accurately as possible. Don't click randomly because that could cause your work to be rejected.
+        Please choose the video as accurately as possible after seeing the images. Do not click randomly as that could cause your work to be rejected.
 
       %p.instructions Once you have selected a video thumbnail, three more will appear on the next screen. Please continue selecting the video you would most like to watch.
 
@@ -105,3 +105,8 @@
               :name => "workerId", :value => @worker_id}
       %input{ :type => "hidden", :id => "hitId", 
               :name => "hitId", :value => @hit_id}
+
+    #eye_center
+    #wash_div.hidden
+      %canvas{ :id => "crosshairs", :width => 60, :height => 60 }
+      %canvas.hidden{ :id => "visual_wash", :width => 200, :height => 200 }

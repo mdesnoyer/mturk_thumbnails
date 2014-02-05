@@ -26,7 +26,7 @@ $ ->
 
     # If we're practicing don't record anything
     if practice_trial <= edata.practice_images.length
-      DisplayNextPracticeTrial()
+      DrawVisualWash(DisplayNextPracticeTrial)
       return
 
     trialSeq = edata.trials[curTrial % edata.trials.length]
@@ -59,7 +59,7 @@ $ ->
     else if (curTrial + 1) >= 2 * edata.trials.length
       FinishJob()
     else
-      DisplayTrial(curTrial + 1)
+      DrawVisualWash(() -> DisplayTrial(curTrial + 1))
   $('#left_image').click( -> RegisterChoice(0))
   $('#mid_image').click( -> RegisterChoice(1))
   $('#right_image').click( -> RegisterChoice(2))
@@ -87,6 +87,90 @@ $ ->
         images[i].src = edata.img_dir + '/' + edata.images[i]
   window.onload = LoadImages
 
+  ### Rotates the images randomly around a central point ###
+  RotateImages = () ->
+    centerPos = $('#eye_center').offset()
+
+    angleOffset = Math.PI / 3.0 * (2 * Math.random() - 1)
+    angleSplit = Math.PI * 2.0 / 3.0
+
+    mid = $('#mid_image')
+    arcLen = 0.75 * Math.sqrt(Math.pow(mid.height(), 2) + 
+                              Math.pow(mid.width(), 2))
+    midTop = centerPos.top - arcLen * Math.cos(angleOffset) - mid.height() / 2
+    midLeft = centerPos.left - arcLen * Math.sin(angleOffset) - mid.width() / 2
+    mid.offset(top: midTop, left: midLeft)
+
+    leftI = $('#left_image')
+    leftTop = centerPos.top - arcLen * Math.cos(angleOffset + angleSplit) -
+              leftI.height() / 2
+    leftLeft = centerPos.left - arcLen * Math.sin(angleOffset + angleSplit) -
+               leftI.width() / 2
+    leftI.offset(top: leftTop, left: leftLeft)
+
+    rightI = $('#right_image')
+    rightTop = centerPos.top - arcLen * Math.cos(angleOffset-angleSplit) -
+               rightI.height() / 2
+    rightLeft = centerPos.left - arcLen * Math.sin(angleOffset-angleSplit) -
+                rightI.width() / 2
+    rightI.offset(top: rightTop, left: rightLeft)
+    1
+
+  ### Draws the crosshairs ###
+  DrawCrosshairs = (callback) ->
+    canvas = $('#crosshairs')[0]
+    canvas.width = canvas.height = 100
+    ctx = canvas.getContext('2d')
+
+    ctx.fillStyle = "#FFFFFF"
+    ctx.arc(canvas.width / 2, canvas.height / 2, canvas.width / 2, 0,
+            Math.PI*2)
+    ctx.fill()
+
+    ctx.strokeStyle = "#BB0000"
+    ctx.beginPath()
+    ctx.moveTo(canvas.width / 2 - 40, canvas.height / 2)
+    ctx.lineTo(canvas.width / 2 + 40, canvas.height / 2)
+    ctx.closePath()
+    ctx.stroke()
+    ctx.beginPath()
+    ctx.moveTo(canvas.width / 2, canvas.height / 2 - 40)
+    ctx.lineTo(canvas.width / 2, canvas.height / 2 + 40)
+    ctx.closePath()
+    ctx.stroke()
+
+    
+    $('#wash_div').show()
+
+    centerPos = $('#eye_center').offset()
+    $('#crosshairs').offset(top: centerPos.top - canvas.height / 2,
+                            left: centerPos.left - canvas.width / 2)
+
+    $(document.body).css("background", "#C0C0C0")
+    setTimeout(callback, 100)
+
+  ### Draws white noise in the wash canvas with a crosshair in the center. ###
+  DrawVisualWash = (callback) ->
+    canvas = $('#visual_wash')[0]
+    ctx = canvas.getContext('2d')
+
+    ### Draw the white noise ###
+    imageData = ctx.getImageData(0, 0, canvas.width, canvas.height)
+    blockWidth = 10
+    pixels = imageData.data
+    for y in [0...canvas.height] by blockWidth
+      for x in [0...canvas.width] by blockWidth
+   
+          color = Math.round(Math.random()) * 255;
+          ctx.fillStyle = if Math.random() > 0.5 then "#000000" else "#FFFFFF"
+          ctx.fillRect(x, y, blockWidth, blockWidth)
+
+    $('#experiment').hide()
+    $(document.body).css("background", "url(" + canvas.toDataURL() + ")")
+
+    crosshairFunc = () -> DrawCrosshairs(callback)
+    setTimeout(crosshairFunc, 50)
+
   ### Controls what trial is shown at a given time ###
   startTime = null
   timeoutId = null
@@ -95,10 +179,15 @@ $ ->
        FinishJob()
        return
 
+    $('#wash_div').hide()
+    $('#experiment').show()
+
     trialSeq = edata.trials[trialNum % edata.trials.length]
     $('#left_image').attr('src', images[trialSeq[0]].src)
     $('#mid_image').attr('src', images[trialSeq[1]].src)
     $('#right_image').attr('src', images[trialSeq[2]].src)
+
+    RotateImages()
 
     curTrial = trialNum
     startTime = new Date()
@@ -134,10 +223,12 @@ $ ->
       return 
 
     if practice_trial > edata.practice_images.length
+      $('#wash_div').hide()
       $('#donepractice').show()
       $('#experiment').hide()
       return
 
+    $('#wash_div').hide()
     $('#experiment').show()
     $('#keep_instructions').hide()
     $('#return_instructions').hide()
@@ -145,6 +236,8 @@ $ ->
     $('#left_image').attr('src', edata.practice_images[practice_trial-1][0])
     $('#mid_image').attr('src', edata.practice_images[practice_trial-1][1])
     $('#right_image').attr('src', edata.practice_images[practice_trial-1][2])
+
+    RotateImages()
     
     startTime = new Date()
     timeoutId = setTimeout RegisterChoiceNone, 2000
@@ -166,6 +259,7 @@ $ ->
   ### Finishes the job ###
   FinishJob = ->
     $('#experiment').hide()
+    $('#wash_div').hide()
     $('#donejob').show()
     DisplaySentPercent()
     setTimeout(SubmitToAmazon, 60000)
