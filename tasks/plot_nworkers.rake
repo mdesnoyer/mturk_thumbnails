@@ -61,12 +61,12 @@ namespace :plot_nworkers do
 
     # Sample the scores
     N_SAMPLES=5
-    WORKER_STEP=4
+    WORKER_STEP=1
     workers = []
     mean_errors = []
     mean_views = []
     rng = Random.new(49816549)
-    for n_workers in (20..100).step(WORKER_STEP) do
+    for n_workers in (20..40).step(WORKER_STEP) do
       workers << n_workers
       mean_error, mean_view = get_mean_error(tru_scores, worker_counts,
                                              n_workers, N_SAMPLES, rng)
