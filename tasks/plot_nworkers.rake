@@ -76,10 +76,10 @@ namespace :plot_nworkers do
 
     # Do the plotting
     r = RSRuby.instance
-    r.plot(:x => workers,
-           :y => mean_errors,
-           :xlab => '# of workers',
-           :ylab => 'Sum Squared Error')
+    #r.plot(:x => workers,
+    #       :y => mean_errors,
+    #       :xlab => '# of workers',
+    #       :ylab => 'Sum Squared Error')
     r.plot(:x => mean_views,
            :y => mean_errors,
            :xlab => '# views',
