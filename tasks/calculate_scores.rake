@@ -1,4 +1,3 @@
-require 'csv'
 require 'turk_filter'
 
 begin
@@ -38,13 +37,11 @@ namespace :calculate_scores do
     TrialRejection.delete_all()
     ImageScore.delete_all()
 
-    stimsets = ImageChoice.select('distinct substring(stimset_id from E\'(stimuli_[0-9]+)\\_[0-9a-f]+\') as stim').map(&:stim)
+    stimsets = ImageChoice.select('distinct substring(stimset_id from E\'([0-9a-zA-Z_]+)\\_[0-9a-f]+\') as stim').map(&:stim)
     for stimset in stimsets
       if stimset.nil? or stimset.empty?
         next
       end
-      stimset_results = results[stimset] = {}
-
 
       # for each image, to counts of [<keep_view>, <return_view>,
       # <keep_clicks>, <return_clicks]
@@ -105,37 +102,8 @@ namespace :calculate_scores do
           # Record the image score in the database
           ImageScore.create(image: img, valence: score, stimset: stimset,
                             valid_keeps: count[0], valid_returns: count[1])
-
-          # Make sure that there is enough data for this image
-          if (count[0] + count[1]) / 2 < 100
-            next
-          end
-
-          stimset_results[img] = score
         end
       end
-    end
-
-    filename = "#{Date.today.strftime('%Y-%m-%d')}-scores.csv"
-
-    score_string = CSV.generate do |csv|
-      results.each do |stimset, scores|
-        scores.each do |img, score|
-          csv << [img, score, stimset]
-        end
-      end
-    end
-
-    if ENV['S3_KEY'].nil? or ENV['S3_KEY'].empty? then
-      File.open(filename, 'w') { |f| f.write(score_string) }
-      puts("Wrote results to #{filename}")
-    else
-      s3 = AWS::S3.new(access_key_id: ENV['S3_KEY'],
-                       secret_access_key: ENV['S3_SECRET'])
-      bucket = s3.buckets['mturk-results']
-      bucket.objects[filename].write(score_string)
-
-      puts("Wrote #{filename} to S3")
     end
   end
 end

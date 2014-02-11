@@ -29,9 +29,9 @@ namespace :plot_nworkers do
     
     # First collect all the counts from the database for every worker
     workers = ImageChoice.select('distinct worker_id').where(
-        'stimset_id like ?', "faces1%").map(&:worker_id)
+        'stimset_id like ?', "faces2%").map(&:worker_id)
     for worker_id in workers
-      filtered_result = TurkFilter.get_filtered_trials(worker_id, 'faces1')
+      filtered_result = TurkFilter.get_filtered_trials(worker_id, 'faces2')
 
       counts = Hash.new { |h, k| h[k]=[0, 0, 0, 0] }
 
@@ -61,12 +61,12 @@ namespace :plot_nworkers do
 
     # Sample the scores
     N_SAMPLES=5
-    WORKER_STEP=1
+    WORKER_STEP=4
     workers = []
     mean_errors = []
     mean_views = []
     rng = Random.new(49816549)
-    for n_workers in (20..40).step(WORKER_STEP) do
+    for n_workers in (20..120).step(WORKER_STEP) do
       workers << n_workers
       mean_error, mean_view = get_mean_error(tru_scores, worker_counts,
                                              n_workers, N_SAMPLES, rng)
