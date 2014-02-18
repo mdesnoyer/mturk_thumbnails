@@ -41,9 +41,9 @@ namespace :extend_hits do
     return hits
   end
 
-  def GetMinValidResponses(stimset)
+  def GetAvgValidResponses(stimset)
     # Retrieves the minimum number of valid responses for a given stimset
-    response = ImageScore.select('(min(valid_keeps) + min(valid_returns))/2 as val').where(:stimset => stimset)[0]
+    response = ImageScore.select('avg((valid_keeps + valid_returns)/2) as val').where(:stimset => stimset)[0]
 
     if response.nil?
       return 0
@@ -70,8 +70,8 @@ namespace :extend_hits do
     end
 
     # Connect to mechanical turk
-    RTurk.setup(ENV['AWS_ACCESS_KEY_ID'],
-                ENV['AWS_SECRET_ACCESS_KEY'],
+    RTurk.setup(ENV['MTURK_ACCESS_KEY_ID'],
+                ENV['MTURK_SECRET_ACCESS_KEY'],
                 :sandbox => sandbox)
 
     GetHitsByStimset().each do | stimset, hits |
@@ -80,13 +80,13 @@ namespace :extend_hits do
         next
       end
 
-      minValidResponses = GetMinValidResponses(stimset)
-      if minValidResponses > 100
+      avgValidResponses = GetAvgValidResponses(stimset)
+      if avgValidResponses > 120
         next
       end
 
       # Now extend the hit
-      newAssignments = [((100-minValidResponses) / 3.0).floor, 1].max
+      newAssignments = [((120-avgValidResponses) / 3.0).floor, 1].max
       timeExtension = (Time.now - hits[0].expires_at)
       timeExtension = (timeExtension * 24 * 60 * 60 + 605000).to_i
       if timeExtension < 0

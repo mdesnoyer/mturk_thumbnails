@@ -11,11 +11,9 @@ require 'trollop'
 $STAGING_APP='gentle-escarpment-8454-staging'
 $PROD_APP='gentle-escarpment-8454'
 
-$AWS_ACCESS_KEY='AKIAJ5G2RZ6BDNBZ2VBA'
-$AWS_SECRET_KEY='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'
 AWS.config(
-  :access_key_id => $AWS_ACCESS_KEY, 
-  :secret_access_key => $AWS_SECRET_KEY
+  :access_key_id => ENV['AWS_ACCESS_KEY_ID'], 
+  :secret_access_key => ENV['AWS_SECRET_ACCESS_KEY']
 )
 
 def all_children_except(parent_folder, extra_regex = '')
@@ -27,8 +25,8 @@ end
 def post_tasks(job_names, bucket_name, payment_amount, hit_assignments,
                sandbox)
 
-  RTurk.setup($AWS_ACCESS_KEY,
-              $AWS_SECRET_KEY,
+  RTurk.setup(ENV['MTURK_ACCESS_KEY_ID'],
+              ENV['MTURK_SECRET_ACCESS_KEY'],
               :sandbox => sandbox)
 
   if sandbox then

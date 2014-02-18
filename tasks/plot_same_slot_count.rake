@@ -12,9 +12,6 @@ begin
 rescue LoadError
 end
 
-$AWS_ACCESS_KEY='AKIAJ5G2RZ6BDNBZ2VBA'
-$AWS_SECRET_KEY='d9Q9abhaUh625uXpSrKElvQ/DrbKsCUAYAPaeVLU'
-
 $N_SAMPLES = 500
 
 namespace :plot_same_slot_count do
@@ -98,21 +95,6 @@ namespace :plot_same_slot_count do
     #       :breaks => 50,
     #       :plot => true)
     $stdin.gets.chomp
-
-    # For now, don't put the graph up on S3
-    return
-
-    unique_id = SecureRandom.hex(10)
-    graph_file = "p_random_vs_reaction_time_#{unique_id}.png"
-    
-    s3 = AWS::S3.new(access_key_id:$AWS_ACCESS_KEY ,
-                     secret_access_key: $AWS_SECRET_KEY)
-    bucket = s3.buckets['neon-graphs']
-    bucket.objects[graph_file].write(chart.fetch,
-                                     :acl => :public_read)
-  
-    puts 'Your graph is available at:'
-    puts "https://neon-graphs.s3.amazonaws.com/#{graph_file}"
   end
 
 end

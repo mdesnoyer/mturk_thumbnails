@@ -46,8 +46,8 @@ namespace :review_hits do
     end
 
     # Connect to mechanical turk
-    RTurk.setup(ENV['AWS_ACCESS_KEY_ID'],
-                ENV['AWS_SECRET_ACCESS_KEY'],
+    RTurk.setup(ENV['MTURK_ACCESS_KEY_ID'],
+                ENV['MTURK_SECRET_ACCESS_KEY'],
                 :sandbox => sandbox)
 
     hits = RTurk::Hit.all_reviewable
