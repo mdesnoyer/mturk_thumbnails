@@ -94,25 +94,30 @@ $ ->
     angleOffset = Math.PI / 3.0 * (2 * Math.random() - 1)
     angleSplit = Math.PI * 2.0 / 3.0
 
+    defaultHeight = 144
+    defaultWidth = 256
+
     mid = $('#mid_image')
-    arcLen = 0.75 * Math.sqrt(Math.pow(mid.height(), 2) + 
-                              Math.pow(mid.width(), 2))
-    midTop = centerPos.top - arcLen * Math.cos(angleOffset) - mid.height() / 2
-    midLeft = centerPos.left - arcLen * Math.sin(angleOffset) - mid.width() / 2
+    mHeight = mid.height() || defaultHeight
+    mWidth = mid.width() || defaultWidth
+    arcLen = 0.75 * Math.sqrt(Math.pow(mHeight, 2) + 
+                              Math.pow(mWidth, 2))
+    midTop = centerPos.top - arcLen * Math.cos(angleOffset) - mHeight / 2
+    midLeft = centerPos.left - arcLen * Math.sin(angleOffset) - mWidth / 2
     mid.offset(top: midTop, left: midLeft)
 
     leftI = $('#left_image')
     leftTop = centerPos.top - arcLen * Math.cos(angleOffset + angleSplit) -
-              leftI.height() / 2
+              (leftI.height() || defaultHeight) / 2
     leftLeft = centerPos.left - arcLen * Math.sin(angleOffset + angleSplit) -
-               leftI.width() / 2
+               (leftI.width() || defaultWidth) / 2
     leftI.offset(top: leftTop, left: leftLeft)
 
     rightI = $('#right_image')
     rightTop = centerPos.top - arcLen * Math.cos(angleOffset-angleSplit) -
-               rightI.height() / 2
+               (rightI.height() || defaultHeight) / 2
     rightLeft = centerPos.left - arcLen * Math.sin(angleOffset-angleSplit) -
-                rightI.width() / 2
+                (rightI.width() || defaultWidth) / 2
     rightI.offset(top: rightTop, left: rightLeft)
     1
 
