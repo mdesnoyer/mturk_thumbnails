@@ -24,10 +24,10 @@ ActiveRecord::Base.configurations[:production] = {
 ActiveRecord::Base.configurations[:remote_production] = {
   :adapter  => 'postgresql',
   :encoding => 'utf8',
-  :database => 'd818kso4dkedro',
-  :username => 'ypqkdxvnyynxtc',
-  :password => 'Kr3_R6gYvLqGk_WnYc9dclK6sF',
-  :host     => 'ec2-23-23-234-207.compute-1.amazonaws.com',
+  :database => 'demek58s78bbkn',
+  :username => 'zogqtvlfduwuiy',
+  :password => 'WHLuEoq7zS26xZPutJlLQA487Y',
+  :host     => 'ec2-54-197-241-67.compute-1.amazonaws.com',
   :port     => 5432
 }
 
