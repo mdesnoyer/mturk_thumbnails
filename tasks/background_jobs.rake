@@ -7,7 +7,7 @@ namespace :background_jobs do
   task :run_review_pipeline => :environment do
 
     Rake::Task['calculate_scores:default'].invoke
-    #Rake::Task['review_hits:default'].invoke('false')
+    Rake::Task['review_hits:default'].invoke('false')
     Rake::Task['extend_hits:default'].invoke('false')
 
   end
