@@ -72,15 +72,12 @@ namespace :review_hits do
             next
           end
 
-          debugger
-
           # If the assignment was submitted after our last database
           # update, we can't draw a conclusion yet
           if last_user_rejection_time < assignment.submitted_at
             next
           end
 
-          debugger
 
           reason = UserRejection.select(:reason).where(
             worker_id: assignment.worker_id, stimset: stimset).map(&:reason)[0]
