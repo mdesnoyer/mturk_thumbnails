@@ -102,22 +102,18 @@ $ ->
     mWidth = mid.width() || defaultWidth
     arcLen = 0.75 * Math.sqrt(Math.pow(mHeight, 2) + 
                               Math.pow(mWidth, 2))
-    midTop = centerPos.top - arcLen * Math.cos(angleOffset) - mHeight / 2
-    midLeft = centerPos.left - arcLen * Math.sin(angleOffset) - mWidth / 2
+    midTop = centerPos.top - mHeight / 2
+    midLeft = centerPos.left - mWidth / 2
     mid.offset(top: midTop, left: midLeft)
 
     leftI = $('#left_image')
-    leftTop = centerPos.top - arcLen * Math.cos(angleOffset + angleSplit) -
-              (leftI.height() || defaultHeight) / 2
-    leftLeft = centerPos.left - arcLen * Math.sin(angleOffset + angleSplit) -
-               (leftI.width() || defaultWidth) / 2
+    leftTop = centerPos.top - mHeight / 2
+    leftLeft = centerPos.left - mWidth / 2 - (leftI.width() || defaultWidth) - 10
     leftI.offset(top: leftTop, left: leftLeft)
 
     rightI = $('#right_image')
-    rightTop = centerPos.top - arcLen * Math.cos(angleOffset-angleSplit) -
-               (rightI.height() || defaultHeight) / 2
-    rightLeft = centerPos.left - arcLen * Math.sin(angleOffset-angleSplit) -
-                (rightI.width() || defaultWidth) / 2
+    rightTop = centerPos.top - mHeight / 2
+    rightLeft = centerPos.left + mWidth / 2 + 10
     rightI.offset(top: rightTop, left: rightLeft)
     1
 
@@ -147,9 +143,12 @@ $ ->
     
     $('#wash_div').show()
 
-    centerPos = $('#eye_center').offset()
-    $('#crosshairs').offset(top: centerPos.top - canvas.height / 2,
-                            left: centerPos.left - canvas.width / 2)
+    eyeTop = 300 * Math.random() + 144
+    eyeLeft = (($(document).width() - 800) * Math.random() + 400)
+    $('#eye_center').offset(top: eyeTop, left: eyeLeft)
+
+    $('#crosshairs').offset(top: eyeTop - canvas.height / 2,
+                            left: eyeLeft - canvas.width / 2)
 
     $(document.body).css("background", "#C0C0C0")
     setTimeout(callback, 100)
@@ -174,7 +173,7 @@ $ ->
     $(document.body).css("background", "url(" + canvas.toDataURL() + ")")
 
     crosshairFunc = () -> DrawCrosshairs(callback)
-    setTimeout(crosshairFunc, 50)
+    setTimeout(crosshairFunc, 100)
 
   ### Controls what trial is shown at a given time ###
   startTime = null
