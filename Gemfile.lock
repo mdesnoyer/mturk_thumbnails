@@ -18,6 +18,7 @@ GEM
       nokogiri (< 1.6.0)
       uuidtools (~> 2.1)
     builder (3.0.4)
+    clipboard (1.0.5)
     coffee-script (2.2.0)
       coffee-script-source
       execjs
@@ -128,6 +129,7 @@ GEM
     treetop (1.4.12)
       polyglot
       polyglot (>= 0.3.1)
+    trollop (2.0)
     tzinfo (0.3.35)
     url_mount (0.2.1)
       rack
@@ -139,6 +141,7 @@ PLATFORMS
 DEPENDENCIES
   activerecord
   aws-sdk
+  clipboard
   coffee-script
   debugger
   haml
@@ -157,3 +160,4 @@ DEPENDENCIES
   squeel
   therubyracer
   thin
+  trollop

@@ -21,6 +21,8 @@ gem 'pg'
 gem 'padrino-assets'
 gem 'httparty'
 gem 'newrelic_rpm'
+gem 'clipboard'
+gem 'trollop'
 
 group :development do
   gem 'therubyracer'
