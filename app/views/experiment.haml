@@ -82,10 +82,13 @@
 
         %p <a href="javascript:void(0)", class="start_button", id="keep_but">Begin Experiment</a>
 
-    #experiment.hidden.images{ data: { edata: @experiment_data, job_data: @job_data } }
-      = link_to image_tag('', class: :left, id: 'left_image'), "javascript:void(0)"
-      = link_to image_tag('', class: :middle, id: 'mid_image'), "javascript:void(0)"
-      = link_to image_tag('', class: :right, id: 'right_image'), "javascript:void(0)"
+    #experiment.hidden
+      #crosshairs
+        %canvas{ :id => "crosshair_canvas", :width => 100, :height => 100 }
+      #e_images.hidden{ data: { edata: @experiment_data, job_data: @job_data } }
+        = link_to image_tag('', class: :left, id: 'left_image'), "javascript:void(0)"
+        = link_to image_tag('', class: :middle, id: 'mid_image'), "javascript:void(0)"
+        = link_to image_tag('', class: :right, id: 'right_image'), "javascript:void(0)"
 
     #jobdata.container.hidden{ data: { jdata: @job_data } }
 
@@ -103,5 +106,4 @@
 
     #eye_center
     #wash_div.hidden
-      %canvas{ :id => "crosshairs", :width => 60, :height => 60 }
       %canvas.hidden{ :id => "visual_wash", :width => 200, :height => 200 }

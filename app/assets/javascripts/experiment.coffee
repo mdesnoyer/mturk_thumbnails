@@ -1,20 +1,20 @@
 $ ->
-  edata = $('#experiment').data().edata
+  edata = $('#e_images').data().edata
   jdata = $('#jobdata').data().jdata
 
   if jdata.assignment_id == "ASSIGNMENT_ID_NOT_AVAILABLE"
-    $('#start_box').hide()
+    $('#start_box').css("visibility", "hidden")
 
   curTrial = edata.cur_trial
   DisplayInstructions = ->
-    $('#experiment').hide()
-    $('#loading').hide()
-    $('#donejob').hide()
-    $('#donepractice').hide()
+    $('#experiment').css("visibility", "hidden")
+    $('#loading').css("visibility", "hidden")
+    $('#donejob').css("visibility", "hidden")
+    $('#donepractice').css("visibility", "hidden")
     if curTrial < edata.trials.length
-       $('#keep_instructions').show()
+       $('#keep_instructions').css("visibility", "visible")
     else
-       $('#return_instructions').show()
+       $('#return_instructions').css("visibility", "visible")
   DisplayInstructions()
 
   ### Sends a choice back to the server ###
@@ -87,39 +87,17 @@ $ ->
         images[i].src = edata.img_dir + '/' + edata.images[i]
   window.onload = LoadImages
 
-  ### Rotates the images randomly around a central point ###
-  RotateImages = () ->
-    centerPos = $('#eye_center').offset()
 
-    angleOffset = Math.PI / 3.0 * (2 * Math.random() - 1)
-    angleSplit = Math.PI * 2.0 / 3.0
-
-    defaultHeight = 144
-    defaultWidth = 256
-
-    mid = $('#mid_image')
-    mHeight = mid.height() || defaultHeight
-    mWidth = mid.width() || defaultWidth
-    arcLen = 0.75 * Math.sqrt(Math.pow(mHeight, 2) + 
-                              Math.pow(mWidth, 2))
-    midTop = centerPos.top - mHeight / 2
-    midLeft = centerPos.left - mWidth / 2
-    mid.offset(top: midTop, left: midLeft)
-
-    leftI = $('#left_image')
-    leftTop = centerPos.top - mHeight / 2
-    leftLeft = centerPos.left - mWidth / 2 - (leftI.width() || defaultWidth) - 10
-    leftI.offset(top: leftTop, left: leftLeft)
-
-    rightI = $('#right_image')
-    rightTop = centerPos.top - mHeight / 2
-    rightLeft = centerPos.left + mWidth / 2 + 10
-    rightI.offset(top: rightTop, left: rightLeft)
-    1
+  ### Move the triplet of images around the scene ###
+  MoveImages = () ->
+    eTop = 300 * Math.random() + 50
+    eLeft = (($(document).width() - 850) * Math.random() + 50)
+    $('#experiment').offset(top: eTop, left: eLeft)
+  MoveImages()
 
   ### Draws the crosshairs ###
   DrawCrosshairs = (callback) ->
-    canvas = $('#crosshairs')[0]
+    canvas = $('#crosshair_canvas')[0]
     canvas.width = canvas.height = 100
     ctx = canvas.getContext('2d')
 
@@ -140,15 +118,11 @@ $ ->
     ctx.closePath()
     ctx.stroke()
 
-    
-    $('#wash_div').show()
+    MoveImages()
 
-    eyeTop = 300 * Math.random() + 144
-    eyeLeft = (($(document).width() - 800) * Math.random() + 400)
-    $('#eye_center').offset(top: eyeTop, left: eyeLeft)
-
-    $('#crosshairs').offset(top: eyeTop - canvas.height / 2,
-                            left: eyeLeft - canvas.width / 2)
+    # Show the crosshairs
+    $('#experiment').css("visibility", "hidden")
+    $('#crosshairs').css("visibility", "visible")
 
     $(document.body).css("background", "#C0C0C0")
     setTimeout(callback, 100)
@@ -169,7 +143,7 @@ $ ->
           ctx.fillStyle = if Math.random() > 0.5 then "#000000" else "#FFFFFF"
           ctx.fillRect(x, y, blockWidth, blockWidth)
 
-    $('#experiment').hide()
+    $('#experiment').css("visibility", "hidden")
     $(document.body).css("background", "url(" + canvas.toDataURL() + ")")
 
     crosshairFunc = () -> DrawCrosshairs(callback)
@@ -183,15 +157,15 @@ $ ->
        FinishJob()
        return
 
-    $('#wash_div').hide()
-    $('#experiment').show()
+    $('#crosshairs').css("visibility", "hidden")
+    $('#experiment').css("visibility", "visible")
 
     trialSeq = edata.trials[trialNum % edata.trials.length]
     $('#left_image').attr('src', images[trialSeq[0]].src)
     $('#mid_image').attr('src', images[trialSeq[1]].src)
     $('#right_image').attr('src', images[trialSeq[2]].src)
 
-    RotateImages()
+    #RotateImages()
 
     curTrial = trialNum
     startTime = new Date()
@@ -202,18 +176,18 @@ $ ->
   DisplayLoadedPercent = ->
     percent = Math.round(100.0 * imagesLoaded / edata.images.length)
     if imagesLoaded == edata.images.length
-       $('#loading').css("display", "none")
-       $('#keep_instructions').hide()
-       $('#return_instructions').hide()
-       $('#donepractice').hide()
-       $('#experiment').css("display", "block")
+       $('#loading').css("visibility", "hidden")
+       $('#keep_instructions').css("visibility", "hidden")
+       $('#return_instructions').css("visibility", "hidden")
+       $('#donepractice').css("visibility", "hidden")
+       $('#experiment').css("visibility", "visible")
        DisplayTrial(curTrial)
        return
 
     $('#loading_text').text("Loading... " + percent.toString() + "%")
-    $('#loading').css("display", "block")
-    $('#keep_instructions').hide()
-    $('#donepractice').hide()
+    $('#loading').css("visibility", "visible")
+    $('#keep_instructions').css("visibility", "hidden")
+    $('#donepractice').css("visibility", "hidden")
     setTimeout(DisplayLoadedPercent, 200)
   $('#keep_but').click(DisplayLoadedPercent)
   $('#return_but').click(DisplayLoadedPercent)
@@ -227,21 +201,22 @@ $ ->
       return 
 
     if practice_trial > edata.practice_images.length
-      $('#wash_div').hide()
-      $('#donepractice').show()
-      $('#experiment').hide()
+      $('#donepractice').css("visibility", "visible")
+      $('#experiment').css("visibility", "hidden")
+      $('#crosshairs').css("visibility", "hidden")
       return
 
-    $('#wash_div').hide()
-    $('#experiment').show()
-    $('#keep_instructions').hide()
-    $('#return_instructions').hide()
+
+    $('#crosshairs').css("visibility", "hidden")
+    $('#experiment').css("visibility", "visible")
+    $('#keep_instructions').css("visibility", "hidden")
+    $('#return_instructions').css("visibility", "hidden")
 
     $('#left_image').attr('src', edata.practice_images[practice_trial-1][0])
     $('#mid_image').attr('src', edata.practice_images[practice_trial-1][1])
     $('#right_image').attr('src', edata.practice_images[practice_trial-1][2])
 
-    RotateImages()
+    #RotateImages()
     
     startTime = new Date()
     timeoutId = setTimeout RegisterChoiceNone, 2000
@@ -256,15 +231,15 @@ $ ->
   )
 
   if edata.practice_images.length == 0
-     $('#practice_instructions').hide()
+     $('#practice_instructions').css("visibility", "hidden")
      $('#practice_but').text("Begin Experiment")
-     $('#worker_form').hide()
+     $('#worker_form').css("visibility", "hidden")
 
   ### Finishes the job ###
   FinishJob = ->
-    $('#experiment').hide()
-    $('#wash_div').hide()
-    $('#donejob').show()
+    $('#experiment').css("visibility", "hidden")
+    $('#crosshairs').css("visibility", "hidden")
+    $('#donejob').css("visibility", "visible")
     DisplaySentPercent()
     setTimeout(SubmitToAmazon, 60000)
 
