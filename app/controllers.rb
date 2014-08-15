@@ -1,7 +1,7 @@
 require 'csv'
 require 'open-uri/cached'
 
-TRIALS_PATH  = "#{PADRINO_ROOT}/config/trials_mixed.csv"
+TRIAL_LIST_PATH = "#{PADRINO_ROOT}/config/trials_list.txt"
 TRIAL_COUNT = 144
 RETURN_INSTRUCTIONS_START = TRIAL_COUNT + 1
 TOTAL_TRIALS = TRIAL_COUNT * 2
@@ -34,8 +34,20 @@ def get_image_list
   return (1..stims.length).map { |i| stims[i.to_s] }
 end
 
+def get_trial_file
+  trial_files = []
+  CSV.parse(File.read(TRIAL_LIST_PATH)) do |line|
+    trial_files << line
+  end
+
+  chosen_trial = trial_files.sample(random: 
+                                    Random.new(@worker_id.hash & 0xFFFF)
+
+  return "#{PADRINO_ROOT}/config/trial_options/#{chosen_trial}"
+  
+
 def load_trials
-  trials_str = File.read(TRIALS_PATH)
+  trials_str = File.read(get_trial_file)
   trial_lines = []
   CSV.parse(trials_str) do |line|
     trial_lines << line
