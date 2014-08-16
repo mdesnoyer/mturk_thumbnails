@@ -37,13 +37,14 @@ end
 def get_trial_file
   trial_files = []
   CSV.parse(File.read(TRIAL_LIST_PATH)) do |line|
-    trial_files << line
+    trial_files << line[0]
   end
 
   chosen_trial = trial_files.sample(random: 
-                                    Random.new(@worker_id.hash & 0xFFFF)
+                                    Random.new(@worker_id.hash & 0xFFFF))
 
   return "#{PADRINO_ROOT}/config/trial_options/#{chosen_trial}"
+end
   
 
 def load_trials
