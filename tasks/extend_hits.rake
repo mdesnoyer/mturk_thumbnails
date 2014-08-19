@@ -81,16 +81,16 @@ namespace :extend_hits do
       end
 
       avgValidResponses = GetAvgValidResponses(stimset)
-      if avgValidResponses > 120
+      if avgValidResponses > 150
         next
       end
 
       # Now extend the hit
       newAssignments = [((120-avgValidResponses) / 3.0).floor, 1].max
-      timeExtension = (Time.now - hits[0].expires_at)
-      timeExtension = (timeExtension * 24 * 60 * 60 + 605000).to_i
-      if timeExtension < 0
-        timeExtension = 60
+      timeLeft = (hits[0].expires_at - Time.now)
+      timeExtension = 60
+      if timeLeft <  86400
+        timeExtension = 172800
       end
       puts "Extending #{stimset} by #{newAssignments} during #{timeExtension}"
       begin

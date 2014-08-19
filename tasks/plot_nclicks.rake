@@ -7,6 +7,7 @@ require 'turk_filter'
 
 begin
   require 'rsruby'
+  require 'debugger'
 rescue LoadError
 end
 
@@ -28,9 +29,9 @@ namespace :plot_nclicks do
     
     # First collect all the counts from the database for every worker
     workers = ImageChoice.select('distinct worker_id').where(
-        'stimset_id like ?', "faces1%").map(&:worker_id)
+        'stimset_id like ?', "sophie_greece%").map(&:worker_id)
     for worker_id in workers
-      filtered_result = TurkFilter.get_filtered_trials(worker_id, 'faces1')
+      filtered_result = TurkFilter.get_filtered_trials(worker_id, 'sophie_greece')
 
       counts = Hash.new { |h, k| h[k]=[0, 0, 0, 0] }
 
@@ -54,7 +55,7 @@ namespace :plot_nclicks do
     end
     
     # Calculate the true scores
-    tru_scores = get_image_scores(worker_counts)
+    tru_scores, garb = get_image_scores(worker_counts)
 
     # Sample the scores
     N_SAMPLES=5
