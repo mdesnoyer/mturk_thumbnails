@@ -81,7 +81,7 @@ namespace :extend_hits do
       end
 
       avgValidResponses = GetAvgValidResponses(stimset)
-      if avgValidResponses > 18
+      if avgValidResponses >= 18
         # then it's finished running and all is well
         puts "HIT #{stimset} is complete, disposing of hit"
         hits.dispose!
