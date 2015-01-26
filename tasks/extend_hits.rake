@@ -81,7 +81,7 @@ namespace :extend_hits do
       end
 
       avgValidResponses = GetAvgValidResponses(stimset)
-      if avgValidResponses > 30
+      if avgValidResponses > 18
         # then it's finished running and all is well
         puts "HIT #{stimset} is complete, disposing of hit"
         hits.dispose!
@@ -89,7 +89,7 @@ namespace :extend_hits do
       end
 
       # Now extend the hit
-      newAssignments = [((30-avgValidResponses) / 3.0).floor, 1].max
+      newAssignments = [((18-avgValidResponses) / 3.0).floor, 1].max
       timeLeft = (hits[0].expires_at - Time.now)
       timeExtension = 60
       if timeLeft <  86400
