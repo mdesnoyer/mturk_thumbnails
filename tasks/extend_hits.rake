@@ -18,7 +18,7 @@ namespace :extend_hits do
   def AnyHitRunning(hits)
     # Returns true if any of the hits in a list are still running
     for hit in hits
-      if (hit.assignments_pending_count > 0 or 
+      if (hit.assignments_pending_count > 0 or
           hit.assignments_available_count > 0)
         return true
       end
@@ -30,7 +30,7 @@ namespace :extend_hits do
     # Contacts mechanical turk to get the hits for each stimset
     # Returns: {stimset_id => [hits]}
     hits = Hash.new { |h, k| h[k]=[] }
-    
+
     RTurk::SearchHITs.create(:sort_by => {:created_at => :desc}).hits.each do |hit|
       hit_details = RTurk::GetHIT(
         :hit_id => hit.id,
@@ -81,7 +81,7 @@ namespace :extend_hits do
       end
 
       avgValidResponses = GetAvgValidResponses(stimset)
-      if avgValidResponses > 150
+      if avgValidResponses > 30
         next
       end
 
