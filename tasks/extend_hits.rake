@@ -86,7 +86,7 @@ namespace :extend_hits do
       end
 
       # Now extend the hit
-      newAssignments = [((120-avgValidResponses) / 3.0).floor, 1].max
+      newAssignments = [((30-avgValidResponses) / 3.0).floor, 1].max
       timeLeft = (hits[0].expires_at - Time.now)
       timeExtension = 60
       if timeLeft <  86400
