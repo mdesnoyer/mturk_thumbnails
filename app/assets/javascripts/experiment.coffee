@@ -91,7 +91,9 @@ $ ->
   ### Move the triplet of images around the scene ###
   MoveImages = () ->
     eTop = 300 * Math.random() + 50
-    eLeft = (($(document).width() - 850) * Math.random() + 50)
+    # The width offset used to be 851
+    #eLeft = (($(document).width() - 1620) * Math.random() + 50)
+    eLeft = (250 * Math.random()) + 50
     $('#experiment').offset(top: eTop, left: eLeft)
   MoveImages()
 

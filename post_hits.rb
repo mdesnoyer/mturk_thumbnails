@@ -1,5 +1,6 @@
 #!/usr/bin/env ruby
 require 'rubygems'
+require 'aws'
 require 'aws-sdk'
 require 'rturk'
 require 'fileutils'
@@ -24,6 +25,7 @@ end
 
 def post_tasks(job_names, bucket_name, payment_amount, hit_assignments,
                sandbox)
+  #print sandbox
 
   RTurk.setup(ENV['MTURK_ACCESS_KEY_ID'],
               ENV['MTURK_SECRET_ACCESS_KEY'],

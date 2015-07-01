@@ -9,6 +9,8 @@ gem 'open-uri-cached'
 gem 'mail'
 gem 'interpolator'
 
+gem 'rack-cors'
+
 # Project requirements
 gem 'rake'
 
