@@ -1,5 +1,5 @@
 source 'https://rubygems.org'
-ruby '1.9.3'
+ruby '2.2.0'
 
 gem 'thin'
 gem 'squeel'
@@ -27,7 +27,7 @@ gem 'trollop'
 group :development do
   gem 'therubyracer'
   gem 'rsruby'
-  gem 'debugger'
+  gem 'byebug'
 end
 
 # Test requirements

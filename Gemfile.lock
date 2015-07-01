@@ -18,20 +18,16 @@ GEM
       nokogiri (< 1.6.0)
       uuidtools (~> 2.1)
     builder (3.0.4)
+    byebug (5.0.0)
+      columnize (= 0.9.0)
     clipboard (1.0.5)
     coffee-script (2.2.0)
       coffee-script-source
       execjs
     coffee-script-source (1.5.0)
-    columnize (0.3.6)
+    columnize (0.9.0)
     daemons (1.1.9)
-    debugger (1.6.1)
-      columnize (>= 0.3.1)
-      debugger-linecache (~> 1.2.0)
-      debugger-ruby_core_source (~> 1.2.3)
-    debugger-linecache (1.2.0)
-    debugger-ruby_core_source (1.2.3)
-    eventmachine (1.0.1)
+    eventmachine (1.0.7)
     execjs (1.4.0)
       multi_json (~> 1.0)
     haml (4.0.0)
@@ -45,8 +41,8 @@ GEM
       multi_xml (>= 0.5.2)
     i18n (0.6.4)
     interpolator (0.15)
-    json (1.8.0)
-    libv8 (3.11.8.13)
+    json (1.8.3)
+    libv8 (3.16.14.7)
     mail (2.3.3)
       i18n (>= 0.4.0)
       mime-types (~> 1.16)
@@ -96,7 +92,7 @@ GEM
     rack-protection (1.3.2)
       rack
     rake (10.0.3)
-    ref (1.0.2)
+    ref (1.0.5)
     rest-client (1.6.7)
       mime-types (>= 1.16)
     rsruby (0.5.1.1)
@@ -117,8 +113,8 @@ GEM
       activerecord (~> 3.0)
       activesupport (~> 3.0)
       polyamorous (~> 0.5.0)
-    therubyracer (0.11.4)
-      libv8 (~> 3.11.8.12)
+    therubyracer (0.12.2)
+      libv8 (~> 3.16.14.0)
       ref
     thin (1.5.0)
       daemons (>= 1.0.9)
@@ -141,9 +137,9 @@ PLATFORMS
 DEPENDENCIES
   activerecord
   aws-sdk
+  byebug
   clipboard
   coffee-script
-  debugger
   haml
   httparty
   interpolator
@@ -161,3 +157,6 @@ DEPENDENCIES
   therubyracer
   thin
   trollop
+
+BUNDLED WITH
+   1.10.4
