@@ -12,7 +12,7 @@ $STAGING_APP='gentle-escarpment-8454-staging'
 $PROD_APP='gentle-escarpment-8454'
 
 AWS.config(
-  :access_key_id => ENV['AWS_ACCESS_KEY_ID'], 
+  :access_key_id => ENV['AWS_ACCESS_KEY_ID'],
   :secret_access_key => ENV['AWS_SECRET_ACCESS_KEY']
 )
 
@@ -23,7 +23,7 @@ def all_children_except(parent_folder, extra_regex = '')
 end
 
 def post_tasks(job_names, bucket_name, payment_amount, hit_assignments,
-               sandbox)
+               sandbox, version)
 
   RTurk.setup(ENV['MTURK_ACCESS_KEY_ID'],
               ENV['MTURK_SECRET_ACCESS_KEY'],
@@ -45,7 +45,7 @@ def post_tasks(job_names, bucket_name, payment_amount, hit_assignments,
     hit.qualifications.add :approval_rate, { :gt => 80 }
     hit.qualifications.add :country, {:eql => 'US' }
   end
-  
+
   job_names.each do |job_name|
     hit = RTurk::Hit.create() do |hit|
       hit.assignments = hit_assignments
@@ -54,9 +54,10 @@ def post_tasks(job_names, bucket_name, payment_amount, hit_assignments,
       hit.question("#{url_base}/experiment",
                    :job => job_name,
                    :s3_bucket => bucket_name,
-                   :frame_height => 1000)
+                   :frame_height => 1000,
+                   :version => version)
 
-        
+
     end
     # Clipboard.copy hit.url
     puts "Job on mturk at: #{hit.url}"
@@ -72,6 +73,7 @@ opts = Trollop::options do
     :type => :strings
   opt :s3bucket, "Bucket name to host the images", :type => :string,
     :default => "mturk_bday_thumbs_9lwe9"
+  opt :version, "Experiment version", :type => :string, :default => "experiment"
 end
 
 image_sets = []
@@ -121,5 +123,5 @@ image_sets.each do |set|
   job_names << set[:new_name]
 end
 post_tasks(job_names, opts[:s3bucket], opts[:pay], opts[:assignments],
-           opts[:sandbox])
+           opts[:sandbox], opts[:version])
 
