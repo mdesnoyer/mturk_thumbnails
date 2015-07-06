@@ -103,9 +103,18 @@ image_sets.each do |folder|
       all_image_paths << file_name
     end
   end
+
+  name_map = {}
+
+  CSV.foreach(path_to_challenges_file) do |row|
+    name_map[row[0]] = row[1]
+  end
+
   all_image_paths.each do |image_path|
     key = File.basename(image_path)
-    folder[:file_names] << key
+    challenge_name = name_map[key[:challenge_name]]
+    folder[:file_names] << { key, challenge_name }
+
     s3obj = s3.buckets[opts[:s3bucket]].objects[key]
     if !s3obj.exists? then
         s3obj.write(:file => image_path,
@@ -115,9 +124,16 @@ image_sets.each do |folder|
 
   # Create the text file for this stimset
   text_file_name = "#{folder[:new_name]}_stimuli.csv"
+
+  # Read challenge CSV file if it exists
   csv_string = CSV.generate do |csv|
     (1..108).each do |i|
-      csv << ["#{i}", "#{folder[:file_names][i-1]}"]
+      if folder.has_key?(:challenge_file_path)
+        # challenge_name = name_map[folder[:file_names][i-1]]
+        challenge_name = name_map[folder[:file_names][i-1]]
+        csv << ["#{i}", "#{folder[:file_names][i-1]}", "#{challenge_name}"]
+      else
+        csv << ["#{i}", "#{folder[:file_names][i-1]}", "#{folder[:file_names][i-1]}"]
     end
   end
 
