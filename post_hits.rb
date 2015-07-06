@@ -112,8 +112,7 @@ image_sets.each do |folder|
 
   all_image_paths.each do |image_path|
     key = File.basename(image_path)
-    challenge_name = name_map[key[:challenge_name]]
-    folder[:file_names] << { key, challenge_name }
+    folder[:file_names] << key
 
     s3obj = s3.buckets[opts[:s3bucket]].objects[key]
     if !s3obj.exists? then
@@ -134,6 +133,7 @@ image_sets.each do |folder|
         csv << ["#{i}", "#{folder[:file_names][i-1]}", "#{challenge_name}"]
       else
         csv << ["#{i}", "#{folder[:file_names][i-1]}", "#{folder[:file_names][i-1]}"]
+      end
     end
   end
 
@@ -148,6 +148,7 @@ job_names = []
 image_sets.each do |set|
   job_names << set[:new_name]
 end
+
 post_tasks(job_names, opts[:s3bucket], opts[:pay], opts[:assignments],
            opts[:sandbox], opts[:version])
 
