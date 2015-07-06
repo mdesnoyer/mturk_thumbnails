@@ -91,7 +91,18 @@ image_sets.each do |folder|
   puts("Uploading images from #{folder[:original_path]} to S3 bucket #{opts[:s3bucket]}")
   s3 = AWS::S3.new
   folder[:file_names] = []
-  all_image_paths = all_children_except(folder[:original_path])
+  all_files = all_children_except(folder[:original_path])
+  all_image_paths = []
+
+  # Store path to challenges csv file if it exists
+  # Store everything else in all_image_paths
+  all_files.each do |file_name|
+    if File.extname(file_name).include?(".csv")
+      folder[:challenge_file_path] = file_name
+    else
+      all_image_paths << file_name
+    end
+  end
   all_image_paths.each do |image_path|
     key = File.basename(image_path)
     folder[:file_names] << key
