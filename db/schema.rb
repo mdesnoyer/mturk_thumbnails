@@ -62,9 +62,11 @@ ActiveRecord::Schema.define(:version => 15) do
   end
 
   create_table "user_rejections", :force => true do |t|
-    t.string "worker_id"
-    t.string "stimset"
-    t.string "reason"
+    t.string   "worker_id"
+    t.string   "stimset"
+    t.string   "reason"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "worker_info", :force => true do |t|

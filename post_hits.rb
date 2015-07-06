@@ -12,7 +12,7 @@ $STAGING_APP='gentle-escarpment-8454-staging'
 $PROD_APP='gentle-escarpment-8454'
 
 AWS.config(
-  :access_key_id => ENV['AWS_ACCESS_KEY_ID'], 
+  :access_key_id => ENV['AWS_ACCESS_KEY_ID'],
   :secret_access_key => ENV['AWS_SECRET_ACCESS_KEY']
 )
 
@@ -23,7 +23,7 @@ def all_children_except(parent_folder, extra_regex = '')
 end
 
 def post_tasks(job_names, bucket_name, payment_amount, hit_assignments,
-               sandbox)
+               sandbox, version)
 
   RTurk.setup(ENV['MTURK_ACCESS_KEY_ID'],
               ENV['MTURK_SECRET_ACCESS_KEY'],
@@ -36,8 +36,8 @@ def post_tasks(job_names, bucket_name, payment_amount, hit_assignments,
   end
   url_base = "https://#{app_base}.herokuapp.com"
 
-  hittype = RTurk::RegisterHITType.create(:title => "Choose an Online a Video!") do |hit|
-    hit.description = 'Choose an Online a Video!'
+  hittype = RTurk::RegisterHITType.create(:title => "Choose an Online Video!") do |hit|
+    hit.description = 'Choose an Online Video!'
     hit.reward = payment_amount
     hit.duration = 3600
     hit.auto_approval = 172800 # auto approves the job 2 days after submission
@@ -45,7 +45,7 @@ def post_tasks(job_names, bucket_name, payment_amount, hit_assignments,
     hit.qualifications.add :approval_rate, { :gt => 80 }
     hit.qualifications.add :country, {:eql => 'US' }
   end
-  
+
   job_names.each do |job_name|
     hit = RTurk::Hit.create() do |hit|
       hit.assignments = hit_assignments
@@ -54,9 +54,10 @@ def post_tasks(job_names, bucket_name, payment_amount, hit_assignments,
       hit.question("#{url_base}/experiment",
                    :job => job_name,
                    :s3_bucket => bucket_name,
-                   :frame_height => 1000)
+                   :frame_height => 1000,
+                   :version => version)
 
-        
+
     end
     # Clipboard.copy hit.url
     puts "Job on mturk at: #{hit.url}"
@@ -72,6 +73,7 @@ opts = Trollop::options do
     :type => :strings
   opt :s3bucket, "Bucket name to host the images", :type => :string,
     :default => "mturk_bday_thumbs_9lwe9"
+  opt :version, "Experiment version", :type => :string, :default => "experiment"
 end
 
 image_sets = []
@@ -89,10 +91,30 @@ image_sets.each do |folder|
   puts("Uploading images from #{folder[:original_path]} to S3 bucket #{opts[:s3bucket]}")
   s3 = AWS::S3.new
   folder[:file_names] = []
-  all_image_paths = all_children_except(folder[:original_path])
+  all_files = all_children_except(folder[:original_path])
+  all_image_paths = []
+
+  # Store path to challenges csv file if it exists
+  # Store everything else in all_image_paths
+  all_files.each do |file_name|
+    if File.extname(file_name).include?(".csv")
+      folder[:challenge_file_path] = file_name
+    else
+      all_image_paths << file_name
+    end
+  end
+
+  name_map = {}
+
+  CSV.foreach(path_to_challenges_file) do |row|
+    name_map[row[0]] = row[1]
+  end
+
   all_image_paths.each do |image_path|
     key = File.basename(image_path)
-    folder[:file_names] << key
+    challenge_name = name_map[key[:challenge_name]]
+    folder[:file_names] << { key, challenge_name }
+
     s3obj = s3.buckets[opts[:s3bucket]].objects[key]
     if !s3obj.exists? then
         s3obj.write(:file => image_path,
@@ -102,9 +124,16 @@ image_sets.each do |folder|
 
   # Create the text file for this stimset
   text_file_name = "#{folder[:new_name]}_stimuli.csv"
+
+  # Read challenge CSV file if it exists
   csv_string = CSV.generate do |csv|
     (1..108).each do |i|
-      csv << ["#{i}", "#{folder[:file_names][i-1]}"]
+      if folder.has_key?(:challenge_file_path)
+        # challenge_name = name_map[folder[:file_names][i-1]]
+        challenge_name = name_map[folder[:file_names][i-1]]
+        csv << ["#{i}", "#{folder[:file_names][i-1]}", "#{challenge_name}"]
+      else
+        csv << ["#{i}", "#{folder[:file_names][i-1]}", "#{folder[:file_names][i-1]}"]
     end
   end
 
@@ -112,7 +141,6 @@ image_sets.each do |folder|
   s3.buckets[opts[:s3bucket]].objects[text_file_name].write(
     csv_string,
     :acl => :public_read)
-
 end
 
 # Post HITs
@@ -121,5 +149,5 @@ image_sets.each do |set|
   job_names << set[:new_name]
 end
 post_tasks(job_names, opts[:s3bucket], opts[:pay], opts[:assignments],
-           opts[:sandbox])
+           opts[:sandbox], opts[:version])
 
