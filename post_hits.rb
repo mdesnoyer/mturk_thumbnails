@@ -36,8 +36,8 @@ def post_tasks(job_names, bucket_name, payment_amount, hit_assignments,
   end
   url_base = "https://#{app_base}.herokuapp.com"
 
-  hittype = RTurk::RegisterHITType.create(:title => "Choose an Online a Video!") do |hit|
-    hit.description = 'Choose an Online a Video!'
+  hittype = RTurk::RegisterHITType.create(:title => "Choose an Online Video!") do |hit|
+    hit.description = 'Choose an Online Video!'
     hit.reward = payment_amount
     hit.duration = 3600
     hit.auto_approval = 172800 # auto approves the job 2 days after submission
@@ -141,7 +141,6 @@ image_sets.each do |folder|
   s3.buckets[opts[:s3bucket]].objects[text_file_name].write(
     csv_string,
     :acl => :public_read)
-
 end
 
 # Post HITs
