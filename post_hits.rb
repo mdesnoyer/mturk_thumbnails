@@ -106,8 +106,10 @@ image_sets.each do |folder|
 
   name_map = {}
 
-  CSV.foreach(folder[:challenge_file_path]) do |row|
-    name_map[row[0]] = row[1]
+  if folder.has_key?(:challenge_file_path)
+    CSV.foreach(folder[:challenge_file_path]) do |row|
+      name_map[row[0]] = row[1]
+    end
   end
 
   all_image_paths.each do |image_path|
