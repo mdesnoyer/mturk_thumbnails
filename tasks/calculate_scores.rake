@@ -37,7 +37,11 @@ namespace :calculate_scores do
     TrialRejection.delete_all()
     ImageScore.delete_all()
 
-    stimsets = ImageChoice.select('distinct substring(stimset_id from E\'([0-9a-zA-Z_]+)\\_[0-9a-f]+\') as stim').map(&:stim)
+    stimset_ids = ImageChoice.where('stimset_id IS NOT NULL').select(:stimset_id).uniq.pluck(:stimset_id)
+    stimsets = stimset_ids.uniq_by do |id|
+      match = id.match(/([0-9a-zA-Z_]+)_[0-9a-f]+/)
+      match && match[1]
+    end
     for stimset in stimsets
       if stimset.nil? or stimset.empty?
         next
