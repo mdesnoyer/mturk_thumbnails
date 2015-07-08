@@ -37,24 +37,24 @@ namespace :calculate_scores do
     TrialRejection.delete_all()
     ImageScore.delete_all()
 
-    stimset_ids = ImageChoice.where('stimset_id IS NOT NULL').select(:stimset_id).uniq.pluck(:stimset_id)
-    stimsets = stimset_ids.uniq_by do |id|
+    stimset_ids = ImageChoice.where('stimset_id IS NOT NULL').select(:stimset_id).group(:stimset_id).pluck(:stimset_id)
+
+    stimset_groups = stimset_ids.group_by do |id|
       match = id.match(/([0-9a-zA-Z_]+)_[0-9a-f]+/)
       match && match[1]
     end
-    for stimset in stimsets
-      if stimset.nil? or stimset.empty?
-        next
-      end
+
+    stimset_groups.each do |stimset, stimset_ids|
+      next if stimset.empty?
 
       # for each image, to counts of [<keep_view>, <return_view>,
       # <keep_clicks>, <return_clicks]
       counts = Hash.new { |h, k| h[k] = [0, 0, 0, 0] }
 
-      workers = ImageChoice.select('distinct worker_id').where(
-        'stimset_id like ?', "#{stimset}\\_%").map(&:worker_id)
-      for worker_id in workers
-        filtered_result = TurkFilter.get_filtered_trials(worker_id, stimset)
+      worker_ids = ImageChoice.where(stimset_id: stimset_ids).select(:worker_id).group(:worker_id).pluck(:worker_id)
+
+      worker_ids.each do |worker_id|
+        filtered_result = TurkFilter.get_filtered_trials(worker_id, stimset, stimset_ids: stimset_ids)
 
         # Record the scores on the filter
         FilterStat.where(:worker_id => worker_id,

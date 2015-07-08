@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 16) do
+ActiveRecord::Schema.define(:version => 17) do
 
   create_table "filter_stats", :force => true do |t|
     t.string  "worker_id"
@@ -36,6 +36,10 @@ ActiveRecord::Schema.define(:version => 16) do
   end
 
   add_index "image_choices", ["stimset_id"], :name => "index_image_choices_on_stimset_id"
+  add_index "image_choices", ["stimset_id"], :name => "index_stimset_id"
+  add_index "image_choices", ["stimset_id"], :name => "stim_id_prefix"
+  add_index "image_choices", ["worker_id"], :name => "index_image_choices_on_worker_id"
+  add_index "image_choices", ["worker_id"], :name => "worker_id_idx"
 
   create_table "image_scores", :force => true do |t|
     t.string  "image"
