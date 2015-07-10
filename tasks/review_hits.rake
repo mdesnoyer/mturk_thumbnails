@@ -50,7 +50,7 @@ namespace :review_hits do
                 ENV['MTURK_SECRET_ACCESS_KEY'],
                 :sandbox => sandbox)
 
-    hits = RTurk::Hit.all_reviewable
+    hits = RTurk::GetReviewableHITs(:page_size => 30, :sort_property => 'CreationTime', :sort_direction => 'Descending')
 
     puts "#{hits.size} reviewable hits. \n"
 
