@@ -53,19 +53,19 @@ namespace :review_hits do
     xml_data = RTurk::GetReviewableHITs(:page_number => 1, :page_size => 30, :sort_property => 'CreationTime', :sort_direction => 'Descending')
 
     hit_ids = []
-
-    puts "We've collected #{hit_ids.size} HIT ids"
-
+  
     xml_data.hit_ids.each do |hit|
      hit_ids << hit
     end
+
+    puts "We've collected #{hit_ids.size} HIT ids"
 
     hits = []
 
     hit_ids.each do |hit|
      hits << RTurk::Hit.new(hit)
     end
-    
+
     puts "#{hits.size} reviewable hits. \n"
 
     # Get the last time that the user_rejection table was uploaded
@@ -77,7 +77,7 @@ namespace :review_hits do
 
       hits.each do |hit|
         puts hit.id
-        
+
         hit_details = RTurk::GetHIT(:hit_id => hit.id)
         stimset = QuestionURL2Stimset(hit_details.question_external_url)
         hit.assignments.each do |assignment|
