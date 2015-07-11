@@ -54,6 +54,8 @@ namespace :review_hits do
 
     hit_ids = []
 
+    puts "We've collected #{hit_ids.size} HIT ids"
+
     xml_data.hit_ids.each do |hit|
      hit_ids << hit
     end
@@ -63,6 +65,8 @@ namespace :review_hits do
     hit_ids.each do |hit|
      hits << RTurk::Hit.new(:hit_id => hit)
     end
+
+    puts hits
 
     puts "#{hits.size} reviewable hits. \n"
 
@@ -74,7 +78,7 @@ namespace :review_hits do
       puts "Reviewing all assignments"
 
       hits.each do |hit|
-
+        puts hits.id
         hit_details = RTurk::GetHIT(:hit_id => hit.id)
         stimset = QuestionURL2Stimset(hit_details.question_external_url)
         hit.assignments.each do |assignment|
