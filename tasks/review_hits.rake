@@ -50,7 +50,19 @@ namespace :review_hits do
                 ENV['MTURK_SECRET_ACCESS_KEY'],
                 :sandbox => sandbox)
 
-    hits = RTurk::GetReviewableHITs(:page_size => 30, :sort_property => 'CreationTime', :sort_direction => 'Descending')
+    xml_data = RTurk::GetReviewableHITs(:page_number => 1, :page_size => 30, :sort_property => 'CreationTime', :sort_direction => 'Descending')
+
+    hit_ids = []
+
+    xml_data.hit_ids.each do |hit|
+     hit_ids << hit
+    end
+
+    hits = []
+
+    hit_ids.each do |hit|
+     hits << RTurk::GetHIT(:hit_id => hit)
+    end
 
     puts "#{hits.size} reviewable hits. \n"
 
