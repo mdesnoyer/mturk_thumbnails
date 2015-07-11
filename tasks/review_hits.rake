@@ -61,7 +61,7 @@ namespace :review_hits do
     hits = []
 
     hit_ids.each do |hit|
-     hits << RTurk::GetHIT(:hit_id => hit)
+     hits << RTurk::Hit.new(:hit_id => hit)
     end
 
     puts "#{hits.size} reviewable hits. \n"
