@@ -63,7 +63,7 @@ namespace :review_hits do
     hits = []
 
     hit_ids.each do |hit|
-     hits << RTurk::Hit.new(:hit_id => hit)
+     hits << RTurk::Hit.new(hit)
     end
 
     puts hits
