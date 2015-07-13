@@ -80,6 +80,7 @@ namespace :review_hits do
 
         hit_details = RTurk::GetHIT(:hit_id => hit.id)
         stimset = QuestionURL2Stimset(hit_details.question_external_url)
+        puts stimset
         hit.assignments.each do |assignment|
 
           if assignment.status != 'Submitted'
