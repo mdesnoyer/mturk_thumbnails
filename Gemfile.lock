@@ -157,6 +157,3 @@ DEPENDENCIES
   therubyracer
   thin
   trollop
-
-BUNDLED WITH
-   1.10.4
