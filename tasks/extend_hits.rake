@@ -81,12 +81,15 @@ namespace :extend_hits do
       end
 
       avgValidResponses = GetAvgValidResponses(stimset)
-      puts "HIT #{stimset} has #{avgValidResponses}"
-      if avgValidResponses > 20
+      minimum_valid_responses = 40
+
+      if avgValidResponses > minimum_valid_responses
         # then it's finished running and all is well
-        puts "HIT #{stimset} is complete, disposing of hit"
+        puts "HIT #{stimset} has at least #{minimum_valid_responses} valid responses -- it's complete! Disposing of hit"
         hits.map(&:dispose!)
         next
+      else
+        puts "HIT #{stimset} has #{avgValidResponses}, that is not enough. Minimum is currently set to #{minimum_valid_responses}"
       end
 
       # Now extend the hit
