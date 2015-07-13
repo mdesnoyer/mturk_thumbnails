@@ -89,7 +89,7 @@ namespace :extend_hits do
         hits.map(&:dispose!)
         next
       else
-        puts "HIT #{stimset} has #{avgValidResponses}, that is not enough. Minimum is currently set to #{minimum_valid_responses}"
+        puts "HIT #{stimset} only has #{avgValidResponses}, that is not enough. Minimum is currently set to #{minimum_valid_responses}"
       end
 
       # Now extend the hit
