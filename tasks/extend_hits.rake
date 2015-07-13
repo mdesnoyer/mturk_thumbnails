@@ -31,7 +31,7 @@ namespace :extend_hits do
     # Returns: {stimset_id => [hits]}
     hits = Hash.new { |h, k| h[k]=[] }
 
-    RTurk::SearchHITs.create(:page_size => 13, :sort_by => {:created_at => :ascending}).hits.each do |hit|
+    RTurk::SearchHITs.create(:page_size => 13, :sort_by => {:created_at => :descending}).hits.each do |hit|
       hit_details = RTurk::GetHIT(
         :hit_id => hit.id,
         :include_assignment_summary => true)
