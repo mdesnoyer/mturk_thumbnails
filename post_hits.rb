@@ -1,5 +1,6 @@
 #!/usr/bin/env ruby
 require 'rubygems'
+require 'aws'
 require 'aws-sdk'
 require 'rturk'
 require 'fileutils'
