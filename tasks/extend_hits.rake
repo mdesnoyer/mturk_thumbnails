@@ -31,7 +31,7 @@ namespace :extend_hits do
     # Returns: {stimset_id => [hits]}
     hits = Hash.new { |h, k| h[k]=[] }
 
-    RTurk::SearchHITs.create(:sort_by => {:created_at => :desc}).hits.each do |hit|
+    RTurk::SearchHITs.create(:page_size => 13, :sort_by => {:created_at => :descending}).hits.each do |hit|
       hit_details = RTurk::GetHIT(
         :hit_id => hit.id,
         :include_assignment_summary => true)
@@ -81,12 +81,15 @@ namespace :extend_hits do
       end
 
       avgValidResponses = GetAvgValidResponses(stimset)
-      puts "HIT #{stimset} has #{avgValidResponses}"
-      if avgValidResponses > 20
+      minimum_valid_responses = 40
+
+      if avgValidResponses > minimum_valid_responses
         # then it's finished running and all is well
-        puts "HIT #{stimset} is complete, disposing of hit"
-        hits.dispose!
+        puts "HIT #{stimset} has at least #{minimum_valid_responses} valid responses -- it's complete! Disposing of hit"
+        hits.map(&:dispose!)
         next
+      else
+        puts "HIT #{stimset} only has #{avgValidResponses}, that is not enough. Minimum is currently set to #{minimum_valid_responses}"
       end
 
       # Now extend the hit

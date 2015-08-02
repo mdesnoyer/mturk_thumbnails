@@ -40,12 +40,12 @@ def get_trial_file
     trial_files << line[0]
   end
 
-  chosen_trial = trial_files.sample(random: 
+  chosen_trial = trial_files.sample(random:
                                     Random.new(@worker_id.hash & 0xFFFF))
 
   return "#{PADRINO_ROOT}/config/trial_options/#{chosen_trial}"
 end
-  
+
 
 def load_trials
   trials_str = File.read(get_trial_file)
@@ -180,7 +180,7 @@ MturkThumbnails.controllers do
     p params
     read_params
   end
-  
+
   post :choose, with: :choice do
     set_variables
     write_to_db
@@ -224,6 +224,6 @@ MturkThumbnails.controllers do
 
     @turk_url = get_amazon_url
 
-    haml :experiment
+    haml params[:version].to_sym
   end
 end

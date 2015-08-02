@@ -50,7 +50,21 @@ namespace :review_hits do
                 ENV['MTURK_SECRET_ACCESS_KEY'],
                 :sandbox => sandbox)
 
-    hits = RTurk::Hit.all_reviewable
+    xml_data = RTurk::GetReviewableHITs(:page_number => 1, :page_size => 30, :sort_property => 'CreationTime', :sort_direction => 'Descending')
+
+    hit_ids = []
+  
+    xml_data.hit_ids.each do |hit|
+     hit_ids << hit
+    end
+
+    puts "We've collected #{hit_ids.size} HIT ids"
+
+    hits = []
+
+    hit_ids.each do |hit|
+     hits << RTurk::Hit.new(hit)
+    end
 
     puts "#{hits.size} reviewable hits. \n"
 
@@ -62,9 +76,11 @@ namespace :review_hits do
       puts "Reviewing all assignments"
 
       hits.each do |hit|
+        puts hit.id
 
         hit_details = RTurk::GetHIT(:hit_id => hit.id)
         stimset = QuestionURL2Stimset(hit_details.question_external_url)
+        puts stimset
         hit.assignments.each do |assignment|
 
           if assignment.status != 'Submitted'

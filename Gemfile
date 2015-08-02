@@ -1,10 +1,10 @@
 source 'https://rubygems.org'
-ruby '1.9.3'
+ruby '2.2.0'
 
 gem 'thin'
 gem 'squeel'
 gem 'rturk'
-gem 'aws-sdk'
+gem 'aws-sdk', '~> 1.33.0'
 gem 'open-uri-cached'
 gem 'mail'
 gem 'interpolator'
@@ -27,7 +27,7 @@ gem 'trollop'
 group :development do
   gem 'therubyracer'
   gem 'rsruby'
-  gem 'debugger'
+  gem 'byebug'
 end
 
 # Test requirements
