@@ -1,0 +1,109 @@
+!!! 5
+%html
+  %head
+    %title Pick a Video
+    = stylesheet_link_tag :application
+    = javascript_include_tag :application
+
+  %body
+    #keep_instructions.container.hidden
+      .header
+        %h1 Pick a Video: Instructions
+
+      %p.instructions Imagine you are about to watch a video. At any one time, you will be presented with three different video thumbnails to choose from. Please click on the one you most want to watch if you could only watch one of the three.
+
+      = image_tag "instructions/sample_trial.png", :class => "instructions"
+
+      %p.instructions Please note that you will not actually be watching the videos; you are simply clicking on the video that you would most want to watch.
+
+      %p.instructions
+        Please choose the video as accurately as possible after seeing the images. Do not click randomly as that could cause your work to be rejected.
+
+      %p.instructions Once you have selected a video thumbnail, three more will appear on the next screen. Please continue selecting the video you would most like to watch.
+
+      %p.instructions Do not worry if sometimes, you cannot decide quickly enough and the next set of images are shown. Your indecision still provides useful information.  
+
+      #practice_instructions
+        %p.instructions First, you will be given shown a few trials to practice on to get a feel for the pace and then the experiment will begin.
+
+      %p.instructions The experiment contains two parts. You will be notified when the first part is over and given instructions for the second part.
+
+      #start_box.instructions_click
+        %p When you are ready to begin, click the button below to start the task.
+        %form{:id => "worker_form", :action => "", :method => "post"}
+          %input{:type => "hidden", :name => "workerId", :value => @worker_id}
+          %table.form_table
+            %tr
+              %td Gender:
+              %td
+                %input{:type => "radio", :name => "gender", :value => "M"}M
+                %input{:type => "radio", :name => "gender", :value => "F"}F
+            %tr
+              %td Age:
+              %td 
+                %select{:name => "age_group", :id => "age_group_selector"}
+                  %option{:value => ""}= ""
+                  %option{:value => "0-17"}= "0-17"
+                  %option{:value => "18-29"}= "18-29"
+                  %option{:value => "30-39"}= "30-39"
+                  %option{:value => "40-49"}= "40-49"
+                  %option{:value => "50-59"}= "50-59"
+                  %option{:value => "60-69"}= "60-69"
+                  %option{:value => "70+"}= "70+"
+          
+        %p <a href="javascript:void(0)", class="start_button", id="practice_but">Begin Practice</a>
+
+    #return_instructions.container.hidden
+      .header
+        %h1 Instructions - Part 2
+
+      %p.instructions
+        Now, instead of selecting the video you most want to watch, please click the video that you <b>least</b> want to watch.
+
+      %p.instructions
+        Please choose the video as accurately as possible after seeing the images. Do not click randomly as that could cause your work to be rejected.
+
+      .instructions_click
+        %p When you are ready to begin, click the button below to start the task.
+        %p <a href="javascript:void(0)", class="start_button", id="return_but">Begin Part 2</a>
+
+    #loading.container.hidden
+      .header.waiting
+
+        %h1#loading_text Loading...0%
+
+    #donepractice.container.hidden
+      .header
+
+        %h1 Practice Complete
+
+      .instructions_click
+        %p Click below to start the task
+
+        %p <a href="javascript:void(0)", class="start_button", id="keep_but">Begin Experiment</a>
+
+    #experiment.hidden
+      #crosshairs
+        %canvas{ :id => "crosshair_canvas", :width => 100, :height => 100 }
+      #e_images.hidden{ data: { edata: @experiment_data, job_data: @job_data } }
+        = link_to image_tag('', class: :left, id: 'left_image'), "javascript:void(0)"
+        = link_to image_tag('', class: :middle, id: 'mid_image'), "javascript:void(0)"
+        = link_to image_tag('', class: :right, id: 'right_image'), "javascript:void(0)"
+
+    #jobdata.container.hidden{ data: { jdata: @job_data } }
+
+    #donejob.container.hidden.waiting
+      .header
+        %h1#sending_text Seding Data. Please Wait
+
+    %form{:id => "turkform", :action => @turk_url, :method => "post"}
+      %input{ :type => "hidden", :id => "assignmentId", 
+              :name => "assignmentId", :value => @assignment_id}
+      %input{ :type => "hidden", :id => "workerId", 
+              :name => "workerId", :value => @worker_id}
+      %input{ :type => "hidden", :id => "hitId", 
+              :name => "hitId", :value => @hit_id}
+
+    #eye_center
+    #wash_div.hidden
+      %canvas.hidden{ :id => "visual_wash", :width => 200, :height => 200 }

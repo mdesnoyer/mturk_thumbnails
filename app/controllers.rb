@@ -7,11 +7,13 @@ RETURN_INSTRUCTIONS_START = TRIAL_COUNT + 1
 TOTAL_TRIALS = TRIAL_COUNT * 2
 
 def image_set_path
-  "https://s3.amazonaws.com/#{@s3_bucket}/#{@job}_stimuli.csv"
+  #"https://s3.amazonaws.com/#{@s3_bucket}/#{@job}_stimuli.csv"
+  "http://localhost:9090/exp01_scale_100_4a41aa748fa938c20961_stimuli.csv"
 end
 
 def stimuli_folder_name
-  "https://s3.amazonaws.com/#{@s3_bucket}"
+  #"https://s3.amazonaws.com/#{@s3_bucket}"
+  "http://localhost:9090/exp01/exp01_scale_100"
 end
 
 def load_stimuli
@@ -226,4 +228,35 @@ MturkThumbnails.controllers do
 
     haml :experiment
   end
+
+  get :sizeThumbs do
+    if job_completed(@worker_id, @job)
+      return haml :already_completed
+    end
+
+    cur_trial = current_choice_number
+    trials = get_trial_sequence
+
+    @experiment_data = {
+      'img_dir' => stimuli_folder_name,
+      'cur_trial' => cur_trial,
+      'images' => get_image_list,
+      'trials' => trials,
+      'practice_images' => get_practice_images
+    }.to_json;
+
+    @job_data = {
+      'assignment_id' => @assignment_id,
+      'hit_id' => @hit_id,
+      'worker_id' => @worker_id,
+      's3_bucket' => @s3_bucket,
+      'job' => @job,
+      'turk_url' => get_amazon_url
+    }.to_json;
+
+    @turk_url = get_amazon_url
+
+    haml :sizeThumbs
+  end
+
 end
