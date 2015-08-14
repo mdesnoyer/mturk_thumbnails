@@ -43,7 +43,7 @@ def post_tasks(job_names, bucket_name, payment_amount, hit_assignments,
     hit.auto_approval = 172800 # auto approves the job 2 days after submission
     hit.keywords = "images, game, psychology, video, fast"
     hit.qualifications.add :approval_rate, { :gt => 80 }
-    hit.qualifications.add :country, {:eql => 'US' }
+    hit.qualifications.add :country, {:eql => 'IN' }
   end
 
   job_names.each do |job_name|
