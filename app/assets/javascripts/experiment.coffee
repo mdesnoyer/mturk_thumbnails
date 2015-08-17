@@ -170,7 +170,7 @@ $ ->
     curTrial = trialNum
     startTime = new Date()
 
-    timeoutId = setTimeout RegisterChoiceNone, 10000 // was 2000 ms or 2 seconds 
+    timeoutId = setTimeout RegisterChoiceNone, 9000 // was 2000 ms or 2 seconds 
 
   ### As the images are loading, displays the loading percentage ###
   DisplayLoadedPercent = ->
