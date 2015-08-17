@@ -50,7 +50,7 @@ namespace :review_hits do
                 ENV['MTURK_SECRET_ACCESS_KEY'],
                 :sandbox => sandbox)
 
-    xml_data = RTurk::GetReviewableHITs(:page_number => 2, :page_size => 100, :sort_property => 'CreationTime', :sort_direction => 'Descending')
+    xml_data = RTurk::GetReviewableHITs(:page_number => 1, :page_size => 50, :sort_property => 'CreationTime', :sort_direction => 'Descending')
 
     hit_ids = []
   
