@@ -7,13 +7,13 @@ RETURN_INSTRUCTIONS_START = TRIAL_COUNT + 1
 TOTAL_TRIALS = TRIAL_COUNT * 2
 
 def image_set_path
-  #"https://s3.amazonaws.com/#{@s3_bucket}/#{@job}_stimuli.csv"
-  "http://localhost:9090/exp01_scale_100_4a41aa748fa938c20961_stimuli.csv"
+  "https://s3.amazonaws.com/#{@s3_bucket}/#{@job}_stimuli.csv"
+  #"http://localhost:9090/exp01_scale_100_4a41aa748fa938c20961_stimuli.csv"
 end
 
 def stimuli_folder_name
-  #"https://s3.amazonaws.com/#{@s3_bucket}"
-  "http://localhost:9090/exp01/exp01_scale_100"
+  "https://s3.amazonaws.com/#{@s3_bucket}"
+  #"http://localhost:9090/exp01/exp01_scale_200"
 end
 
 def load_stimuli
