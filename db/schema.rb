@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 15) do
+ActiveRecord::Schema.define(:version => 17) do
 
   create_table "filter_stats", :force => true do |t|
     t.string  "worker_id"
@@ -34,6 +34,12 @@ ActiveRecord::Schema.define(:version => 15) do
     t.string   "stimset_id"
     t.integer  "reaction_time"
   end
+
+  add_index "image_choices", ["stimset_id"], :name => "index_image_choices_on_stimset_id"
+  add_index "image_choices", ["stimset_id"], :name => "index_stimset_id"
+  add_index "image_choices", ["stimset_id"], :name => "stim_id_prefix"
+  add_index "image_choices", ["worker_id"], :name => "index_image_choices_on_worker_id"
+  add_index "image_choices", ["worker_id"], :name => "worker_id_idx"
 
   create_table "image_scores", :force => true do |t|
     t.string  "image"
@@ -62,9 +68,11 @@ ActiveRecord::Schema.define(:version => 15) do
   end
 
   create_table "user_rejections", :force => true do |t|
-    t.string "worker_id"
-    t.string "stimset"
-    t.string "reason"
+    t.string   "worker_id"
+    t.string   "stimset"
+    t.string   "reason"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "worker_info", :force => true do |t|

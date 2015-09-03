@@ -57,7 +57,7 @@ if __name__ == '__main__':
                       help='Heroku app of the database to connect to')
     parser.add_option('--output', '-o', default='scores.csv',
                       help='Output file')
-    parser.add_option('--min_clicks', type='int', default=100,
+    parser.add_option('--min_clicks', type='int', default=40,
                       help='Minimum number of clicks an image needs to be counted.')
 
     options, args = parser.parse_args()

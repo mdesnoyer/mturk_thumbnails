@@ -60,7 +60,7 @@ module TurkFilter
   # worker_rejection - Reason that the worker was rejected
   # trial_rejections - Map of rejection reason -> # of trials rejected that
   #                    way. Note, a trial can only be rejected for one reason.
-  def TurkFilter.get_filtered_trials(worker_id, stimset_id)
+  def TurkFilter.get_filtered_trials(worker_id, stimset_id, stimset_ids: nil)
     retval = {
       'trials' => [],
       'worker_rejection' => RejectReason::NONE,
@@ -70,10 +70,11 @@ module TurkFilter
 
     TurkFilter.load_filters()
 
-    trials = ImageChoice.where(
-      'worker_id = ? and stimset_id like ?',
-      worker_id, "#{stimset_id}\\_%").order(:trial).all
-
+    if stimset_ids
+      trials = ImageChoice.where(worker_id: worker_id).where(stimset_id: stimset_ids).order(:trial).all
+    else
+      trials = ImageChoice.where(worker_id: worker_id).where("stimset_id like '#{stimset_id}_%'").order(:trial).all
+    end
 
     # Run the filters on the trials
     @pre_trial_filters.each do |filter|
@@ -101,7 +102,7 @@ module TurkFilter
     if not worker_passed
       return retval
     end
-    
+
 
     # Run the filters on the trials
     @post_trial_filters.each do |filter|
@@ -202,7 +203,7 @@ module TurkFilter
     def reason
       raise NotImplementedError
     end
-      
+
   end
 
   # Filters the worker if the distribution of scores is not
