@@ -172,7 +172,7 @@ $ ->
     curTrial = trialNum
     startTime = new Date()
 
-    timeoutId = setTimeout RegisterChoiceNone, 4000
+    timeoutId = setTimeout RegisterChoiceNone, 3500
 
   ### As the images are loading, displays the loading percentage ###
   DisplayLoadedPercent = ->
@@ -221,7 +221,7 @@ $ ->
     #RotateImages()
     
     startTime = new Date()
-    timeoutId = setTimeout RegisterChoiceNone, 4000
+    timeoutId = setTimeout RegisterChoiceNone, 3500
     
   $('#practice_but').click(->
     if $('#age_group_selector').val() == "0-17"
